@@ -31,8 +31,17 @@ static struct {
     { AID_MEDIA, "media.player" },
     { AID_MEDIA, "media.camera" },
     { AID_MEDIA, "media.audio_policy" },
+<<<<<<< HEAD
     { AID_MEDIA, "media.nvidia.audio_alsa" },
     { AID_MEDIA, "android.media.IAAHMetaDataService" },
+=======
+#ifdef YAMAHAPLAYER
+    { AID_MEDIA, "media.yamahaplayer" },
+#endif
+#ifdef SECTVOUT
+    { AID_MEDIA, "SecTVOutService" },
+#endif
+>>>>>>> 969b940... samsung: add support for tvout and yamahaplayer services
     { AID_DRM,   "drm.drmManager" },
     { AID_NFC,   "nfc" },
     { AID_BLUETOOTH, "bluetooth" },
