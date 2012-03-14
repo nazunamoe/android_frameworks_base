@@ -533,14 +533,8 @@ bool BootAnimation::movie()
     for (int i=0 ; i<pcount ; i++) {
         const Animation::Part& part(animation.parts[i]);
         const size_t fcount = part.frames.size();
-
-        // can be 1, 0, or not set
-        #ifdef NO_TEXTURE_CACHE
-        const int noTextureCache = NO_TEXTURE_CACHE;
-        #else
         const int noTextureCache = ((animation.width * animation.height * fcount) >
                                  48 * 1024 * 1024) ? 1 : 0;
-        #endif
 
         glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -598,7 +592,7 @@ bool BootAnimation::movie()
                 }
 
                 checkExit();
- 
+
                 if (noTextureCache)
                     glDeleteTextures(1, &frame.tid);
             }
@@ -612,7 +606,7 @@ bool BootAnimation::movie()
 
         // free the textures for this part
         if (part.count != 1 && !noTextureCache) {
-            for (size_t j=0 ; j<fcount ; j++) {
+            for (int j=0 ; j<fcount ; j++) {
                 const Animation::Frame& frame(part.frames[j]);
                 glDeleteTextures(1, &frame.tid);
             }
