@@ -62,6 +62,13 @@
     <uses-permission android:name="android.permission.READ_DREAM_STATE" />
     <uses-permission android:name="android.permission.WRITE_DREAM_STATE" />
 
+    <!-- AOKP extra permissions -->
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.NFC" />
+
     <application
         android:persistent="true"
         android:allowClearUserData="false"
@@ -229,6 +236,24 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.DESK_DOCK" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.android.systemui.Torch"
+            android:label="@string/toggle_torch"
+            android:icon="@drawable/toggle_torch"
+            android:theme="@android:style/Theme.Holo.Panel"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                 <action android:name="com.android.systemui.INTENT_TORCH_ON"/>
+                 <action android:name="com.android.systemui.INTENT_TORCH_OFF"/>
+                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.systemui.INTENT_TORCH_TOGGLE" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.android.systemui.SHORTCUT" />
             </intent-filter>
         </activity>
     </application>
