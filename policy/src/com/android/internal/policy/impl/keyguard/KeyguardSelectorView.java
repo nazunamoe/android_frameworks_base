@@ -111,6 +111,7 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                     target -= 1 + mTargetOffset;
                     if (target < mStoredTargets.length && mStoredTargets[target] != null) {
                         try {
+<<<<<<< HEAD
                             Intent tIntent = Intent.parseUri(mStoredTargets[target], 0);
                             tIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             mActivityLauncher.launchActivity(tIntent, false, true, null, null);
@@ -118,6 +119,12 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                             return;
                         } catch (URISyntaxException e) {
                         } catch (ActivityNotFoundException e) {
+=======
+                            Intent launchIntent = Intent.parseUri(mStoredTargets[target], 0);
+                            mActivityLauncher.launchActivity(launchIntent, false, true, null, null);
+                            return;
+                        } catch (URISyntaxException e) {
+>>>>>>> cc6821c... Framework : Lockscreen - Customizable shortcuts
                         }
                     }
                 }
@@ -253,8 +260,7 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                 || secureCameraDisabled;
         final KeyguardUpdateMonitor monitor = KeyguardUpdateMonitor.getInstance(getContext());
         boolean disabledBySimState = monitor.isSimLocked();
-        boolean cameraTargetPresent =
-            isTargetPresent(com.android.internal.R.drawable.ic_lockscreen_camera);
+        boolean cameraPresent = mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
         boolean searchTargetPresent =
             isTargetPresent(com.android.internal.R.drawable.ic_action_assist_generic);
 
@@ -271,7 +277,7 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
         boolean searchActionAvailable =
                 ((SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE))
                 .getAssistIntent(mContext, UserHandle.USER_CURRENT) != null;
-        mCameraDisabled = cameraDisabledByAdmin || disabledBySimState || !cameraTargetPresent
+        mCameraDisabled = cameraDisabledByAdmin || disabledBySimState || !cameraPresent
                 || !currentUserSetup;
         mSearchDisabled = disabledBySimState || !searchActionAvailable || !searchTargetPresent
                 || !currentUserSetup;
@@ -380,12 +386,21 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
                                 }
                             }
                             TargetDrawable nDrawable = new TargetDrawable(res, getLayeredDrawable(back,front, tmpInset, frontBlank));
+<<<<<<< HEAD
                             boolean isCamera = in.getComponent().getClassName().equals("com.android.camera.Camera");
                             if (isCamera) {
                                 nDrawable.setEnabled(!mCameraDisabled);
                             } else {
                                 boolean isSearch = in.getComponent().getClassName().equals("SearchActivity");
                                 if (isSearch) {
+=======
+                            ComponentName compName = in.getComponent();
+                            if (compName != null) {
+                                String cls = compName.getClassName();
+                                if (cls.equals("com.android.camera.CameraLauncher")) {
+                                    nDrawable.setEnabled(!mCameraDisabled);
+                                } else if (cls.equals("SearchActivity")) {
+>>>>>>> cc6821c... Framework : Lockscreen - Customizable shortcuts
                                     nDrawable.setEnabled(!mSearchDisabled);
                                 }
                             }
