@@ -281,8 +281,8 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }
 
                 public boolean onLongPress() {
-                    mWindowManagerFuncs.rebootSafeMode(true);
-                    return true;
+//                    mWindowManagerFuncs.rebootSafeMode();
+                    return false;
                 }
 
                 public boolean showDuringKeyguard() {
@@ -499,9 +499,26 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }
 
                 public boolean showBeforeProvisioning() {
-                    return true;
+                        return true;
                 }
             });
+        mItems.add(
+                new SinglePressAction(
+                        com.android.internal.R.drawable.ic_lock_reboot_safemode,
+                        R.string.eos_globalactions_reboot_safemode) {
+
+                    public void onPress() {
+                        mWindowManagerFuncs.rebootSafeMode();
+                    }
+
+                    public boolean showDuringKeyguard() {
+                        return true;
+                    }
+
+                    public boolean showBeforeProvisioning() {
+                        return true;
+                    }
+                });
     }
 
     private void prepareDialog() {
