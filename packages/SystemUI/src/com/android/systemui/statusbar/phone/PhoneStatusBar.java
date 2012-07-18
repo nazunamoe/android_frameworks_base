@@ -44,6 +44,7 @@ import android.graphics.drawable.Drawable;
 import android.inputmethodservice.InputMethodService;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.IPowerManager;
 import android.os.Message;
 import android.os.RemoteException;
 import android.os.ServiceManager;
@@ -60,6 +61,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewPropertyAnimator;
@@ -121,6 +123,8 @@ public class PhoneStatusBar extends BaseStatusBar {
     private static final int MSG_OPEN_NOTIFICATION_PANEL = 1000;
     private static final int MSG_CLOSE_PANELS = 1001;
     private static final int MSG_OPEN_SETTINGS_PANEL = 1002;
+    private static final int MSG_STATUSBAR_BRIGHTNESS = 1003;
+
     // 1020-1030 reserved for BaseStatusBar
 
     // will likely move to a resource or other tunable param at some point
@@ -274,6 +278,14 @@ public class PhoneStatusBar extends BaseStatusBar {
     private final GestureRecorder mGestureRec = DEBUG_GESTURES
         ? new GestureRecorder("/sdcard/statusbar_gestures.dat") 
         : null;
+
+    // brightness slider
+    private TextView mBrightnessPercent;
+    private int mIsBrightNessMode = 0;
+    private boolean mIsStatusBarBrightNess;
+    private boolean mIsAutoBrightNess;
+    private BrightNessContentObserver mBrightNessContentObs = new BrightNessContentObserver();
+    private Float mPropFactor;
 
     private int mNavigationIconHints = 0;
     private final Animator.AnimatorListener mMakeIconsInvisible = new AnimatorListenerAdapter() {
@@ -434,6 +446,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         mClearButton.setAlpha(0f);
         mClearButton.setVisibility(View.INVISIBLE);
         mClearButton.setEnabled(false);
+        mBrightnessPercent = (TextView)mStatusBarWindow.findViewById(R.id.brightness_percent);
         mDateView = (DateView)mStatusBarWindow.findViewById(R.id.date);
 
         mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel);
@@ -623,6 +636,17 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     @Override
     protected View getStatusBarView() {
+
+        SettingsObserver observer = new SettingsObserver(new Handler());
+        observer.observe();
+        updateSettings();
+
+        mIsAutoBrightNess = checkAutoBrightNess();
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS_MODE), false,
+                mBrightNessContentObs);
+        updatePropFactorValue();
+
         return mStatusBarView;
     }
 
@@ -1313,6 +1337,14 @@ public class PhoneStatusBar extends BaseStatusBar {
                     setIntruderAlertVisibility(false);
                     mCurrentlyIntrudingNotification = null;
                     break;
+                case MSG_STATUSBAR_BRIGHTNESS:
+                    if (mIsStatusBarBrightNess) {
+                        mIsBrightNessMode = 1;
+                        // don't collapse the statusbar to see %
+                        // updateExpandedViewPos(0);
+                        // performCollapse();
+                    }
+                    break;
             }
         }
     }
@@ -1772,6 +1804,112 @@ public class PhoneStatusBar extends BaseStatusBar {
             showCling();
         } else {
             hideCling();
+
+        final int action = event.getAction();
+        final int statusBarSize = getStatusBarHeight();
+        final int hitSize = statusBarSize*2;
+        final int y = (int)event.getRawY();
+        if (action == MotionEvent.ACTION_DOWN) {
+            if (!areLightsOn()) {
+                setLightsOn(true);
+            }
+
+            if (!mExpanded) {
+                mViewDelta = statusBarSize - y;
+            } else {
+                mCloseView.getLocationOnScreen(mAbsPos);
+                mViewDelta = mAbsPos[1]
+                           + getCloseViewHeight() // XXX: not closeViewHeight, but paddingBottom from the 9patch
+                           + mNotificationPanelBackgroundPadding.top
+                           + mNotificationPanelBackgroundPadding.bottom
+                           - y;
+            }
+            if ((!mExpanded && y < hitSize) ||
+                    // @@ add taps outside the panel if it's not full-screen
+                    (mExpanded && y > (getExpandedViewMaxHeight()-hitSize))) {
+                // We drop events at the edge of the screen to make the windowshade come
+                // down by accident less, especially when pushing open a device with a keyboard
+                // that rotates (like g1 and droid)
+                int x = (int)event.getRawX();
+                final int edgeBorder = mEdgeBorder;
+                if (x >= edgeBorder && x < mDisplayMetrics.widthPixels - edgeBorder) {
+                    prepareTracking(y, !mExpanded);// opening if we're not already fully visible
+                    trackMovement(event);
+
+                    if (mIsStatusBarBrightNess) {
+                        mIsBrightNessMode = 0;
+                        if (!mIsAutoBrightNess) {
+                            mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_STATUSBAR_BRIGHTNESS),
+                                    ViewConfiguration.getGlobalActionKeyTimeout());
+                            mBrightnessPercent.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        } else if (mTracking) {
+            trackMovement(event);
+            if (action == MotionEvent.ACTION_MOVE) {
+                if (mAnimatingReveal && (y + mViewDelta) < mNotificationPanelMinHeight) {
+                    // change brightness
+                    if (mIsStatusBarBrightNess && mIsBrightNessMode == 1) {
+                        doBrightNess(event);
+                    }
+                } else  {
+                    // remove brightness events from being posted, change mode
+                    if (mIsStatusBarBrightNess) {
+                        stopBrightnessMessages();
+
+                        if (mIsBrightNessMode == 1) {
+                            mIsBrightNessMode = 2;
+                        }
+                    }
+                    mAnimatingReveal = false;
+                    updateExpandedViewPos(y + mViewDelta);
+                }
+            } else if (action == MotionEvent.ACTION_UP
+                    || action == MotionEvent.ACTION_CANCEL) {
+                mVelocityTracker.computeCurrentVelocity(1000);
+
+                float yVel = mVelocityTracker.getYVelocity();
+                boolean negative = yVel < 0;
+
+                float xVel = mVelocityTracker.getXVelocity();
+                if (xVel < 0) {
+                    xVel = -xVel;
+                }
+                if (xVel > mFlingGestureMaxXVelocityPx) {
+                    xVel = mFlingGestureMaxXVelocityPx; // limit how much we care about the x axis
+                }
+
+                float vel = (float)Math.hypot(yVel, xVel);
+                if (vel > mFlingGestureMaxOutputVelocityPx) {
+                    vel = mFlingGestureMaxOutputVelocityPx;
+                }
+                if (negative) {
+                    vel = -vel;
+                }
+
+                if (CHATTY) {
+                    Slog.d(TAG, String.format("gesture: vraw=(%f,%f) vnorm=(%f,%f) vlinear=%f",
+                        mVelocityTracker.getXVelocity(),
+                        mVelocityTracker.getYVelocity(),
+                        xVel, yVel,
+                        vel));
+                }
+
+                if (mTrackingPosition == mNotificationPanelMinHeight) {
+                    // start the fling from the tracking position, ignore y and view delta
+                    mFlingY = mTrackingPosition;
+                    mViewDelta = 0;
+                } else {
+                    mFlingY = y;
+                }
+                mFlingVelocity = vel;
+                mHandler.post(mPerformFling);
+
+                stopBrightnessMessages();
+            }
+
         }
 
         return false;
@@ -2499,5 +2637,93 @@ public class PhoneStatusBar extends BaseStatusBar {
         @Override
         public void setBounds(Rect bounds) {
         }
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_BRIGHTNESS_SLIDER), false, this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    private class BrightNessContentObserver extends ContentObserver {
+
+        public BrightNessContentObserver() {
+            super(new Handler());
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            mIsAutoBrightNess = checkAutoBrightNess();
+        }
+    }
+
+    private boolean checkAutoBrightNess() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.SCREEN_BRIGHTNESS_MODE,
+                Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+    }
+
+    private void updatePropFactorValue() {
+        mPropFactor = Float.valueOf((float) android.os.PowerManager.BRIGHTNESS_ON
+                / Integer.valueOf(mDisplay.getWidth()).floatValue());
+    }
+
+    private void doBrightNess(MotionEvent e) {
+        int screenBrightness;
+        try {
+            screenBrightness = checkMinMax(Float.valueOf((e.getRawX() * mPropFactor.floatValue()))
+                    .intValue());
+            Settings.System.putInt(mContext.getContentResolver(), "screen_brightness",
+                    screenBrightness);
+        } catch (NullPointerException e2) {
+            return;
+        }
+        double percent = ((screenBrightness / (double) 255) * 100) + 0.5;
+        mBrightnessPercent.setText((int)percent + "%");
+        mBrightnessPercent.setVisibility(View.VISIBLE);
+        try {
+            IPowerManager pw = IPowerManager.Stub.asInterface(ServiceManager.getService("power"));
+            if (pw != null) {
+                pw.setBacklightBrightness(screenBrightness);
+            }
+        } catch (RemoteException e1) {
+        }
+    }
+
+    private void stopBrightnessMessages() {
+        if (mIsStatusBarBrightNess && mHandler.hasMessages(MSG_STATUSBAR_BRIGHTNESS)) {
+            mHandler.removeMessages(MSG_STATUSBAR_BRIGHTNESS);
+        }
+        mBrightnessPercent.setVisibility(View.GONE);
+        mBrightnessPercent.setText("");
+    }
+
+    private int checkMinMax(int brightness) {
+        int min = 0;
+        int max = 255;
+
+        if (min > brightness) // brightness < 0x1E
+            return min;
+        else if (max < brightness) { // brightness > 0xFF
+            return max;
+        }
+
+        return brightness;
+    }
+
+    public void updateSettings() {
+        mIsStatusBarBrightNess = Settings.System.getBoolean(mStatusBarView.getContext()
+                .getContentResolver(), Settings.System.STATUS_BAR_BRIGHTNESS_SLIDER, true);
     }
 }
