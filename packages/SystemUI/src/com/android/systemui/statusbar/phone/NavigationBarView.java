@@ -253,15 +253,6 @@ public class NavigationBarView extends LinearLayout {
         mBackLandIcon = res.getDrawable(R.drawable.ic_sysbar_back_land);
         mBackAltIcon = res.getDrawable(R.drawable.ic_sysbar_back_ime);
         mBackAltLandIcon = res.getDrawable(R.drawable.ic_sysbar_back_ime);
-
-        mContext.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.SYSTEMUI_NAVBAR_COLOR), false,
-                new ContentObserver(new Handler()) {
-                    @Override
-                    public void onChange(boolean selfChange) {
-                        updateColor();
-                    }
-                });
     }
 
     private void makeBar() {
@@ -749,7 +740,6 @@ public class NavigationBarView extends LinearLayout {
              group.setMotionEventSplittingEnabled(false);
          }
          mCurrentView = mRotatedViews[Surface.ROTATION_0];
-         updateColor();
 
          // this takes care of making the buttons
          SettingsObserver settingsObserver = new SettingsObserver(new Handler());
@@ -986,19 +976,5 @@ public class NavigationBarView extends LinearLayout {
             default:
                 return "VISIBLE";
         }
-    }
-
-    private void updateColor() {
-        Bitmap bm = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        Canvas cnv = new Canvas(bm);
-        cnv.drawColor(Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.SYSTEMUI_NAVBAR_COLOR, 0xFF000000));
-            setBackground(new BitmapDrawable(bm));
-
-        TransitionDrawable transition = new TransitionDrawable(new Drawable[]{
-                getBackground(), new BitmapDrawable(bm)});
-        transition.setCrossFadeEnabled(true);
-        setBackground(transition);
-        transition.startTransition(1000);
     }
 }
