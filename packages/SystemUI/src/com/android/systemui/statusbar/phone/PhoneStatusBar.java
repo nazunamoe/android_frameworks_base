@@ -150,7 +150,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     // These are no longer handled by the policy, because we need custom strategies for them
     BluetoothController mBluetoothController;
-    BatteryController mBatteryController;
+    //BatteryController mBatteryController;
     LocationController mLocationController;
     NetworkController mNetworkController;
 
@@ -496,8 +496,8 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         // Other icons
         mLocationController = new LocationController(mContext); // will post a notification
-        mBatteryController = new BatteryController(mContext);
-        mBatteryController.addIconView((ImageView)mStatusBarView.findViewById(R.id.battery));
+        //mBatteryController = new BatteryController(mContext);
+        //mBatteryController.addIconView((ImageView)mStatusBarView.findViewById(R.id.battery));
         mNetworkController = new NetworkController(mContext);
         mBluetoothController = new BluetoothController(mContext);
         final SignalClusterView signalCluster =
