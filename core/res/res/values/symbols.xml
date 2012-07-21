@@ -1888,8 +1888,9 @@
 
   <!-- Wifi -->
   <java-symbol type="bool" name="config_wifiApStartInterface" />
+  <java-symbol type="bool" name="config_wifiApFirmwareReload" />
 
-  <!-- From lockscreen targets -->
+  <!-- From lockscreen shortcuts-->
   <java-symbol type="drawable" name="list_selector_holo_dark" />
   <java-symbol type="drawable" name="ic_lockscreen_alarm" />
   <java-symbol type="drawable" name="ic_lockscreen_browser" />
@@ -1911,4 +1912,5 @@
   <java-symbol type="drawable" name="ic_lockscreen_rss" />
   <java-symbol type="drawable" name="ic_lockscreen_sms" />
   <java-symbol type="drawable" name="ic_lockscreen_twitter" />
+
 </resources>
