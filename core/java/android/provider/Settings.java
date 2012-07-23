@@ -1967,6 +1967,12 @@ public final class Settings {
         public static final int SYSTEMUI_NAVBAR_COLOR_DEF = 0xFF000000;
 
         /**
+         * Show the pending notification counts as overlays on the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
+
+        /**
          * Statusbar background color/alpha chooser
          * @hide
          */
