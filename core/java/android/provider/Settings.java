@@ -3262,6 +3262,12 @@ public final class Settings {
          */
         public static final String STATUSBAR_SIGNAL_TEXT_COLOR = "statusbar_signal_text_color";
 
+         /**
+          * Always show the battery status on the lockscreen
+          * @hide
+          */
+        public static final String LOCKSCREEN_ALWAYS_SHOW_BATTERY = "lockscreen_always_show_battery";
+
         /**
          * whether to hide the signal barss
          *
@@ -3415,6 +3421,7 @@ public final class Settings {
             QUIET_HOURS_STILL,
             QUIET_HOURS_DIM,
             LOCKSCREEN_VIBRATE_ENABLED,
+            LOCKSCREEN_ALWAYS_SHOW_BATTERY,
         };
 
         // Settings moved to Settings.Secure
