@@ -4486,6 +4486,12 @@ public final class Settings {
                 "cdma_cell_broadcast_sms";
 
         /**
+         * Whether to allow killing of the foreground app by long-pressing the Back button
+         * @hide
+         */
+        public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
+
+        /**
          * The CDMA roaming mode 0 = Home Networks, CDMA default
          *                       1 = Roaming on Affiliated networks
          *                       2 = Roaming on any networks
