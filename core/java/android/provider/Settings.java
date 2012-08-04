@@ -1903,6 +1903,13 @@ public final class Settings {
         public static final String VOLUME_MUSIC_CONTROLS = "volume_music_controls";
 
         /**
+         * whether volume keys wake the screen. boolean value
+         *
+         * @hide
+         */
+        public static final String VOLUME_WAKE_SCREEN = "volume_wake_screen";
+
+        /**
          * Statusbar background color/alpha chooser
          * @hide
          */
