@@ -2454,7 +2454,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         private final int mColor;
 
         public FastColorDrawable(int color) {
-            mColor = 0xff000000 | color;
+            mColor = 0x00000000 | color;
         }
 
         @Override
@@ -2472,7 +2472,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         @Override
         public int getOpacity() {
-            return PixelFormat.OPAQUE;
+            return PixelFormat.TRANSLUCENT;
         }
 
         @Override
