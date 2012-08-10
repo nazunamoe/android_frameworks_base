@@ -1897,6 +1897,12 @@ public final class Settings {
         public static final int SYSTEMUI_NAVBAR_COLOR_DEF = 0xFF000000;
 
         /**
+         * Whether volume up/down can be long pressed to skip tracks
+         * @hide
+         */
+        public static final String VOLUME_MUSIC_CONTROLS = "volume_music_controls";
+
+        /**
          * Statusbar background color/alpha chooser
          * @hide
          */

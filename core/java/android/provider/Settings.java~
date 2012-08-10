@@ -1885,6 +1885,18 @@ public final class Settings {
         public static final String NAVIGATION_BAR_BUTTON_ALPHA = "navigation_bar_button_alpha";
 
         /**
+         *
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVBAR_COLOR = "systemui_navbar_color";
+
+        /**
+         *
+         * @hide
+         */
+        public static final int SYSTEMUI_NAVBAR_COLOR_DEF = 0xFF000000;
+
+        /**
          * Statusbar background color/alpha chooser
          * @hide
          */
@@ -2967,8 +2979,23 @@ public final class Settings {
                 }
             }
 
+<<<<<<< HEAD
             return sNameValueCache.getStringForUser(resolver, name, userHandle);
         }
+=======
+        /**
+         * Whether volume up/down can be long pressed to skip tracks
+         * @hide
+         */
+        public static final String VOLUME_MUSIC_CONTROLS = "volume_music_controls";
+
+        /**
+         * NFC polling mode configuration key
+         *
+         * @hide
+         */
+        public static final String NFC_POLLING_MODE = "nfc_polling_mode";
+>>>>>>> 695ad83... Volume music controls (1/2)
 
         /**
          * Store a name/value pair into the database.
