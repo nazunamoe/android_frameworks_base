@@ -1890,6 +1890,11 @@ public final class Settings {
         */
         public static final String STATUS_BAR_AM_PM = "status_bar_am_pm"; 
 
+       /**
+        * @hide
+        */
+        public static final String STATUSBAR_CLOCK_COLOR = "statusbar_clock_color";
+
         /**
          * Whether power menu expanded desktop is enabled
          * @hide
