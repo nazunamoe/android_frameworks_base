@@ -1818,6 +1818,13 @@ public final class Settings {
          */
         public static final String LIGHT_FILTER_INTERVAL = "light_filter_interval";
 
+        /**
+         * Holds the text for the Carrier Label. An empty string will bring
+         * the default text back.
+         * @hide
+         */
+        public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
+
        /**
         * Whether to show the clock in status bar
         * of the stock battery icon
