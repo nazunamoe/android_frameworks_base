@@ -1712,6 +1712,172 @@ public final class Settings {
          */
         public static final String MODE_RINGER_STREAMS_AFFECTED = "mode_ringer_streams_affected";
 
+        /**
+         * Custom light sensor levels. The value is a comma separated int array
+         * with length N.
+         * Example: "100,300,3000".
+         *
+         * @hide
+         */
+        public static final String LIGHT_SENSOR_LEVELS = "light_sensor_levels";
+
+        /**
+         * Custom light sensor lcd values. The value is a comma separated int array
+         * with length N+1.
+         * Example: "10,50,100,255".
+         *
+         * @hide
+         */
+        public static final String LIGHT_SENSOR_LCD_VALUES = "light_sensor_lcd_values";
+
+        /**
+         * Custom light sensor lcd values. The value is a comma separated int array
+         * with length N+1.
+         * Example: "10,50,100,255".
+         *
+         * @hide
+         */
+        public static final String LIGHT_SENSOR_BUTTON_VALUES = "light_sensor_button_values";
+
+        /**
+         * Custom light sensor lcd values. The value is a comma separated int array
+         * with length N+1.
+         * Example: "10,50,100,255".
+         *
+         * @hide
+         */
+        public static final String LIGHT_SENSOR_KEYBOARD_VALUES = "light_sensor_keyboard_values";
+
+        /**
+         * Whether light sensor is allowed to decrease when calculating automatic
+         * backlight. The value is boolean (1 or 0).
+         *
+         * @hide
+         */
+        public static final String LIGHT_DECREASE = "light_decrease";
+
+        /**
+         * Light sensor hysteresis for decreasing backlight. The value is
+         * int (0-99) representing % (0-0.99 as float). Example:
+         *
+         * Levels     Output
+         * 0 - 100    50
+         * 100 - 200  100
+         * 200 - Inf  255
+         *
+         * Current sensor value is 150 which gives light value 100. Hysteresis is 50.
+         * Current level lower bound is 100 and previous lower bound is 0.
+         * Sensor value must drop below 100-(100-0)*(50/100)=50 for output to become 50
+         * (corresponding to the 0 - 100 level).
+         * @hide
+         */
+        public static final String LIGHT_HYSTERESIS = "light_hysteresis";
+
+        /**
+         * Whether light sensor used when calculating automatic backlight should
+         * be filtered through an moving average filter.
+         * The value is boolean (1 or 0).
+         *
+         * @hide
+         */
+        public static final String LIGHT_FILTER = "light_filter";
+
+        /**
+         * Window length of filter used when calculating automatic backlight.
+         * One minute means that the average sensor value last minute is used.
+         * The value is integer (milliseconds)
+         *
+         * @hide
+         */
+        public static final String LIGHT_FILTER_WINDOW = "light_filter_window";
+
+        /**
+         * Reset threshold of filter used when calculating automatic backlight.
+         * Sudden large jumps in sensor value resets the filter. This is used
+         * to make the filter respond quickly to large enough changes in input
+         * while still filtering small changes. Example:
+         *
+         * Current filter value (average) is 100 and sensor value is changing to
+         * 10, 150, 100, 30, 50. The filter is continously taking the average of
+         * the samples. Now the user goes outside and the value jumps over 1000.
+         * The difference between current average and new sample is larger than
+         * the reset threshold and filter is reset. It begins calculating a new
+         * average on samples around 1000 (say, 800, 1200, 1000, 1100 etc.)
+         *
+         * The value is integer (lux)
+         *
+         * @hide
+         */
+        public static final String LIGHT_FILTER_RESET = "light_filter_reset";
+
+        /**
+         * Sample interval of filter used when calculating automatic backlight.
+         * The value is integer (milliseconds)
+         *
+         * @hide
+         */
+        public static final String LIGHT_FILTER_INTERVAL = "light_filter_interval";
+
+		/**
+        * Whether to show the clock in status bar
+        * of the stock battery icon
+        * 0: don't show the clock
+        * 1: right side clock
+        * 2: center clock
+        * default: 1
+        * @hide
+        */
+        public static final String STATUS_BAR_CLOCK = "status_bar_clock";
+         
+		/**
+        * Display style of AM/PM next to clock in status bar
+        * 0: Normal display (Eclair stock)
+        * 1: Small display (Froyo stock)
+        * 2: No display (Gingerbread/ICS stock)
+        * default: 2
+        * @hide
+        */
+        public static final String STATUS_BAR_AM_PM = "status_bar_am_pm"; 
+
+        /**
+         * Whether to enable the electron beam animation when turning screen on
+         *
+         * @hide */
+        public static final String ELECTRON_BEAM_ANIMATION_ON = "electron_beam_animation_on";
+
+        /**
+         * Whether to enable the electron beam animation when turning screen off
+         *
+         * @hide */
+        public static final String ELECTRON_BEAM_ANIMATION_OFF = "electron_beam_animation_off";
+
+        /**
+         * Control whether the process CPU usage meter should be shown.
+         */
+        public static final String SHOW_PROCESSES = "show_processes";
+
+        /**
+         * If 1, the activity manager will aggressively finish activities and
+         * processes as soon as they are no longer needed.  If 0, the normal
+         * extended lifetime is used.
+         */
+        public static final String ALWAYS_FINISH_ACTIVITIES =
+                "always_finish_activities";
+
+
+        /**
+         * Ringer mode. This is used internally, changing this value will not
+         * change the ringer mode. See AudioManager.
+         */
+        public static final String MODE_RINGER = "mode_ringer";
+
+        /**
+         * Determines which streams are affected by ringer mode changes. The
+         * stream type's bit should be set to 1 if it should be muted when going
+         * into an inaudible ringer mode.
+         */
+        public static final String MODE_RINGER_STREAMS_AFFECTED = "mode_ringer_streams_affected";
+
          /**
           * Determines which streams are affected by mute. The
           * stream type's bit should be set to 1 if it should be muted when a mute request
