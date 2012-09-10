@@ -3138,6 +3138,71 @@ public final class Settings {
             return getUriFor(CONTENT_URI, name);
         }
 
+         /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_1 = "systemui_navring_1";
+
+        /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_2 = "systemui_navring_2";
+
+        /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_3 = "systemui_navring_3";
+
+        /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_4 = "systemui_navring_4";
+
+        /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_5 = "systemui_navring_5";
+
+        /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_AMOUNT = "systemui_navring_amount";
+
+        /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_ASSIST = "assist";
+
+        /**
+         * hide
+         */
+        public static final String SYSTEMUI_SOFTKEY_REBOOT = "reboot";
+
+        /**
+         * hide
+         */
+        public static final String SYSTEMUI_SOFTKEY_SCREENSHOT = "screenshot";
+
+        /**
+         * hide
+         */
+        public static final String SYSTEMUI_SOFTKEY_SCREENOFF = "screenoff";
+
+        /**
+         * hide
+         */
+        public static final String SYSTEMUI_SOFTKEY_KILL_PROCESS = "killcurrent";
+
+        /**
+         * @hide
+         */
+        public static final String SYSTEMUI_NAVRING_OVERRIDE_HOME = "systemui_navring_override_home";
+
+        /**
+         * @hide
+         */
+        public static final int SYSTEMUI_NAVRING_OVERRIDE_HOME_DEF = 0;
+
         /**
          * Convenience function for retrieving a single secure settings value
          * as an integer.  Note that internally setting values are always
