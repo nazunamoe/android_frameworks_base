@@ -1818,7 +1818,7 @@ public final class Settings {
          */
         public static final String LIGHT_FILTER_INTERVAL = "light_filter_interval";
 
-		/**
+       /**
         * Whether to show the clock in status bar
         * of the stock battery icon
         * 0: don't show the clock
@@ -1829,7 +1829,7 @@ public final class Settings {
         */
         public static final String STATUS_BAR_CLOCK = "status_bar_clock";
          
-		/**
+       /**
         * Display style of AM/PM next to clock in status bar
         * 0: Normal display (Eclair stock)
         * 1: Small display (Froyo stock)
@@ -1838,6 +1838,18 @@ public final class Settings {
         * @hide
         */
         public static final String STATUS_BAR_AM_PM = "status_bar_am_pm"; 
+
+        /**
+         * Whether power menu expanded desktop is enabled
+         * @hide
+         */
+        public static final String POWER_MENU_EXPANDED_DESKTOP_ENABLED = "power_menu_expanded_desktop_enabled";
+
+        /**
+         * Statusbar State
+         * @hide
+         */
+        public static final String EXPANDED_DESKTOP_STATE = "expanded_desktop_state";
 
         /**
          * Whether to enable the electron beam animation when turning screen on
