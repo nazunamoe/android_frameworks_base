@@ -41,7 +41,7 @@ import android.view.inputmethod.InputMethodSubtype;
 
 import com.android.internal.view.RotationPolicy;
 import com.android.systemui.R;
-import com.android.systemui.statusbar.policy.BatteryController.BatteryStateChangeCallback;
+import com.android.systemui.statusbar.policy.BatteryControllerStock.BatteryStateChangeCallback;
 import com.android.systemui.statusbar.policy.BrightnessController.BrightnessStateChangeCallback;
 import com.android.systemui.statusbar.policy.CurrentUserTracker;
 import com.android.systemui.statusbar.policy.LocationController.LocationGpsStateChangeCallback;
