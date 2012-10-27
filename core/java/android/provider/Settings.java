@@ -2957,6 +2957,21 @@ public final class Settings {
          */
         public static final String UI_FORCE_OVERFLOW_BUTTON = "ui_force_overflow_button";
 
+        /**
+         * Determine friction of scrolling
+         *
+         * @hide
+         */
+        public static final String SCROLL_FRICTION = "scroll_friction";
+
+        /**
+         * Determine custom fling velocity
+         *
+         * @hide
+         */
+        public static final String CUSTOM_FLING_VELOCITY = "custom_fling_velocity";
+
+
        /**
         * Whether the UI is in tablet UI
         * @hide
