@@ -12,6 +12,7 @@ parent.link=index.html
         <li><a href="#publishing">Subscription publishing and unpublishing</a></li>
         <li><a href="#pricing">Subscription pricing</a></li>
         <li><a href="#user-billing">User billing</a></li>
+        <li><a href="#trials">Free trial period</a></li>
         <li><a href="#cancellation">Subscription cancellation</a></li>
         <li><a href="#uninstallation">App uninstallation</a></li>
         <li><a href="#refunds">Refunds</a></li>
@@ -94,8 +95,10 @@ digital content, from any type of app or game.</p>
 <p>As with other in-app products, you configure and publish subscriptions using
 the Developer Console and then sell them from inside apps installed on an
 Android-powered devices. In the Developer console, you create subscription
-products and add them to a product list, setting a price for each, choosing a
-billing interval of monthly or annually, and then publishing. In your apps, it’s
+products and add them to a product list, then set a price and optional trial
+period for each, choose a billing interval (monthly or annual), and then publish.</p>
+
+<p>In your apps, it’s
 straightforward to add support for subscription purchases. The implementation
 extends the standard In-app Billing API to support a new product type but uses
 the same communication model, data structures, and user interactions as for
@@ -145,6 +148,7 @@ subscription and if so, allow access to your content. </p>
     <li>You can set up subscriptions with either monthly or annual billing</li>
     <li>You can sell multiple subscription items in an app with various billing
     intervals or prices, such as for promotions</li>
+    <li>You can offer a configurable trial period for any subscription. <span class="new" style="font-size:.78em;">New!</span></li>
     <li>Users purchase your subscriptions from inside your apps, rather than
     directly from Google Play</li>
     <li>Users manage their purchased subscriptions from the My Apps screen in
@@ -241,14 +245,50 @@ store the token locally or pass it to your backend servers, which can then use
 it to validate or cancel the subscription remotely using the <a
 href="#play-dev-api">Google Play Android Developer API</a>.</p>
 
-<p>In the case of billing errors, such as could happen if the customer’s credit
-card becomes invalid, Google Play notifies your app of the change in purchase
-state.</p>
+<p>If a recurring payment fails, such as could happen if the customer’s credit
+card has become invalid, the subscription does not renew. Google Play notifies your
+app at the end of the active cycle that the purchase state of the subscription is now "Expired".
+Your app does not need to grant the user further access to the subscription content.</p>
 
 <p>As a best practice, we recommend that your app includes business logic to
 notify your backend servers of subscription purchases, tokens, and any billing
 errors that may occur. Your backend servers can use the server-side API to query
 and update your records and follow up with customers directly, if needed.</p>
+
+<h3 id="trials">Free Trial Period</h3>
+
+<p>For any subscription, you can set up a free trial period that lets users
+try your subscription content before buying it. The trial period
+runs for the period of time that you set and then automatically converts to a full subscription
+managed according to the subscription's billing interval and price.</p>
+
+<p>To take advantage of a free trial, a user must "purchase" the full
+subscription through the standard In-app Billing flow, providing a valid form of
+payment to use for billing and completing the normal purchase transaction.
+However, the user is not charged any money, since the initial period corresponds
+to the free trial. Instead, Google Play records a transaction of $0.00 and the
+subscription is marked as purchased for the duration of the trial period or
+until cancellation. When the transaction is complete, Google Play notifies users
+by email that they have purchased a subscription that includes a free trial
+period and that the initial charge was $0.00. </p>
+
+<p>When the trial period ends, Google Play automatically initiates billing
+against the credit card that the user provided during the initial purchase, at the amount set
+for the full subscription, and continuing at the subscription interval. If
+necessary, the user can cancel the subscription at any time during the trial
+period. In this case, Google Play <em>marks the subscription as expired immediately</em>,
+rather than waiting until the end of the trial period. The user has not
+paid for the trial period and so is not entitled to continued access after
+cancellation.</p>
+
+<p>You can set up a trial period for a subscription in the Developer Console,
+without needing to modify or update your APK. Just locate and edit the
+subscription in your product list, set a valid number of days for the trial
+(must be 7 days or longer), and publish. You can change the period any time,
+although note that Google Play does not apply the change to users who have
+already "purchased" a trial period for the subscription. Only new subscription
+purchases will use the updated trial period. You can create one free trial
+period per subscription product.</p>
 
 <h3 id="cancellation">Subscription cancellation</h3>
 
@@ -626,13 +666,13 @@ purchased subscriptions at launch or prior to granting access to subscriber
 content.</p>
 
 <p>With In-app Billing, you validate a subscription by keeping track of its
-purchase state, such as purchased or cancelled, and then checking the state
-whenever needed. Google Play provides two ways to let you know when the purchase
+purchase state and then checking the state whenever needed. Google Play 
+provides two ways to let you know when the purchase
 state of a subscription changes:</p>
 
 <ul>
   <li><em>In-app Billing Notifications</em>. Google Play pushes a notification
-  to your app whenever  the purchase state of a subscription changes. Your app can
+  to your app to indicate a change in the purchase state of a subscription. Your app can
   store the most recent purchase state for a given purchase token and then check
   that state at run time, as needed.</li>
   <li><em>Google Play Android Developer API</em>. You can use this HTTP-based
@@ -689,7 +729,8 @@ values for subscription purchases, as received with a
 <td>Purchased successfully</td><td><code>0</code></td><td>Sent at original purchase only (not at recurring billing cycles).</td></tr>
 <td>Cancelled</td><td><code>1</code></td><td>Sent at original purchase only if the purchase has failed for some reason. </td></tr>
 <td>Refunded</td><td><code>2</code></td><td>The purchase was refunded.</code></td></tr>
-<td>Subscription expired</td><td><code>3</code></td><td>Sent if a subscription expires because of non-payment or user cancelation.</td></tr>
+<td>Subscription expired</td><td><code>3</code></td><td>Sent at the end of a billing cycle to indicate that the subscription expired without renewal because of non-payment or user-cancellation. Your app does not need to grant continued access to the subscription content. 
+</td></tr>
 </table>
 
 
@@ -718,7 +759,7 @@ startActivity(intent);</pre>
 <p>For more information, see 
   <a href="{@docRoot}distribute/googleplay/promote/linking.html">Linking to Your Products</a>.</p>
 
-<h3 id="purchase-state-changes">Recurring billing and changes in purchase state</h3>
+<h3 id="purchase-state-changes">Recurring billing, cancellation, and changes in purchase state</h3>
 
 <p>Google Play notifies your app when the user completes the purchase of a
 subscription, but the purchase state does not change over time, provided that
@@ -729,6 +770,19 @@ non-payment or user cancellation</em>. </p>
 <p>Over the life of a subscription, your app does not need to initiate any
 recurring billing events &mdash; those are all handled by Google Play and they
 are transparent to your application if billing is successful.</p>
+
+<p>When the user cancels a subscription during an active billing cycle, Google
+Play <em>does not</em> notify your app immediately of the change in purchase
+state. Instead, it waits until the end of the active billing cycle and then
+notifies your app that the purchase state has changed to "Expired". </p>
+
+<p>Similarly, if payment for the next billing cycle fails, Google Play waits
+until the end of the active billing cycle and then notifies your app at that time that the
+purchase state has changed to "Expired".</p>
+
+<p>Your app can handle user cancellation and non-payment in the same way, since both cause
+a change to the same "Expired" purchase state. Once the purchase state has become "Expired",
+your app does not need to grant further access to the subscription content.</p>
 
 <h3 id="modifying">Modifying your app for subscriptions</h3>
 
