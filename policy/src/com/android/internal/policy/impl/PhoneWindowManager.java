@@ -17,9 +17,6 @@ package com.android.internal.policy.impl;
 
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
-import android.app.ActivityManager.RunningAppProcessInfo;
-import android.app.IActivityManager;
-import android.app.IUiModeManager;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.UiModeManager;
@@ -53,7 +50,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.PowerManager;
-import android.os.Process;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
@@ -152,15 +148,11 @@ import android.view.KeyCharacterMap.FallbackAction;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.String;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * WindowManagerPolicy implementation for the Android phone UI.  This
@@ -325,7 +317,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mOrientationSensorEnabled = false;
     int mCurrentAppOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
     boolean mHasSoftInput = false;
-    int mBackKillTimeout;
     
     int mPointerLocationMode = 0; // guarded by mLock
 
@@ -483,9 +474,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     ShortcutManager mShortcutManager;
     PowerManager.WakeLock mBroadcastWakeLock;
     boolean mHavePendingMediaKeyRepeatWithWakeLock;
-    
-    boolean mLongPressBackKill;
-    boolean mBackJustKilled;
+
     // Fallback actions by key code.
     private final SparseArray<KeyCharacterMap.FallbackAction> mFallbackActions =
             new SparseArray<KeyCharacterMap.FallbackAction>();
@@ -494,8 +483,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int MSG_DISABLE_POINTER_LOCATION = 2;
     private static final int MSG_DISPATCH_MEDIA_KEY_WITH_WAKE_LOCK = 3;
     private static final int MSG_DISPATCH_MEDIA_KEY_REPEAT_WITH_WAKE_LOCK = 4;
-
-    private ActivityInfo mHomeInfo;
 
     private class PolicyHandler extends Handler {
         @Override
@@ -552,9 +539,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.DEFAULT_INPUT_METHOD), false, this,
-                    UserHandle.USER_ALL);
-	    resolver.registerContentObserver(Settings.Secure.getUriFor(
-		    Settings.Secure.KILL_APP_LONGPRESS_BACK), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     "fancy_rotation_anim"), false, this,
@@ -760,56 +744,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     };
 
-    Runnable mBackLongPress = new Runnable() {
-        public void run() {
-            try {
-                boolean targetKilled = false;
-                IActivityManager am = ActivityManagerNative.getDefault();
-                List<RunningAppProcessInfo> apps = am.getRunningAppProcesses();
-                final PackageManager pm = mContext.getPackageManager();
-                mHomeInfo = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME).resolveActivityInfo(pm, 0);
-                boolean targetwashome = false;
-                for (RunningAppProcessInfo appInfo : apps) {
-                    int uid = appInfo.uid;                    
-                    // Make sure it's a foreground user application (not system,
-                    // root, phone, etc.)
-                    if (uid >= Process.FIRST_APPLICATION_UID && uid <= Process.LAST_APPLICATION_UID
-                            && appInfo.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                        if (appInfo.pkgList != null && appInfo.pkgList.length > 0) {
-        			        for (String pkg : appInfo.pkgList) {
-        			            if (mHomeInfo != null && pkg.equals(mHomeInfo.packageName))
-        			            {
-        			                targetwashome = true;
-        			                break;
-        			            }
-        			            else if (!pkg.equals("com.android.systemui"))
-		                        {
-		                           Slog.i(TAG, "longpress killing "+appInfo.processName+" w/ forceStopPackage("+pkg+")");
-        				    	   am.forceStopPackage(pkg);
-                                   targetKilled = true;
-                                   break;
-                                }	                        
-                            }
-    				    }
-                    }
-                    if (targetKilled || targetwashome) break;
-                }
-                if (targetKilled) {
-                    performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
-                    Toast.makeText(mContext, R.string.app_killed_message, Toast.LENGTH_SHORT).show();
-                }
-                else if (targetwashome) {
-                    performHapticFeedbackLw(null, HapticFeedbackConstants.LONG_PRESS, false);
-                    Toast.makeText(mContext, "To kill your launcher, use Settings>Apps.", Toast.LENGTH_SHORT).show();
-                }
-		        mBackJustKilled = false;            
-            } catch (RemoteException remoteException) {
-                // Do nothing; just let it go.
-            }
-        }
-    };
-
-
     void showGlobalActionsDialog() {
         if (mGlobalActions == null) {
             mGlobalActions = new GlobalActions(mContext, mWindowManagerFuncs);
@@ -963,9 +897,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 com.android.internal.R.integer.config_lidNavigationAccessibility);
         mLidControlsSleep = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_lidControlsSleep);
-        mBackKillTimeout = mContext.getResources().getInteger(
-                com.android.internal.R.integer.config_backKillTimeout);
-
         // register for dock events
         IntentFilter filter = new IntentFilter();
         filter.addAction(UiModeManager.ACTION_ENTER_CAR_MODE);
@@ -1177,10 +1108,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mHasSoftInput = hasSoftInput;
                 updateRotation = true;
             }
-
-            mLongPressBackKill = (Settings.Secure.getInt(
-                    resolver, Settings.Secure.KILL_APP_LONGPRESS_BACK, 0) == 1);
-
         }
         if (updateRotation) {
             updateRotation(true);
@@ -1889,16 +1816,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
 
-        if (keyCode == KeyEvent.KEYCODE_BACK && !down) {
-            if ((flags&KeyEvent.FLAG_CANCELED) == 0) {
-                mHandler.removeCallbacks(mBackLongPress);
-                KeyEvent.changeFlags(event, flags | KeyEvent.FLAG_CANCELED);
-                mBackJustKilled = false;
-            }
-
-        }
-
-
         // First we always handle the home key here, so applications
         // can never break it, although if keyguard is on, we do let
         // it handle it, because that gives us the correct 5 second
@@ -2038,14 +1955,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 showOrHideRecentAppsDialog(RECENT_APPS_BEHAVIOR_SHOW_OR_DISMISS);
             }
             return -1;
-
-        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mLongPressBackKill) {
-                if (!mBackJustKilled && down && repeatCount == 0) {
-                    mHandler.postDelayed(mBackLongPress, mBackKillTimeout);
-		    mBackJustKilled = true;		    
-                }
-            }
         } else if (keyCode == KeyEvent.KEYCODE_ASSIST) {
             if (down) {
                 if (repeatCount == 0) {
@@ -2056,7 +1965,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                          launchAssistLongPressAction();
                     }
                 }
-
             } else {
                 if (mAssistKeyLongPressed) {
                     mAssistKeyLongPressed = false;
