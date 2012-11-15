@@ -222,7 +222,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
     private ToneGenerator mToneGenerators[];
     private Vibrator mVibrator;
 
-<<<<<<< HEAD
     private static AlertDialog sConfirmSafeVolumeDialog;
     private static Object sConfirmSafeVolumeLock = new Object();
 
@@ -254,7 +253,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
         }
     }
 
-=======
     private ContentObserver mSettingsObserver = new ContentObserver(this) {
         @Override
         public void onChange(boolean selfChange) {
@@ -265,7 +263,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
             changeOverlayStyle(overlayStyle);
         }
     };
->>>>>>> ca0480f... Make the volume overlay more functional (1/2)
 
     public VolumePanel(final Context context, AudioService volumeService) {
         mContext = context;
@@ -332,7 +329,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
         mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
         mVoiceCapable = context.getResources().getBoolean(R.bool.config_voice_capable);
 
-<<<<<<< HEAD
         boolean masterVolumeOnly = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_useMasterVolume);
         boolean masterVolumeKeySounds = mContext.getResources().getBoolean(
@@ -340,7 +336,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
 
         mPlayMasterStreamTones = masterVolumeOnly && masterVolumeKeySounds;
 
-=======
         // Get the user's preferences
         mVolumeLinkNotification = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.VOLUME_LINK_NOTIFICATION, 1) == 1;
@@ -355,7 +350,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
                 Settings.System.getUriFor(Settings.System.MODE_VOLUME_OVERLAY), false,
                 mSettingsObserver);
         mMoreButton.setOnClickListener(this);
->>>>>>> ca0480f... Make the volume overlay more functional (1/2)
         listenToRingerMode();
     }
 

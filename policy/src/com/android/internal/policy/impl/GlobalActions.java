@@ -185,7 +185,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
      * Create the global actions dialog.
      * @return A new dialog.
      */
-    private AlertDialog createDialog() {
+    private GlobalActionsDialog createDialog() {
         if (mRebootMenu) {
             createRebootMenuItems();
         } else {

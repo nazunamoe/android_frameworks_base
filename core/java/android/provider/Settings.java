@@ -1851,33 +1851,6 @@ public final class Settings {
          * @hide */
         public static final String ELECTRON_BEAM_ANIMATION_OFF = "electron_beam_animation_off";
 
-        /**
-         * Control whether the process CPU usage meter should be shown.
-         */
-        public static final String SHOW_PROCESSES = "show_processes";
-
-        /**
-         * If 1, the activity manager will aggressively finish activities and
-         * processes as soon as they are no longer needed.  If 0, the normal
-         * extended lifetime is used.
-         */
-        public static final String ALWAYS_FINISH_ACTIVITIES =
-                "always_finish_activities";
-
-
-        /**
-         * Ringer mode. This is used internally, changing this value will not
-         * change the ringer mode. See AudioManager.
-         */
-        public static final String MODE_RINGER = "mode_ringer";
-
-        /**
-         * Determines which streams are affected by ringer mode changes. The
-         * stream type's bit should be set to 1 if it should be muted when going
-         * into an inaudible ringer mode.
-         */
-        public static final String MODE_RINGER_STREAMS_AFFECTED = "mode_ringer_streams_affected";
-
          /**
           * Determines which streams are affected by mute. The
           * stream type's bit should be set to 1 if it should be muted when a mute request
@@ -4090,6 +4063,12 @@ public final class Settings {
         public static final String ANR_SHOW_BACKGROUND = "anr_show_background";
 
         /**
+         * Whether to allow killing of the foreground app by long-pressing the Back button
+         * @hide
+         */
+        public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
+
+        /**
          * The {@link ComponentName} string of the service to be used as the voice recognition
          * service.
          *
@@ -4501,12 +4480,6 @@ public final class Settings {
          */
         public static final String CDMA_CELL_BROADCAST_SMS =
                 "cdma_cell_broadcast_sms";
-
-        /**
-         * Whether to allow killing of the foreground app by long-pressing the Back button
-         * @hide
-         */
-        public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
 
         /**
          * The CDMA roaming mode 0 = Home Networks, CDMA default
