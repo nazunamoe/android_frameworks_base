@@ -44,6 +44,10 @@ public class BatteryController extends BroadcastReceiver {
         public void onBatteryLevelChanged(int level, boolean pluggedIn);
     }
 
+    public interface BatteryStateChangeCallback {
+        public void onBatteryLevelChanged(int level, boolean pluggedIn);
+    }
+
     public BatteryController(Context context) {
         mContext = context;
 
