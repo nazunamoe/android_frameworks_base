@@ -41,6 +41,9 @@ public class BatteryController extends BroadcastReceiver {
     private ArrayList<ImageView> mIconViews = new ArrayList<ImageView>();
     private ArrayList<TextView> mLabelViews = new ArrayList<TextView>();
 
+    private ArrayList<BatteryStateChangeCallback> mChangeCallbacks =
+            new ArrayList<BatteryStateChangeCallback>();
+
     private static final int BATTERY_STYLE_NORMAL         = 0;
     private static final int BATTERY_STYLE_PERCENT        = 1;
     /***
@@ -62,7 +65,7 @@ public class BatteryController extends BroadcastReceiver {
     private static final int BATTERY_TEXT_STYLE_NORMAL  = R.string.status_bar_settings_battery_meter_format;
     private static final int BATTERY_TEXT_STYLE_MIN     = R.string.status_bar_settings_battery_meter_min_format;
 
-    private boolean mBatteryPlugged = false;
+    private boolean mBatteryPlugged = false; 
     private int mBatteryStyle;
     private int mBatteryIcon = BATTERY_ICON_STYLE_NORMAL;
 
@@ -162,7 +165,7 @@ public class BatteryController extends BroadcastReceiver {
                         level));
             }
             for (BatteryStateChangeCallback cb : mChangeCallbacks) {
-                cb.onBatteryLevelChanged(level, plugged);
+                cb.onBatteryLevelChanged(level, mBatteryPlugged);
             }
             updateBattery();
         }

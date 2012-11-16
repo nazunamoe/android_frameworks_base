@@ -74,15 +74,6 @@
         android:padding="2dp"
         />
 
-        <TextView
-           android:id="@+id/brightness_percent"
-           android:layout_height="48dp"
-           android:layout_width="wrap_content"
-           android:layout_gravity="bottom"
-           android:gravity="bottom"
-           android:textSize="11dp"
-           android:visibility="invisible"
-            />
     <ImageView android:id="@+id/clear_all_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
