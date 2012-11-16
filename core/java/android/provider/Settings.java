@@ -1849,7 +1849,13 @@ public final class Settings {
          * default: 2
          * @hide
          */
-        public static final String STATUS_BAR_AM_PM = "status_bar_am_pm"; 
+        public static final String STATUS_BAR_AM_PM = "status_bar_am_pm";
+
+        /**
+         * Allows to show the background activity back the lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
 
         /**
          * Whether power menu expanded desktop is enabled
