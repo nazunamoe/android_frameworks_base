@@ -161,10 +161,9 @@ public class BatteryController extends BroadcastReceiver {
                 v.setText(mContext.getString(BATTERY_TEXT_STYLE_MIN,
                         level));
             }
+
             for (BatteryStateChangeCallback cb : mChangeCallbacks) {
                 cb.onBatteryLevelChanged(level, plugged);
-            }
-            updateBattery();
         }
     }
 

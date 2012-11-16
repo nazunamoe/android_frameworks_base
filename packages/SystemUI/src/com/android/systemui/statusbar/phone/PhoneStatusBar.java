@@ -1804,7 +1804,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             showCling();
         } else {
             hideCling();
-
+        }
         final int action = event.getAction();
         final int statusBarSize = getStatusBarHeight();
         final int hitSize = statusBarSize*2;
