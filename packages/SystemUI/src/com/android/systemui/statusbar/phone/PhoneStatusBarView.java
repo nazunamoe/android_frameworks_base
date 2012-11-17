@@ -18,9 +18,13 @@ package com.android.systemui.statusbar.phone;
 
 import android.app.ActivityManager;
 import android.app.StatusBarManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
+import android.database.ContentObserver;
+import android.os.Handler;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Slog;
 import android.view.MotionEvent;
@@ -42,6 +46,9 @@ public class PhoneStatusBarView extends PanelBar {
     PanelView mLastFullyOpenedPanel = null;
     PanelView mNotificationPanel, mSettingsPanel;
     private boolean mShouldFade;
+
+    private int mBackgroundColor;
+    Handler mHandler;
 
     public PhoneStatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,6 +74,11 @@ public class PhoneStatusBarView extends PanelBar {
 
     @Override
     public void onAttachedToWindow() {
+        mHandler = new Handler();
+        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
+        settingsObserver.observe();
+
+        updateSettings();
         for (PanelView pv : mPanels) {
             pv.setRubberbandingEnabled(!mFullWidthNotifications);
         }
@@ -221,5 +233,33 @@ public class PhoneStatusBarView extends PanelBar {
         }
 
         mBar.updateCarrierLabelVisibility(false);
+    }
+
+    //setup observer to do stuff!
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUSBAR_BACKGROUND_COLOR), false, this);
+            updateSettings();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    private void updateSettings() {
+        ContentResolver resolver = mContext.getContentResolver();
+        mBackgroundColor = Settings.System.getInt(resolver,
+                Settings.System.STATUSBAR_BACKGROUND_COLOR, 0xFF000000);
+
+        setBackgroundColor(mBackgroundColor);
     }
 }

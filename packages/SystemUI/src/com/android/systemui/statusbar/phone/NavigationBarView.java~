@@ -22,7 +22,7 @@ import android.animation.LayoutTransition;
 import android.app.StatusBarManager;
 import android.content.Context;
 import android.content.res.Resources;
-import android.database.ContentObserver;
+import android.database.ContentObserver
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -30,7 +30,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ServiceManager;
-import android.provider.Settings;
+import android.provider.Settings
 import android.util.AttributeSet;
 import android.util.Slog;
 import android.view.animation.AccelerateInterpolator;
