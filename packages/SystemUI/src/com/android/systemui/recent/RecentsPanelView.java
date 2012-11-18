@@ -674,65 +674,7 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                 ActivityOptions.makeThumbnailScaleUpAnimation(
                         holder.thumbnailViewImage, bm, 0, 0, null).toBundle();
 
-<<<<<<< HEAD
         show(false);
-=======
-        if (mPlaceholderThumbnail == null) {
-            mPlaceholderThumbnail =
-                    (ImageView) findViewById(R.id.recents_transition_placeholder_icon);
-        }
-        if (mTransitionBg == null) {
-            mTransitionBg = (View) findViewById(R.id.recents_transition_background);
-
-            IWindowManager wm = IWindowManager.Stub.asInterface(
-                    ServiceManager.getService(Context.WINDOW_SERVICE));
-            try {
-                if (!wm.hasSystemNavBar()) {
-                    FrameLayout.LayoutParams lp =
-                            (FrameLayout.LayoutParams) mTransitionBg.getLayoutParams();
-                    int statusBarHeight = getResources().
-                            getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height);
-                    lp.setMargins(0, statusBarHeight, 0, 0);
-                    mTransitionBg.setLayoutParams(lp);
-                }
-            } catch (RemoteException e) {
-                Log.w(TAG, "Failing checking whether status bar is visible", e);
-            }
-        }
-
-        final ImageView placeholderThumbnail = mPlaceholderThumbnail;
-        mHideRecentsAfterThumbnailScaleUpStarted = false;
-        placeholderThumbnail.setVisibility(VISIBLE);
-        if (!usingDrawingCache) {
-            placeholderThumbnail.setImageBitmap(bm);
-        } else {
-            Bitmap b2 = bm.copy(bm.getConfig(), true);
-            placeholderThumbnail.setImageBitmap(b2);
-        }
-        Rect r = new Rect();
-        holder.thumbnailViewImage.getGlobalVisibleRect(r);
-
-        placeholderThumbnail.setTranslationX(r.left);
-        placeholderThumbnail.setTranslationY(r.top);
-
-        show(false, true);
-
-        mThumbnailScaleUpStarted = false;
-        ActivityOptions opts = ActivityOptions.makeDelayedThumbnailScaleUpAnimation(
-                holder.thumbnailViewImage, bm, 0, 0,
-                new ActivityOptions.OnAnimationStartedListener() {
-                    @Override
-                    public void onAnimationStarted() {
-                        mThumbnailScaleUpStarted = true;
-                        if (!mHighEndGfx) {
-                            mPlaceholderThumbnail.setVisibility(INVISIBLE);
-                        }
-                        if (mHideRecentsAfterThumbnailScaleUpStarted) {
-                            hideWindow();
-                        }
-                    }
-                });
->>>>>>> dd00b33... "Clear all" button on recent apps
         if (ad.taskId >= 0) {
             // This is an active task; it should just go to the foreground.
             am.moveTaskToFront(ad.taskId, ActivityManager.MOVE_TASK_WITH_HOME,
