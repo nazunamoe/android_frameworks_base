@@ -2932,6 +2932,12 @@ public final class Settings {
         public static final String MENU_LOCATION = "menu_location";
 
         /**
+         * Sets the alpha of notification wallpaper
+         * @hide
+         */
+        public static final String NOTIF_WALLPAPER_ALPHA = "notif_wallpaper_alpha";
+
+        /**
          * @hide
          */
         public static final String MENU_VISIBILITY = "menu_visibility";
