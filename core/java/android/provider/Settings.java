@@ -1883,31 +1883,38 @@ public final class Settings {
          */
         public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
 
-       /**
-        * Whether to show the clock in status bar
-        * of the stock battery icon
-        * 0: don't show the clock
-        * 1: right side clock
-        * 2: center clock
-        * default: 1
-        * @hide
-        */
-        public static final String STATUS_BAR_CLOCK = "status_bar_clock";
+        /**
+         * AM/PM Style for clock options
+         * 0 - Normal AM/PM
+         * 1 - Small AM/PM
+         * 2 - No AM/PM
+         * @hide
+         */
+        public static final String STATUSBAR_CLOCK_AM_PM_STYLE = "statusbar_clock_am_pm_style";
 
-       /**
-        * Display style of AM/PM next to clock in status bar
-        * 0: Normal display (Eclair stock)
-        * 1: Small display (Froyo stock)
-        * 2: No display (Gingerbread/ICS stock)
-        * default: 2
-        * @hide
-        */
-        public static final String STATUS_BAR_AM_PM = "status_bar_am_pm"; 
+        /**
+         * Style of clock
+         * 0 - Hide Clock
+         * 1 - Right Clock
+         * 2 - Center Clock
+         * @hide
+         */
+        public static final String STATUSBAR_CLOCK_STYLE = "statusbar_clock_style";
 
-       /**
-        * @hide
-        */
+        /**
+         * Setting for clock color
+         * @hide
+         */
         public static final String STATUSBAR_CLOCK_COLOR = "statusbar_clock_color";
+
+        /**
+         * Shows weekday before clock time
+         * 0 - No Day
+         * 1 - Small Day
+         * 2 - Normal Day
+         * @hide
+         */
+        public static final String STATUSBAR_CLOCK_WEEKDAY = "statusbar_clock_weekday";
 
         /**
          * Whether power menu expanded desktop is enabled
