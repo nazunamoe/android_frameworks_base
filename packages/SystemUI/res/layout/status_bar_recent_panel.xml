@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|left"
-            android:src="@drawable/ic_notify_clear_recents" />
+            android:src="@drawable/ic_notify_clear" />
 
     </FrameLayout>
 

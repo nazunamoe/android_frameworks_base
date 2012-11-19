@@ -1883,16 +1883,6 @@ public final class Settings {
          */
         public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
 
-        /**
-         * Display style of the day of the week before clock in status bar
-         * 0: Normal display
-         * 1: Small display
-         * 2: No display
-         * default: 2
-         * @hide
-         */
-        public static final String STATUS_BAR_WEEKDAY = "status_bar_weekday";
-
        /**
         * Whether to show the clock in status bar
         * of the stock battery icon
