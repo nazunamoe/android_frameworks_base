@@ -646,7 +646,7 @@ public class SearchPanelView extends FrameLayout implements
 
     private void screenOff() {
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-        pm.goToSleep(SystemClock.uptimeMillis() + 1);
+        pm.goToSleep(SystemClock.uptimeMillis());
     }
 
     private void killProcess() {

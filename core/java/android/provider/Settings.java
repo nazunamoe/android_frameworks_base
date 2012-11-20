@@ -1883,6 +1883,18 @@ public final class Settings {
         public static final String MODE_TABLET_UI = "mode_tabletui";
 
         /**
+         * Whether to wake the screen with the volume keys, the value is boolean.
+         * @hide
+         */
+        public static final String VOLUME_WAKE_SCREEN = "volume_wake_screen";
+
+        /**
+         * Whether or not volume button music controls should be enabled to seek media tracks
+         * @hide
+         */
+        public static final String VOLBTN_MUSIC_CONTROLS = "volbtn_music_controls";
+
+        /**
          * Holds the text for the Carrier Label. An empty string will bring
          * the default text back.
          * @hide
