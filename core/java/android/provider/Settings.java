@@ -1877,6 +1877,12 @@ public final class Settings {
         public static final String ACTIVITY_RESOLVER_USE_ALT = "activity_resolver_use_alt";
 
         /**
+         * User interface mode. This is used to change the UI mode forcing it to
+         * Change into tablet mode. Default is disabled. 
+         */
+        public static final String MODE_TABLET_UI = "mode_tabletui";
+
+        /**
          * Holds the text for the Carrier Label. An empty string will bring
          * the default text back.
          * @hide

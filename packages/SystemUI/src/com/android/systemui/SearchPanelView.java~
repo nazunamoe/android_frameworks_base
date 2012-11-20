@@ -670,7 +670,7 @@ public class SearchPanelView extends FrameLayout implements
                     if (appInfo.pkgList != null && (appInfo.pkgList.length > 0)) {
                         for (String pkg : appInfo.pkgList) {
                             if (!pkg.equals("com.android.systemui") && !pkg.equals(defaultHomePackage)) {
-                                am.forceStopPackage(pkg);
+                                am.forceStopPackage;
                                 targetKilled = true;
                                 break;
                             }
