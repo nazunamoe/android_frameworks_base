@@ -1935,10 +1935,22 @@ public final class Settings {
         public static final String STATUSBAR_CLOCK_WEEKDAY = "statusbar_clock_weekday";
 
         /**
-         * Whether power menu expanded desktop is enabled
+         * Ability to hide Expandable Desktop Options away from Reboot Menu
          * @hide
          */
         public static final String POWER_MENU_EXPANDED_DESKTOP_ENABLED = "power_menu_expanded_desktop_enabled";
+
+        /**
+         * Ability to hide Screenshot away from Reboot Menu
+         * @hide
+         */
+        public static final String POWER_DIALOG_SHOW_SCREENSHOT = "power_dialog_show_screenshot";
+
+        /**
+         * Ability to hide Airplane Mode away from Reboot Menu
+         * @hide
+         */
+        public static final String POWER_DIALOG_SHOW_AIRPLANE_TOGGLE = "power_dialog_show_airplane_toggle";
 
         /**
          * Statusbar State
@@ -2448,6 +2460,15 @@ public final class Settings {
          * disabled by the application.
          */
         public static final String ACCELEROMETER_ROTATION = "accelerometer_rotation";
+
+         /**
+          * Volume keys control cursor in text fields (default is 0)
+          * 0 - Disabled
+          * 1 - Volume up/down moves cursor left/right
+          * 2 - Volume up/down moves cursor right/left
+          * @hide
+          */
+         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
          * Default screen rotation when no other policy applies.
@@ -3260,100 +3281,6 @@ public final class Settings {
             }
             return getUriFor(CONTENT_URI, name);
         }
-
-         /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_1 = "systemui_navring_1";
-
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_2 = "systemui_navring_2";
-
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_3 = "systemui_navring_3";
-
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_4 = "systemui_navring_4";
-
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_5 = "systemui_navring_5";
-
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_AMOUNT = "systemui_navring_amount";
-
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_ASSIST = "assist";
-
-        /**
-         * hide
-         */
-        public static final String SYSTEMUI_SOFTKEY_REBOOT = "reboot";
-
-        /**
-         * hide
-         */
-        public static final String SYSTEMUI_SOFTKEY_SCREENSHOT = "screenshot";
-
-        /**
-         * hide
-         */
-        public static final String SYSTEMUI_SOFTKEY_SCREENOFF = "screenoff";
-
-        /**
-         * hide
-         */
-		public static final String SYSTEMUI_SOFTKEY_IME_SWITCHER = "ime_switcher";
-
-        /**
-         * hide
-         */
-		public static final String SYSTEMUI_SOFTKEY_RING_VIB = "ring_vib";
-
-        /**
-         * hide
-         */
-		public static final String SYSTEMUI_SOFTKEY_RING_SILENT = "ring_silent";
-
-        /**
-         * hide
-         */
-		public static final String SYSTEMUI_SOFTKEY_RING_VIB_SILENT = "ring_vib_silent";
-		
-        /**
-         * hide
-         */
-        public static final String SYSTEMUI_SOFTKEY_KILL_PROCESS = "killcurrent";
-
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_NAVRING_OVERRIDE_HOME = "systemui_navring_override_home";
-
-        /**
-         * @hide
-         */
-        public static final int SYSTEMUI_NAVRING_OVERRIDE_HOME_DEF = 0;
-
-         /**
-          * Volume keys control cursor in text fields (default is 0)
-          * 0 - Disabled
-          * 1 - Volume up/down moves cursor left/right
-          * 2 - Volume up/down moves cursor right/left
-          * @hide
-          */
-         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
          * Convenience function for retrieving a single secure settings value

@@ -3998,6 +3998,9 @@
     <!-- Default name of the owner user [CHAR LIMIT=20] -->
     <string name="owner_name" msgid="3879126011135546571">Owner</string>
 
+    <!-- label for item that screenshots in phone options dialog -->
+    <string name="global_action_screenshot">Screenshot</string>
+
     <!-- Reboot -->
     <string name="reboot">Reboot</string>
     <!-- Reboot recovery option -->
