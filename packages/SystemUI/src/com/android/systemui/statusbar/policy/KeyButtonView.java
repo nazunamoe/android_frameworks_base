@@ -28,19 +28,10 @@ import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.hardware.input.InputManager;
 import android.os.Handler;
-<<<<<<< HEAD
-import android.os.RemoteException;
-=======
->>>>>>> 8ee8d90... Port Forward: NavBar Customization
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.os.ServiceManager;
 import android.provider.Settings;
-<<<<<<< HEAD
-import android.provider.Settings.SettingNotFoundException;
-import android.os.ServiceManager;
-=======
->>>>>>> 8ee8d90... Port Forward: NavBar Customization
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
