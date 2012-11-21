@@ -2495,7 +2495,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
     }
 
-    private void updateColor() {
+    private void updateColor(boolean defaults) {
 
         Bitmap bm = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         Canvas cnv = new Canvas(bm);
