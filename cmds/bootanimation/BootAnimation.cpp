@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2007 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -319,7 +319,7 @@ status_t BootAnimation::readyToRun() {
 
             free(crappyBuffer);
         } else {
-            ALOGW("Unable to allocate memory to preload the animation");
+            LOGW("Unable to allocate memory to preload the animation");
         }
         fclose(fd);
     }

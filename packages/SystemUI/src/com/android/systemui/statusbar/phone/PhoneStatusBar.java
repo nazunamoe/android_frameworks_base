@@ -43,6 +43,8 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.InputMethodService;
 import android.os.Handler;
@@ -344,6 +346,15 @@ public class PhoneStatusBar extends BaseStatusBar {
         addNavigationBar();
 
         if (ENABLE_INTRUDERS) addIntruderView();
+
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.STATUS_BAR_COLOR), false,
+                new ContentObserver(new Handler()) {
+                    @Override
+                    public void onChange(boolean selfChange) {
+                        updateColor();
+                    }
+                });
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext);
@@ -2477,5 +2488,16 @@ public class PhoneStatusBar extends BaseStatusBar {
         @Override
         public void setBounds(Rect bounds) {
         }
+    }
+
+    private void updateColor() {
+        int color = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_COLOR,
+                Settings.System.STATUS_BAR_COLOR_DEF);
+        if (color == -1)
+            color = Settings.System.STATUS_BAR_COLOR_DEF;
+        // we don't want alpha here
+        color = Color.argb(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color));
+        mStatusBarView.setBackgroundColor(color);
     }
 }

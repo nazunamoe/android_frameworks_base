@@ -28,11 +28,19 @@ import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.hardware.input.InputManager;
 import android.os.Handler;
+<<<<<<< HEAD
+import android.os.RemoteException;
+=======
+>>>>>>> 8ee8d90... Port Forward: NavBar Customization
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.os.ServiceManager;
 import android.provider.Settings;
+<<<<<<< HEAD
 import android.provider.Settings.SettingNotFoundException;
+import android.os.ServiceManager;
+=======
+>>>>>>> 8ee8d90... Port Forward: NavBar Customization
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -60,13 +68,16 @@ public class KeyButtonView extends ImageView {
     Drawable mGlowBG;
     int mGlowBGColor = Integer.MIN_VALUE;
     int mGlowWidth, mGlowHeight;
-    int mDurationSpeedOn = 100;
-    int mDurationSpeedOff = 10;
+    int mDurationSpeedOn = 500;
+    int mDurationSpeedOff = 50;
     float mGlowAlpha = 0f, mGlowScale = 1f, mDrawingAlpha = 1f;
     boolean mSupportsLongpress = true;
     protected boolean mHandlingLongpress = false;
     RectF mRect = new RectF(0f,0f,0f,0f);
     AnimatorSet mPressedAnim;
+
+    int durationSpeedOn = 100;
+    int durationSpeedOff = 10;
 
     Runnable mCheckLongPress = new Runnable() {
         public void run() {

@@ -29,7 +29,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+<<<<<<< HEAD
 import android.graphics.Color;
+=======
+>>>>>>> 8ee8d90... Port Forward: NavBar Customization
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -989,5 +992,57 @@ public class NavigationBarView extends LinearLayout {
         // we don't want alpha here
         color = Color.argb(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color));
         this.setBackgroundColor(color);
+    }
+
+    public void dump(FileDescriptor fd, PrintWriter pw, String[] args) {
+        pw.println("NavigationBarView {");
+        final Rect r = new Rect();
+        final Point size = new Point();
+        mDisplay.getRealSize(size);
+
+        pw.println(String.format("      this: " + PhoneStatusBar.viewInfo(this)
+                        + " " + visibilityToString(getVisibility())));
+
+        getWindowVisibleDisplayFrame(r);
+        final boolean offscreen = r.right > size.x || r.bottom > size.y;
+        pw.println("      window: " 
+                + r.toShortString()
+                + " " + visibilityToString(getWindowVisibility())
+                + (offscreen ? " OFFSCREEN!" : ""));
+
+        pw.println(String.format("      mCurrentView: id=%s (%dx%d) %s",
+                        getResourceName(mCurrentView.getId()),
+                        mCurrentView.getWidth(), mCurrentView.getHeight(),
+                        visibilityToString(mCurrentView.getVisibility())));
+
+        pw.println(String.format("      disabled=0x%08x vertical=%s hidden=%s low=%s menu=%s",
+                        mDisabledFlags,
+                        mVertical ? "true" : "false",
+                        mHidden ? "true" : "false",
+                        mLowProfile ? "true" : "false",
+                        mShowMenu ? "true" : "false"));
+
+        final View back = getBackButton();
+        final View home = getHomeButton();
+        final View recent = getRecentsButton();
+        final View menu = getMenuButton();
+
+        pw.println("      back: "
+                + PhoneStatusBar.viewInfo(back)
+                + " " + visibilityToString(back.getVisibility())
+                );
+        pw.println("      home: "
+                + PhoneStatusBar.viewInfo(home)
+                + " " + visibilityToString(home.getVisibility())
+                );
+        pw.println("      rcnt: "
+                + PhoneStatusBar.viewInfo(recent)
+                + " " + visibilityToString(recent.getVisibility())
+                );
+        pw.println("      menu: "
+                + PhoneStatusBar.viewInfo(menu)
+                + " " + visibilityToString(menu.getVisibility())
+                );
+        pw.println("    }");
     }
 }
