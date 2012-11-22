@@ -2522,6 +2522,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             color = Settings.System.STATUS_BAR_COLOR_DEF;
         // we don't want alpha here
         color = Color.argb(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color));
-        mStatusBarView.setBackgroundColor(color);
+        this.setBackground(color);
     }
 }

@@ -2091,6 +2091,18 @@ public final class Settings {
         public static final int SYSTEMUI_NAVBAR_COLOR_DEF = 0xFF000000;
 
         /**
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_COLOR = "status_bar_color";
+
+        /**
+         *
+         * @hide
+         */
+        public static final int STATUS_BAR_COLOR_DEF = 0xFF000000;
+
+        /**
          * Show the pending notification counts as overlays on the status bar
          * @hide
          */
@@ -2107,12 +2119,6 @@ public final class Settings {
          * 5 - Hide
          */
         public static final String STATUSBAR_BATTERY_ICON = "statusbar_battery_icon";
-
-        /**
-         * Statusbar background color/alpha chooser
-         * @hide
-         */
-        public static final String STATUSBAR_BACKGROUND_COLOR = "statusbar_background_color";
 
         /**
          * Standard battery text color
