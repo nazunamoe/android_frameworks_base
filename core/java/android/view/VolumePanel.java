@@ -222,6 +222,17 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
     private ToneGenerator mToneGenerators[];
     private Vibrator mVibrator;
 
+    private ContentObserver mSettingsObserver = new ContentObserver(this) {
+        @Override
+        public void onChange(boolean selfChange) {
+            mVolumeLinkNotification = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.VOLUME_LINK_NOTIFICATION, 1) == 1;
+            final int overlayStyle = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.MODE_VOLUME_OVERLAY, VOLUME_OVERLAY_EXPANDABLE);
+            changeOverlayStyle(overlayStyle);
+        }
+    };
+
     private static AlertDialog sConfirmSafeVolumeDialog;
     private static Object sConfirmSafeVolumeLock = new Object();
 
@@ -329,13 +340,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
         mVibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
         mVoiceCapable = context.getResources().getBoolean(R.bool.config_voice_capable);
 
-        boolean masterVolumeOnly = context.getResources().getBoolean(
-                com.android.internal.R.bool.config_useMasterVolume);
-        boolean masterVolumeKeySounds = mContext.getResources().getBoolean(
-                com.android.internal.R.bool.config_useVolumeKeySounds);
-
-        mPlayMasterStreamTones = masterVolumeOnly && masterVolumeKeySounds;
-
         // Get the user's preferences
         mVolumeLinkNotification = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.VOLUME_LINK_NOTIFICATION, 1) == 1;
@@ -349,6 +353,15 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
         context.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.MODE_VOLUME_OVERLAY), false,
                 mSettingsObserver);
+
+        // This is new with 4.2 it seems
+        boolean masterVolumeOnly = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_useMasterVolume);
+        boolean masterVolumeKeySounds = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_useVolumeKeySounds);
+
+        mPlayMasterStreamTones = masterVolumeOnly && masterVolumeKeySounds;
+        // End this is new
         mMoreButton.setOnClickListener(this);
         listenToRingerMode();
     }

@@ -36,6 +36,7 @@ import android.content.res.Configuration;
 import android.content.res.CustomTheme;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -46,6 +47,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.inputmethodservice.InputMethodService;
 import android.os.Handler;
 import android.os.IBinder;
@@ -388,6 +390,8 @@ public class PhoneStatusBar extends BaseStatusBar {
             }});
 
         mStatusBarView = (PhoneStatusBarView) mStatusBarWindow.findViewById(R.id.status_bar);
+        mStatusBarView.setBackgroundColor(Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_COLOR, 0xFF000000));
         mStatusBarView.setBar(this);
         
 
@@ -2491,13 +2495,17 @@ public class PhoneStatusBar extends BaseStatusBar {
     }
 
     private void updateColor() {
-        int color = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_COLOR,
-                Settings.System.STATUS_BAR_COLOR_DEF);
-        if (color == -1)
-            color = Settings.System.STATUS_BAR_COLOR_DEF;
-        // we don't want alpha here
-        color = Color.argb(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color));
-        mStatusBarView.setBackgroundColor(color);
+
+        Bitmap bm = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+        Canvas cnv = new Canvas(bm);
+        cnv.drawColor(Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.STATUS_BAR_COLOR, 0xFF000000));
+        mStatusBarView.setBackground(new BitmapDrawable(bm));
+
+        TransitionDrawable transition = new TransitionDrawable(new Drawable[]{
+                mStatusBarView.getBackground(), new BitmapDrawable(bm)});
+        transition.setCrossFadeEnabled(true);
+        mStatusBarView.setBackground(transition);
+        transition.startTransition(1000);
     }
 }

@@ -29,11 +29,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -969,17 +973,6 @@ public class NavigationBarView extends LinearLayout {
         mHandler.obtainMessage(MSG_CHECK_INVALID_LAYOUT, 0, 0, how).sendToTarget();
     }
 
-    private void updateColor() {
-        int color = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.SYSTEMUI_NAVBAR_COLOR,
-                Settings.System.SYSTEMUI_NAVBAR_COLOR_DEF);
-        if (color == -1)
-            color = Settings.System.SYSTEMUI_NAVBAR_COLOR_DEF;
-        // we don't want alpha here
-        color = Color.argb(Color.alpha(color), Color.red(color), Color.green(color), Color.blue(color));
-        this.setBackgroundColor(color);
-    }
-
     private static String visibilityToString(int vis) {
         switch (vis) {
             case View.INVISIBLE:
@@ -989,5 +982,19 @@ public class NavigationBarView extends LinearLayout {
             default:
                 return "VISIBLE";
         }
+    }
+
+    private void updateColor() {
+        Bitmap bm = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+        Canvas cnv = new Canvas(bm);
+        cnv.drawColor(Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.SYSTEMUI_NAVBAR_COLOR, 0xFF000000));
+            setBackground(new BitmapDrawable(bm));
+
+        TransitionDrawable transition = new TransitionDrawable(new Drawable[]{
+                getBackground(), new BitmapDrawable(bm)});
+        transition.setCrossFadeEnabled(true);
+        setBackground(transition);
+        transition.startTransition(1000);
     }
 }
