@@ -1764,11 +1764,7 @@
   <java-symbol type="raw" name="fallbackring" />
 
   <!-- From Settings -->
-  <java-symbol type="array" name="notification_light_package_mapping" />
   <java-symbol type="array" name="config_mobile_hotspot_provision_app" />
-  <java-symbol type="bool" name="config_intrusiveNotificationLed" />
-  <java-symbol type="bool" name="config_intrusiveBatteryLed" />
-  <java-symbol type="bool" name="config_multiColorBatteryLed" />
   <java-symbol type="dimen" name="preference_fragment_padding_bottom" />
   <java-symbol type="dimen" name="preference_fragment_padding_side" />
   <java-symbol type="drawable" name="expander_ic_maximized" />
@@ -1842,6 +1838,17 @@
 
   <!-- For Kill app back press -->
   <java-symbol type="integer" name="config_backKillTimeout" />
+
+
+  <!-- derp derp derp -->
+  <java-symbol type="bool" name="config_show_cmIMESwitcher"/>
+  <java-symbol type="bool" name="config_smsSamsungCdmaAlternateMessageIDEncoding" />
+
+  <!-- Notification and battery light -->
+  <java-symbol type="bool" name="config_intrusiveNotificationLed" />
+  <java-symbol type="bool" name="config_intrusiveBatteryLed" />
+  <java-symbol type="bool" name="config_multiColorBatteryLed" />
+  <java-symbol type="array" name="notification_light_package_mapping" />
 
   <java-symbol type="bool" name="config_hasRotationLockSwitch" />
 
