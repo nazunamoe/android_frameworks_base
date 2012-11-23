@@ -1262,6 +1262,7 @@
   <java-symbol type="drawable" name="ic_lock_reboot" />
   <java-symbol type="drawable" name="ic_lock_screenshot" />
   <java-symbol type="drawable" name="ic_lock_expanded_desktop" />
+  <java-symbol type="drawable" name="ic_lock_expanded_desktop_off" />
   <java-symbol type="drawable" name="ic_lockscreen_lock_pressed" />
   <java-symbol type="drawable" name="ic_lockscreen_target_activated" />
   <java-symbol type="drawable" name="ic_lockscreen_unlock_activated" />
