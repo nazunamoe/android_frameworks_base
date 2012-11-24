@@ -264,17 +264,6 @@ public class VolumePanel extends Handler implements OnSeekBarChangeListener, Vie
         }
     }
 
-    private ContentObserver mSettingsObserver = new ContentObserver(this) {
-        @Override
-        public void onChange(boolean selfChange) {
-            mVolumeLinkNotification = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.VOLUME_LINK_NOTIFICATION, 1) == 1;
-            final int overlayStyle = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.MODE_VOLUME_OVERLAY, VOLUME_OVERLAY_EXPANDABLE);
-            changeOverlayStyle(overlayStyle);
-        }
-    };
-
     public VolumePanel(final Context context, AudioService volumeService) {
         mContext = context;
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
