@@ -253,7 +253,7 @@ class QuickSettings {
         if (getCustomUserTiles().contains(BLUETOOTH_TOGGLE))
             bluetoothController.addStateChangedCallback(mModel);
         if (getCustomUserTiles().contains(BATTERY_TOGGLE))
-            batteryController.addStateChangedCallback(mModel);
+            batteryControllerStock.addStateChangedCallback(mModel);
         if (getCustomUserTiles().contains(GPS_TOGGLE))
             locationController.addStateChangedCallback(mModel);
         if (getCustomUserTiles().contains(ROTATE_TOGGLE))
@@ -497,10 +497,7 @@ class QuickSettings {
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        Intent intent = new Intent("android.intent.action.MAIN");
-                        intent.setComponent(ComponentName.unflattenFromString("com.aokp.romcontrol/.ROMControlActivity"));
-                        intent.addCategory("android.intent.category.LAUNCHER");
-                        startSettingsActivity(intent);
+                        startSettingsActivity(android.provider.Settings.ACTION_SETTINGS);
                         return true;
                     }
                 });

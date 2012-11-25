@@ -40,9 +40,9 @@ public class ExtensibleKeyButtonView extends KeyButtonView {
         final static String ACTION_SCREENSHOT = "**screenshot**";
 	final static String ACTION_MENU = "**menu**";
 	final static String ACTION_POWER = "**power**";
-    final static String ACTION_NOTIFICATIONS = "**notifications**";
-	final static String ACTION_RECENTS = "**recents**";
-    final static String ACTION_IME = "**ime**";
+        final static String ACTION_NOTIFICATIONS = "**notifications**";
+        final static String ACTION_RECENTS = "**recents**";
+        final static String ACTION_IME = "**ime**";
 	final static String ACTION_KILL = "**kill**";
 	final static String ACTION_NULL = "**null**";
 	final static String ACTION_WIDGETS = "**widgets**";
