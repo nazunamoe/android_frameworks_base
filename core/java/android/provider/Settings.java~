@@ -2940,21 +2940,6 @@ public final class Settings {
         /**
          * @hide
          */
-        public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
-
-        /**
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_HEIGHT_LANDSCAPE = "navigation_bar_height_landscape";
-
-        /**
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_WIDTH = "navigation_bar_width";
-
-        /**
-         * @hide
-         */
         public static final String MENU_LOCATION = "menu_location";
 
         /**
@@ -3011,21 +2996,6 @@ public final class Settings {
             "navigation_custom_app_icon_5",
             "navigation_custom_app_icon_6",
         };
-
-        /**
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_BUTTON_ALPHA = "navigation_bar_button_alpha";
-
-        /**
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_TINT = "navigation_bar_tint";
-
-        /**
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_GLOW_TINT = "navigation_bar_glow_tint";
 
         /**
          * @hide
