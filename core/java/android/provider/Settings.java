@@ -1943,6 +1943,13 @@ public final class Settings {
         public static final String POWER_MENU_EXPANDED_DESKTOP_ENABLED = "power_menu_expanded_desktop_enabled";
 
         /**
+         * enabled and order of quick toggles
+         * 
+         * @hide
+         */
+        public static final String QUICK_TOGGLES = "quick_toggles";
+
+        /**
          * Ability to hide Screenshot away from Reboot Menu
          * @hide
          */
