@@ -378,8 +378,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
                 R.drawable.ic_qs_airplane_on :
                 R.drawable.ic_qs_airplane_off);
         mAirplaneModeState.label = r.getString(R.string.quick_settings_airplane_mode_label);
-        if (togglesContain(QuickSettings.AIRPLANE_TOGGLE))
-            mAirplaneModeCallback.refreshView(mAirplaneModeTile, mAirplaneModeState);
+        mAirplaneModeCallback.refreshView(mAirplaneModeTile, mAirplaneModeState);
     }
 
     // Wifi
@@ -435,8 +434,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
             mWifiState.label = r.getString(R.string.quick_settings_wifi_off_label);
             mWifiState.signalContentDescription = r.getString(R.string.accessibility_wifi_off);
         }
-        if (togglesContain(QuickSettings.WIFI_TOGGLE))
-            mWifiCallback.refreshView(mWifiTile, mWifiState);
+        mWifiCallback.refreshView(mWifiTile, mWifiState);
     }
 
     // RSSI
@@ -474,8 +472,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
             mRSSIState.label = enabled
                     ? removeTrailingPeriod(enabledDesc)
                     : r.getString(R.string.quick_settings_rssi_emergency_only);
-            if (togglesContain(QuickSettings.SIGNAL_TOGGLE))
-                mRSSICallback.refreshView(mRSSITile, mRSSIState);
+            mRSSICallback.refreshView(mRSSITile, mRSSIState);
         }
     }
 
@@ -542,8 +539,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     public void onBatteryLevelChanged(int level, boolean pluggedIn) {
         mBatteryState.batteryLevel = level;
         mBatteryState.pluggedIn = pluggedIn;
-        if (togglesContain(QuickSettings.BATTERY_TOGGLE))
-            mBatteryCallback.refreshView(mBatteryTile, mBatteryState);
+        mBatteryCallback.refreshView(mBatteryTile, mBatteryState);
     }
 
     void refreshBatteryTile() {
@@ -562,8 +558,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     public void onLocationGpsStateChanged(boolean inUse, String description) {
         mLocationState.enabled = inUse;
         mLocationState.label = description;
-        if (togglesContain(QuickSettings.GPS_TOGGLE))
-            mLocationCallback.refreshView(mLocationTile, mLocationState);
+        mLocationCallback.refreshView(mLocationTile, mLocationState);
     }
 
     // Bug report
@@ -748,54 +743,11 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
                 ? R.drawable.ic_qs_brightness_auto_on
                 : R.drawable.ic_qs_brightness_auto_off;
         mBrightnessState.label = r.getString(R.string.quick_settings_brightness_label);
-        if (togglesContain(QuickSettings.BRIGHTNESS_TOGGLE))
-            mBrightnessCallback.refreshView(mBrightnessTile, mBrightnessState);
+        mBrightnessCallback.refreshView(mBrightnessTile, mBrightnessState);
     }
 
     void refreshBrightnessTile() {
         onBrightnessLevelChanged();
-    }
-
-    /**
-     * Method checks for if a tile is being used or not
-     * 
-     * @param QuickSettings Tile String Constant
-     * @return if that tile is being used
-     */
-    private boolean togglesContain(String tile) {
-        ContentResolver resolver = mContext.getContentResolver();
-        String toggles = Settings.System.getString(resolver, Settings.System.QUICK_TOGGLES);
-       
-        if (toggles != null) {
-            ArrayList<String> tiles = new ArrayList<String>();
-            String[] splitter = toggles.split("\\|");
-            for (String toggle : splitter) {
-                tiles.add(toggle);
-            }
-            return tiles.contains(tile);
-        }
-        
-        return getDefaultTiles().contains(tile);
-    }
-    
-    private ArrayList<String> getDefaultTiles() {
-        ArrayList<String> tiles = new ArrayList<String>();
-        tiles.add(QuickSettings.USER_TOGGLE);
-        tiles.add(QuickSettings.BRIGHTNESS_TOGGLE);
-        tiles.add(QuickSettings.SETTINGS_TOGGLE);
-        tiles.add(QuickSettings.WIFI_TOGGLE);
-        if (deviceSupportsTelephony()) {
-            tiles.add(QuickSettings.SIGNAL_TOGGLE);
-        }
-        if (mContext.getResources().getBoolean(R.bool.quick_settings_show_rotation_lock)) {
-            tiles.add(QuickSettings.ROTATE_TOGGLE);
-        }
-        tiles.add(QuickSettings.BATTERY_TOGGLE);
-        tiles.add(QuickSettings.AIRPLANE_TOGGLE);
-        if (deviceSupportsBluetooth()) {
-            tiles.add(QuickSettings.BLUETOOTH_TOGGLE);
-        }
-        return tiles;
     }
 
     // User switch: need to update visuals of all tiles known to have per-user

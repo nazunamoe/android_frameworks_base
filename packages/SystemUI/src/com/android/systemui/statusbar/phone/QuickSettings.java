@@ -740,7 +740,7 @@ class QuickSettings {
         return quick;
     }
 
-    private ArrayList<String> getCustomUserTiles() {
+    protected ArrayList<String> getCustomUserTiles() {
         ArrayList<String> tiles = new ArrayList<String>();
 
         if (userToggles == null)
