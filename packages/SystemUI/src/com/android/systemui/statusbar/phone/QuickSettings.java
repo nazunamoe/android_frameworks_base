@@ -55,7 +55,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.WifiDisplayStatus;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.RemoteException;
@@ -93,7 +92,6 @@ class QuickSettings {
 
     private DisplayManager mDisplayManager;
     private WifiDisplayStatus mWifiDisplayStatus;
-    private WifiManager wifiManager;
     private PhoneStatusBar mStatusBarService;
     private BluetoothState mBluetoothState;
 
@@ -132,7 +130,6 @@ class QuickSettings {
         mContainerView = container;
         mModel = new QuickSettingsModel(context);
         mWifiDisplayStatus = new WifiDisplayStatus();
-        wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
         mBluetoothState = new QuickSettingsModel.BluetoothState();
         mHandler = new Handler();
 
@@ -686,6 +683,7 @@ class QuickSettings {
                 intent.setComponent(ComponentName.unflattenFromString("com.aokp.romcontrol/.ROMControlActivity"));
                 intent.addCategory("android.intent.category.LAUNCHER");
                 startSettingsActivity(intent);
+                getService().animateCollapsePanels();
                 return true;
             }
         });
@@ -708,6 +706,7 @@ class QuickSettings {
         wifiTile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 if (wifiManager.isWifiEnabled()) {
                     wifiManager.setWifiEnabled(false);
                 } else {
@@ -718,8 +717,9 @@ class QuickSettings {
         wifiTile.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+=======
+>>>>>>> parent of 8959ae0... Quick Settings: Make Wifi and Bluetooth Turn on and off
                 startSettingsActivity(android.provider.Settings.ACTION_WIFI_SETTINGS);
-                return true;
             }
         });
         mModel.addWifiTile(wifiTile, new QuickSettingsModel.RefreshCallback() {
@@ -866,6 +866,7 @@ class QuickSettings {
             bluetoothTile.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+<<<<<<< HEAD
                     final BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
                     if (adapter.isEnabled()) {
                         adapter.disable();
@@ -877,8 +878,9 @@ class QuickSettings {
             bluetoothTile.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+=======
+>>>>>>> parent of 8959ae0... Quick Settings: Make Wifi and Bluetooth Turn on and off
                     startSettingsActivity(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
-                    return true;
                 }
             });
             mModel.addBluetoothTile(bluetoothTile, new QuickSettingsModel.RefreshCallback() {
