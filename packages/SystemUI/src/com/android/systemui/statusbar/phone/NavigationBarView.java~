@@ -920,13 +920,13 @@ public class NavigationBarView extends LinearLayout {
             Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
 
         if (defaultBg == 0) {
-            setBackgroundColor(navbarBackgroundColor);
+            mNavBarView.setBackgroundColor(navbarBackgroundColor);
         } else if (defaultBg == 1) {
-            setBackgroundResource(R.drawable.nav_bar_bg);
-            getBackground().setColorFilter(ColorFilterMaker.
+            mNavBarView.setBackgroundResource(R.drawable.nav_bar_bg);
+            mNavBarView.getBackground().setColorFilter(ColorFilterMaker.
                     changeColorAlpha(navbarBackgroundColor, .32f, 0f));
         } else {
-            setBackground(mContext.getResources().getDrawable(R.drawable.nav_bar_bg));
+            mNavBarView.setBackground(mContext.getResources().getDrawable(R.drawable.nav_bar_bg));
         }
     }
     makeBar();
