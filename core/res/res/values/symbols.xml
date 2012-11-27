@@ -1829,4 +1829,7 @@
   <!-- From PinyinIME(!!!) -->
   <java-symbol type="string" name="inputMethod" />
 
+  <!-- Developer settings - Kill app back press -->
+  <java-symbol type="string" name="app_killed_message" />
+
 </resources>
