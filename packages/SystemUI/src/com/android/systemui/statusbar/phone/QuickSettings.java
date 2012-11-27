@@ -207,6 +207,9 @@ class QuickSettings {
 
     private ArrayList<String> toggles;
     private String userToggles = null;
+    private long tacoSwagger = 0;
+    private boolean tacoToggle = false;
+    private int mTileTextSize = 12;
 
     private HashMap<String, Integer> toggleMap;
 
@@ -469,6 +472,7 @@ class QuickSettings {
                         ImageView iv = (ImageView) view.findViewById(R.id.user_imageview);
                         TextView tv = (TextView) view.findViewById(R.id.user_textview);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                         iv.setImageDrawable(us.avatar);
                         view.setContentDescription(mContext.getString(
                                 R.string.accessibility_quick_settings_user, state.label));
@@ -543,6 +547,7 @@ class QuickSettings {
                                 iov.setImageDrawable(null);
                             }
                             tv.setText(state.label);
+                            tv.setTextSize(1, mTileTextSize);
                             view.setContentDescription(mContext.getResources().getString(
                                     R.string.accessibility_quick_settings_mobile,
                                     rssiState.signalContentDescription, rssiState.dataContentDescription,
@@ -568,6 +573,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.brightness_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                         dismissBrightnessDialog(mBrightnessDialogShortTimeout);
                     }
                 });
@@ -598,6 +604,7 @@ class QuickSettings {
                     public void refreshView(QuickSettingsTileView view, State state) {
                         TextView tv = (TextView) view.findViewById(R.id.settings_tileview);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 mDynamicSpannedTiles.add(quick);
@@ -626,6 +633,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.wifi_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, wifiState.iconId, 0, 0);
                         tv.setText(wifiState.label);
+                        tv.setTextSize(1, mTileTextSize);
                         view.setContentDescription(mContext.getString(
                                 R.string.accessibility_quick_settings_wifi,
                                 wifiState.signalContentDescription,
@@ -667,6 +675,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.twog_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -704,6 +713,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.lte_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -731,6 +741,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.vibrate_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -758,6 +769,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.silent_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -785,6 +797,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.torch_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -812,6 +825,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.fcharge_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -844,6 +858,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.wifi_tether_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -873,6 +888,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.usb_tether_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -901,6 +917,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.sync_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -937,6 +954,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.nfc_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -957,6 +975,7 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.rotation_lock_textview);
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -993,6 +1012,7 @@ class QuickSettings {
                         iv.setImageDrawable(d);
                         iv.setImageLevel(batteryState.batteryLevel);
                         tv.setText(t);
+                        tv.setTextSize(1, mTileTextSize);
                         view.setContentDescription(
                                 mContext.getString(R.string.accessibility_quick_settings_battery, t));
                     }
@@ -1014,6 +1034,7 @@ class QuickSettings {
                         view.setContentDescription(
                                 mContext.getString(R.string.accessibility_quick_settings_airplane, airplaneState));
                         tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -1065,6 +1086,7 @@ class QuickSettings {
                                 R.string.accessibility_quick_settings_bluetooth,
                                 bluetoothState.stateContentDescription));
                         tv.setText(label);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -1081,6 +1103,7 @@ class QuickSettings {
                                 LocationManager.GPS_PROVIDER, gpsEnabled ? false : true);
                         TextView tv = (TextView) v.findViewById(R.id.location_textview);
                         tv.setText(gpsEnabled ? strGPSoff : strGPSon);
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1102,6 +1125,7 @@ class QuickSettings {
                         } else {
                             tv.setText(state.label);
                         }
+                        tv.setTextSize(1, mTileTextSize);
                     }
                 });
                 break;
@@ -1127,7 +1151,42 @@ class QuickSettings {
                         TextView tv = (TextView) view.findViewById(R.id.ime_textview);
                         if (state.label != null) {
                             tv.setText(state.label);
+                            tv.setTextSize(1, mTileTextSize);
                         }
+                    }
+                });
+                break;
+            case SWAGGER_TILE:
+                quick = (QuickSettingsTileView)
+                        inflater.inflate(R.layout.quick_settings_tile, parent, false);
+                quick.setContent(R.layout.quick_settings_tile_swagger, inflater);
+                quick.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                if (tacoToggle) {
+                                    TextView tv = (TextView) v.findViewById(R.id.swagger_textview);
+                                    tv.setText(R.string.quick_settings_swagger);
+                                    tv.setTextSize(1, mTileTextSize);
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_qs_swagger, 0, 0);
+                                    tacoSwagger = event.getEventTime();
+                                    tacoToggle = false;
+                                } else {
+                                    tacoSwagger = event.getEventTime();
+                                }
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                if ((event.getEventTime() - tacoSwagger) > 5000) {
+                                    TextView tv = (TextView) v.findViewById(R.id.swagger_textview);
+                                    tv.setText(R.string.quick_settings_fbgt);
+                                    tv.setTextSize(1, mTileTextSize);
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_qs_fbgt_on, 0, 0);
+                                    tacoToggle = true;
+                                }
+                                break;
+                        }
+                        return true;
                     }
                 });
                 break;
@@ -1204,6 +1263,7 @@ class QuickSettings {
             public void refreshView(QuickSettingsTileView view, State alarmState) {
                 TextView tv = (TextView) view.findViewById(R.id.alarm_textview);
                 tv.setText(alarmState.label);
+                tv.setTextSize(1, mTileTextSize);
                 view.setVisibility(alarmState.enabled ? View.VISIBLE : View.GONE);
                 view.setContentDescription(mContext.getString(
                         R.string.accessibility_quick_settings_alarm, alarmState.label));
@@ -1226,6 +1286,7 @@ class QuickSettings {
             public void refreshView(QuickSettingsTileView view, State state) {
                 TextView tv = (TextView) view.findViewById(R.id.wifi_display_textview);
                 tv.setText(state.label);
+                tv.setTextSize(1, mTileTextSize);
                 tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                 view.setVisibility(state.enabled ? View.VISIBLE : View.GONE);
             }
@@ -1517,9 +1578,29 @@ class QuickSettings {
         }
     };
 
+    void updateTileTextSize(int colnum) {
+        // adjust Tile Text Size based on column count
+        switch (colnum) {
+            case 5:
+                mTileTextSize = 8;
+                break;
+            case 4:
+                mTileTextSize = 10;
+                break;
+            case 3:
+            default:
+                mTileTextSize = 12;
+                break;
+        }
+    }
+
     private void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
         userToggles = Settings.System.getString(resolver, Settings.System.QUICK_TOGGLES);
+        int columnCount = Settings.System.getInt(resolver, Settings.System.QUICK_TOGGLES_PER_ROW,
+                mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
+        ((QuickSettingsContainerView) mContainerView).setColumnCount(columnCount);
+        updateTileTextSize(columnCount);
         setupQuickSettings();
         updateWifiDisplayStatus();
         updateResources();
@@ -1535,6 +1616,9 @@ class QuickSettings {
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.QUICK_TOGGLES),
                     false, this);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.QUICK_TOGGLES_PER_ROW),
+                    false, this);
             updateSettings();
         }
 
@@ -1543,5 +1627,4 @@ class QuickSettings {
             updateSettings();
         }
     }
-
 }

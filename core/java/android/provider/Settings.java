@@ -1950,6 +1950,13 @@ public final class Settings {
         public static final String QUICK_TOGGLES = "quick_toggles";
 
         /**
+         * number of tiles per row in quick settings
+         *
+         * @hide
+         */
+        public static final String QUICK_TOGGLES_PER_ROW = "quick_toggles_per_row";
+
+        /**
          * Ability to hide Screenshot away from Reboot Menu
          * @hide
          */
