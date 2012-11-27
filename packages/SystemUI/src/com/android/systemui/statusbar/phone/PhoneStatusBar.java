@@ -349,16 +349,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         if (ENABLE_INTRUDERS) addIntruderView();
 
-        mContext.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor(Settings.System.STATUS_BAR_COLOR), false,
-                new ContentObserver(new Handler()) {
-                    @Override
-                    public void onChange(boolean selfChange) {
-                        updateColor(false);
-                    }
-                });
-        updateColor(true);
-
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext);
     }
@@ -391,8 +381,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             }});
 
         mStatusBarView = (PhoneStatusBarView) mStatusBarWindow.findViewById(R.id.status_bar);
-        mStatusBarView.setBackgroundColor(Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_COLOR, 0xFF000000));
         mStatusBarView.setBar(this);
         
 
@@ -2493,21 +2481,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         @Override
         public void setBounds(Rect bounds) {
         }
-    }
-
-    private void updateColor(boolean defaults) {
-
-        Bitmap bm = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        Canvas cnv = new Canvas(bm);
-        cnv.drawColor(Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.STATUS_BAR_COLOR, 0xFF000000));
-        mStatusBarView.setBackground(new BitmapDrawable(bm));
-
-        TransitionDrawable transition = new TransitionDrawable(new Drawable[]{
-                mStatusBarView.getBackground(), new BitmapDrawable(bm)});
-        transition.setCrossFadeEnabled(true);
-        mStatusBarView.setBackground(transition);
-        transition.startTransition(1000);
     }
 
     public boolean skipToSettingsPanel() {
