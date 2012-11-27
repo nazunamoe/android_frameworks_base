@@ -3942,6 +3942,24 @@ public final class Settings {
         public static final String ADB_ENABLED = Global.ADB_ENABLED;
 
         /**
+         * The TCP/IP port to run ADB on, or -1 for USB
+         * @hide
+         */
+        public static final String ADB_PORT = "adb_port";
+
+        /**
+         * Whether to display the ADB notification.
+         * @hide
+         */
+        public static final String ADB_NOTIFY = "adb_notify";
+
+        /**
+         * The hostname for this device
+         * @hide
+         */
+        public static final String DEVICE_HOSTNAME = "device_hostname";
+
+        /**
          * Setting to allow mock locations and location provider status to be injected into the
          * LocationManager service for testing purposes during application development.  These
          * locations and status values  override actual location and status information generated
@@ -4882,12 +4900,6 @@ public final class Settings {
          * @hide
          */
         public static final String SCREENSAVER_DEFAULT_COMPONENT = "screensaver_default_component";
-
-        /**
-         * Whether to allow killing of the foreground app by long-pressing the Back button
-         * @hide
-         */
-        public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
 
         /**
          * This are the settings to be backed up.

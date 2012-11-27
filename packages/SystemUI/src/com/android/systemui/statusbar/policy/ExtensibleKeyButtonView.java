@@ -18,6 +18,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.os.UserHandle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.InputDevice;
