@@ -695,19 +695,6 @@ public class NotificationManagerService extends INotificationManager.Stub
             updateNotificationPulse();
         }
 
-    static long[] getLongArray(Resources r, int resid, int maxlen, long[] def) {
-        int[] ar = r.getIntArray(resid);
-        if (ar == null) {
-            return def;
-        }
-        final int len = ar.length > maxlen ? maxlen : ar.length;
-        long[] out = new long[len];
-        for (int i=0; i<len; i++) {
-            out[i] = ar[i];
-        }
-        return out;
-
-
         public void update() {
             ContentResolver resolver = mContext.getContentResolver();
             mQuietHoursEnabled = Settings.System.getInt(resolver,
@@ -723,6 +710,19 @@ public class NotificationManagerService extends INotificationManager.Stub
             mQuietHoursDim = Settings.System.getInt(resolver,
                     Settings.System.QUIET_HOURS_DIM, 0) != 0;
         }
+    }
+
+    static long[] getLongArray(Resources r, int resid, int maxlen, long[] def) {
+        int[] ar = r.getIntArray(resid);
+        if (ar == null) {
+            return def;
+        }
+        final int len = ar.length > maxlen ? maxlen : ar.length;
+        long[] out = new long[len];
+        for (int i=0; i<len; i++) {
+            out[i] = ar[i];
+        }
+        return out;
     }
 
     NotificationManagerService(Context context, StatusBarManagerService statusBar,
