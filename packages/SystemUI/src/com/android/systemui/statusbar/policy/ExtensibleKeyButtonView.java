@@ -143,7 +143,7 @@ public class ExtensibleKeyButtonView extends KeyButtonView {
             }
             String packageName = mActivityManager.getRunningTasks(1).get(0).topActivity.getPackageName();
             if (!defaultHomePackage.equals(packageName)) {
-                    mActivityManager.forceStopPackage(packageName);
+                    mActivityManager.forceStopPackage(packageName, UserHandle.USER_CURRENT);
                     Toast.makeText(mContext, R.string.app_killed_message, Toast.LENGTH_SHORT).show();
             }
         }
