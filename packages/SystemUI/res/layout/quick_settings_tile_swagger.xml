@@ -13,11 +13,14 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <size android:height="320dp"
-        android:width="320dp" />
-    <solid android:color="#00000000" />
-    <stroke android:color="#40ffffff" android:width="2dp" />
-</shape>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/TextAppearance.QuickSettings.TileView"
+    android:id="@+id/swagger_textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:drawableTop="@drawable/ic_qs_swagger"
+    android:text="@string/quick_settings_swagger"
+    />

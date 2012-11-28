@@ -564,5 +564,7 @@
     <string name="quick_settings_twog_off_label">2g Off</string>
     <string name="quick_settings_lte_on_label">LTE On</string>
     <string name="quick_settings_lte_off_label">LTE Off</string>
+    <string name="quick_settings_swagger">Swagger</string>
+    <string name="quick_settings_fbgt">FBGT</string>
 
 </resources>

@@ -480,7 +480,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
                 R.drawable.ic_qs_airplane_on :
                 R.drawable.ic_qs_airplane_off);
         mAirplaneModeState.label = r.getString(R.string.quick_settings_airplane_mode_label);
-        mAirplaneModeCallback.refreshView(mAirplaneModeTile, mAirplaneModeState);
+        if (togglesContain(QuickSettings.AIRPLANE_TOGGLE))
+            mAirplaneModeCallback.refreshView(mAirplaneModeTile, mAirplaneModeState);
     }
 
     // Wifi
@@ -536,7 +537,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
             mWifiState.label = r.getString(R.string.quick_settings_wifi_off_label);
             mWifiState.signalContentDescription = r.getString(R.string.accessibility_wifi_off);
         }
-        mWifiCallback.refreshView(mWifiTile, mWifiState);
+        if (togglesContain(QuickSettings.WIFI_TOGGLE))
+            mWifiCallback.refreshView(mWifiTile, mWifiState);
     }
 
     // RSSI
@@ -574,7 +576,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
             mRSSIState.label = enabled
                     ? removeTrailingPeriod(enabledDesc)
                     : r.getString(R.string.quick_settings_rssi_emergency_only);
-            mRSSICallback.refreshView(mRSSITile, mRSSIState);
+            if (togglesContain(QuickSettings.SIGNAL_TOGGLE))
+                mRSSICallback.refreshView(mRSSITile, mRSSIState);
         }
     }
 
@@ -641,7 +644,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     public void onBatteryLevelChanged(int level, boolean pluggedIn) {
         mBatteryState.batteryLevel = level;
         mBatteryState.pluggedIn = pluggedIn;
-        mBatteryCallback.refreshView(mBatteryTile, mBatteryState);
+        if (togglesContain(QuickSettings.BATTERY_TOGGLE))
+            mBatteryCallback.refreshView(mBatteryTile, mBatteryState);
     }
 
     void refreshBatteryTile() {
@@ -660,7 +664,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     public void onLocationGpsStateChanged(boolean inUse, String description) {
         mLocationState.enabled = inUse;
         mLocationState.label = description;
-        mLocationCallback.refreshView(mLocationTile, mLocationState);
+        if (togglesContain(QuickSettings.GPS_TOGGLE))
+            mLocationCallback.refreshView(mLocationTile, mLocationState);
     }
 
     // Bug report
@@ -1171,7 +1176,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
                 ? R.drawable.ic_qs_brightness_auto_on
                 : R.drawable.ic_qs_brightness_auto_off;
         mBrightnessState.label = r.getString(R.string.quick_settings_brightness_label);
-        mBrightnessCallback.refreshView(mBrightnessTile, mBrightnessState);
+        if (togglesContain(QuickSettings.BRIGHTNESS_TOGGLE))
+            mBrightnessCallback.refreshView(mBrightnessTile, mBrightnessState);
     }
 
     void refreshBrightnessTile() {

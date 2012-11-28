@@ -1835,4 +1835,6 @@
   <!-- For Kill app back press -->
   <java-symbol type="integer" name="config_backKillTimeout" />
 
+  <java-symbol type="bool" name="config_hasRotationLockSwitch" />
+
 </resources>

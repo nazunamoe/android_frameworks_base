@@ -75,6 +75,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -1194,7 +1195,7 @@ class QuickSettings {
         return quick;
     }
 
-    protected ArrayList<String> getCustomUserTiles() {
+    private ArrayList<String> getCustomUserTiles() {
         ArrayList<String> tiles = new ArrayList<String>();
 
         if (userToggles == null)
@@ -1253,7 +1254,7 @@ class QuickSettings {
                 // TODO: Jump into the alarm application
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName(
-                        "com.google.android.deskclock",
+                        "com.android.deskclock",
                         "com.android.deskclock.AlarmClock"));
                 startSettingsActivity(intent);
             }

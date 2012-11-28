@@ -527,6 +527,9 @@
          kill the foreground app. -->
     <integer name="config_backKillTimeout">2000</integer>
 
+    <!-- Device has a h/w rotation lock switch -->
+    <bool name="config_hasRotationLockSwitch">false</bool>
+
     <!-- Allow the menu hard key to be disabled in LockScreen on some devices -->
     <bool name="config_disableMenuKeyInLockScreen">false</bool>
 
