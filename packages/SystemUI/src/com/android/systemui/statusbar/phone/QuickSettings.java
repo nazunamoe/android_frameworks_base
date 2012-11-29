@@ -1102,8 +1102,11 @@ class QuickSettings {
                         Settings.Secure.setLocationProviderEnabled(mContext.getContentResolver(),
                                 LocationManager.GPS_PROVIDER, gpsEnabled ? false : true);
                         TextView tv = (TextView) v.findViewById(R.id.location_textview);
+                        ImageView iv = (ImageView) v.findViewById(R.id.location_textview);
                         tv.setText(gpsEnabled ? R.string.quick_settings_gps_on_label
                                 : R.string.quick_settings_gps_off_label);
+                        iv.setImageResource(gpsEnabled ? R.drawable.ic_qs_gps_on
+                                    : R.drawable.ic_qs_gps_off);
                         tv.setTextSize(1, mTileTextSize);
                     }
                 });
@@ -1120,11 +1123,13 @@ class QuickSettings {
                         boolean gpsEnabled = Settings.Secure.isLocationProviderEnabled(
                                 mContext.getContentResolver(), LocationManager.GPS_PROVIDER);
                         TextView tv = (TextView) view.findViewById(R.id.location_textview);
-                        tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
+                        ImageView iv = (ImageView) view.findViewById(R.id.location_textview);
                         String newString = state.label;
                         if ((newString == null) || (newString.equals(""))) {
                             tv.setText(gpsEnabled ? R.string.quick_settings_gps_on_label
                                     : R.string.quick_settings_gps_off_label);
+                            iv.setImageResource(gpsEnabled ? R.drawable.ic_qs_gps_on
+                                    : R.drawable.ic_qs_gps_off);
                         } else {
                             tv.setText(state.label);
                         }
