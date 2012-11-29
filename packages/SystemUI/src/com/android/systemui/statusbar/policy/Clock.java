@@ -184,18 +184,12 @@ public class Clock extends TextView {
 
         if (!b24) {
             if (mAmPmStyle != AM_PM_STYLE_NORMAL) {
-                String AmPm;
-                if (format.indexOf("a")==0) {
-                    AmPm = (new SimpleDateFormat("a ")).format(mCalendar.getTime());
-                } else {
-                    AmPm = (new SimpleDateFormat(" a")).format(mCalendar.getTime());
-                }
                 if (mAmPmStyle == AM_PM_STYLE_GONE) {
-                    formatted.delete(result.indexOf(AmPm), result.lastIndexOf(AmPm)+AmPm.length());
+                    formatted.delete(result.length() - 3, result.length());
                 } else {
                     if (mAmPmStyle == AM_PM_STYLE_SMALL) {
                         CharacterStyle style = new RelativeSizeSpan(0.7f);
-                        formatted.setSpan(style, result.indexOf(AmPm), result.lastIndexOf(AmPm)+AmPm.length(),
+                        formatted.setSpan(style, result.length() - 3, result.length(),
                                 Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     }
                 }
@@ -204,11 +198,11 @@ public class Clock extends TextView {
         if (mWeekdayStyle != WEEKDAY_STYLE_NORMAL) {
             if (todayIs != null) {
                 if (mWeekdayStyle == WEEKDAY_STYLE_GONE) {
-                    formatted.delete(result.indexOf(todayIs), result.lastIndexOf(todayIs)+todayIs.length());
+                    formatted.delete(0, 4);
                 } else {
                     if (mWeekdayStyle == WEEKDAY_STYLE_SMALL) {
                         CharacterStyle style = new RelativeSizeSpan(0.7f);
-                        formatted.setSpan(style, result.indexOf(todayIs), result.lastIndexOf(todayIs)+todayIs.length(),
+                        formatted.setSpan(style, 0, 4,
                                           Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     }
                 }
@@ -224,29 +218,29 @@ public class Clock extends TextView {
     	String todayIs = null;
     	switch (today) {
     	case 1:
-			todayIs = getResources().getString(R.string.day_of_week_medium_sunday);
+			todayIs = "SUN ";
 			break;
 		case 2:
-			todayIs = getResources().getString(R.string.day_of_week_medium_monday);
+			todayIs = "MON ";
 			break;
 		case 3:
-			todayIs = getResources().getString(R.string.day_of_week_medium_tuesday);
+			todayIs = "TUE ";
 			break;
 		case 4:
-			todayIs = getResources().getString(R.string.day_of_week_medium_wednesday);
+			todayIs = "WED ";
 			break;
 		case 5:
-			todayIs = getResources().getString(R.string.day_of_week_medium_thursday);
+			todayIs = "THU ";
 			break;
 		case 6:
-			todayIs = getResources().getString(R.string.day_of_week_medium_friday);
+			todayIs = "FRI ";
 			break;
 		case 7:
-			todayIs = getResources().getString(R.string.day_of_week_medium_saturday);
+			todayIs = "SAT ";
 			break;
     	}
     		
-    	return todayIs.toUpperCase() + " ";
+    	return todayIs;
     }
     
     protected class SettingsObserver extends ContentObserver {
