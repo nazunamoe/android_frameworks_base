@@ -2940,6 +2940,12 @@ public final class Settings {
         public static final String POINTER_SPEED = "pointer_speed";
 
         /**
+         * Whether to show the IME switcher in the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_IME_SWITCHER = "status_bar_ime_switcher";
+
+        /**
          * Volume Overlay Mode. This is the style of the volume overlay panel.
          *      0 - Single
          *      1 - Expandable (default)
