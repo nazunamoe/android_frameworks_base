@@ -176,7 +176,7 @@ public class Clock extends TextView {
         String result = sdf.format(mCalendar.getTime());
 
         if (mWeekdayStyle != WEEKDAY_STYLE_GONE) {
-            todayIs = (new SimpleDateFormat("E")).format(mCalendar.getTime());
+            todayIs = (new SimpleDateFormat("E")).format(mCalendar.getTime()) + " ";
             result = todayIs + result;
         }
 
