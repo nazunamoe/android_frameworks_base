@@ -75,7 +75,7 @@ import com.android.systemui.statusbar.NotificationData;
 import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.StatusBarIconView;
-import com.android.systemui.statusbar.phone.NavigationBarView;
+import com.android.systemui.statusbar.NavigationBarView;
 import com.android.systemui.statusbar.policy.BatteryControllerStock;
 import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.CompatModeButton;
