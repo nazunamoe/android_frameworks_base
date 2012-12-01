@@ -2911,6 +2911,13 @@ public final class Settings {
         public static final String SIP_CALL_OPTIONS = "sip_call_options";
 
         /**
+         * NFC polling mode configuration key
+         *
+         * @hide
+         */
+        public static final String NFC_POLLING_MODE = "nfc_polling_mode";
+
+        /**
          * One of the sip call options: Always use SIP with network access.
          * @hide
          */
