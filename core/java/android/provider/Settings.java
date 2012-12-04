@@ -1874,15 +1874,6 @@ public final class Settings {
          */
         public static final String SAFE_HEADSET_VOLUME_RESTORE = "safe_headset_volume_restore";
 
-
-        /**
-         * use Alt Activity Resolver Grid (GB style)
-         * boolean
-         *
-         * @hide
-         */
-        public static final String ACTIVITY_RESOLVER_USE_ALT = "activity_resolver_use_alt";
-
         /**
          * User interface mode. This is used to change the UI mode forcing it to
          * Change into tablet mode. Default is disabled. 
