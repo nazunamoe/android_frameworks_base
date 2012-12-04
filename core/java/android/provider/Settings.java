@@ -1953,6 +1953,13 @@ public final class Settings {
         public static final String QUICK_TOGGLES_PER_ROW = "quick_toggles_per_row";
 
         /**
+         * favorite contact for quick settings
+         *
+         * @hide
+         */
+        public static final String QUICK_TOGGLE_FAV_CONTACT = "quick_toggle_fav_contact";
+
+        /**
          * Ability to hide Screenshot away from Reboot Menu
          * @hide
          */
