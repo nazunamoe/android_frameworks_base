@@ -1967,6 +1967,13 @@ public final class Settings {
         public static final String QUICK_THEME_STYLE = "quick_theme_style";
 
         /**
+         * text color for quick settings
+         *
+         * @hide
+         */
+        public static final String QUICK_TEXT_COLOR = "quick_text_color";
+
+        /**
          * Quick Settings Quick Pulldown
          *
          * @hide
