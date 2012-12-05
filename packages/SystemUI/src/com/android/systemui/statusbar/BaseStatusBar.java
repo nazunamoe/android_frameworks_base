@@ -99,7 +99,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected static final int MSG_SHOW_INTRUDER = 1026;
     protected static final int MSG_HIDE_INTRUDER = 1027;
 
-    private int mCurrentUIMode;
+    protected int mCurrentUIMode;
 
     private WidgetView mWidgetView;
 

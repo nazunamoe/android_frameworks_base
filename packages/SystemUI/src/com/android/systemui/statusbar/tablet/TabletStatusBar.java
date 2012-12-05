@@ -50,6 +50,7 @@ import android.util.Pair;
 import android.util.Slog;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
@@ -69,6 +70,7 @@ import android.widget.TextView;
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.internal.statusbar.StatusBarNotification;
 import com.android.systemui.R;
+import com.android.systemui.navbar.NavBarTarget;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.DoNotDisturb;
@@ -123,6 +125,7 @@ public class TabletStatusBar extends BaseStatusBar implements
     // The height of the bar, as definied by the build.  It may be taller if we're plugged
     // into hdmi.
     int mNaturalBarHeight = -1;
+    int mUserBarHeight , mUserBarHeightLand = -1;
     int mIconSize = -1;
     int mIconHPadding = -1;
     private int mMaxNotificationIcons = 5;
@@ -185,6 +188,15 @@ public class TabletStatusBar extends BaseStatusBar implements
     private int mSystemUiVisibility = 0;
 
     private int mNavigationIconHints = 0;
+
+    private int shortClick = 0;
+    private int longClick = 1;
+    private int doubleClick = 2;
+    private int doubleClickCounter = 0;
+    public String[] mClockActions = new String[3];
+    private boolean mClockDoubleClicked;
+    private NavBarTarget mNavBarTarget;
+    private View mDateTimeView;
 
     public Context getContext() { return mContext; }
 
@@ -341,6 +353,13 @@ public class TabletStatusBar extends BaseStatusBar implements
 
         ScrollView scroller = (ScrollView)mPile.getParent();
         scroller.setFillViewport(true);
+
+        mDateTimeView = mNotificationPanel.findViewById(R.id.datetime);
+        if (mDateTimeView != null) {
+            mDateTimeView.setOnClickListener(mClockClickListener);
+            mDateTimeView.setOnLongClickListener(mClockLongClickListener);
+            mDateTimeView.setEnabled(true);
+        }
     }
 
     @Override
@@ -376,6 +395,11 @@ public class TabletStatusBar extends BaseStatusBar implements
             }
         }
         loadDimens();
+        final int currentHeight = getStatusBarHeight();
+        final int barHeight = (isLandscape() ? mUserBarHeightLand : mUserBarHeight);
+        if (currentHeight != barHeight) {
+            onBarHeightChanged(isLandscape() ? mUserBarHeightLand : mUserBarHeight);
+        }
         mNotificationPanelParams.height = getNotificationPanelHeight();
         mWindowManager.updateViewLayout(mNotificationPanel,
                 mNotificationPanelParams);
@@ -471,6 +495,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         mNavBarView.setDisabledFlags(mDisabled);
         mNavBarView.setBar(this);
         mNavBarView.getSearchLight().setOnTouchListener(mHomeSearchActionListener);
+        mNavBarTarget = new NavBarTarget(mContext);
 
         LayoutTransition lt = new LayoutTransition();
         lt.setDuration(250);
@@ -565,6 +590,9 @@ public class TabletStatusBar extends BaseStatusBar implements
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         context.registerReceiver(mBroadcastReceiver, filter);
 
+        SettingsObserver settingsObserver = new SettingsObserver(new Handler());
+        settingsObserver.observe();
+        updateSettings();
         return sb;
     }
 
@@ -673,6 +701,52 @@ public class TabletStatusBar extends BaseStatusBar implements
         }
     };
 
+    final Runnable DelayShortPress = new Runnable () {
+        public void run() {
+                doubleClickCounter = 0;
+                animateCollapsePanels();
+                mNavBarTarget.launchAction(mClockActions[shortClick]);
+        }
+    };
+
+   final Runnable ResetDoubleClickCounter = new Runnable () {
+        public void run() {
+                doubleClickCounter = 0;
+        }
+    };
+
+    private View.OnClickListener mClockClickListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            if (mClockDoubleClicked) {
+                if (doubleClickCounter > 0) {
+                    mHandler.removeCallbacks(DelayShortPress);
+                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    animateCollapsePanels();
+                    mNavBarTarget.launchAction(mClockActions[doubleClick]);
+                    mHandler.postDelayed(ResetDoubleClickCounter, 50);
+                } else {
+                    doubleClickCounter = doubleClickCounter + 1;
+                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                    mHandler.postDelayed(DelayShortPress, 400);
+                }
+            } else {
+                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                animateCollapsePanels();
+                mNavBarTarget.launchAction(mClockActions[shortClick]);
+            }
+        }
+    };
+
+    private View.OnLongClickListener mClockLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            animateCollapsePanels();
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            mNavBarTarget.launchAction(mClockActions[longClick]);
+            return true;
+        }
+    };
+
     public int getStatusBarHeight() {
         return mStatusBarView != null ? mStatusBarView.getHeight()
                 : mContext.getResources().getDimensionPixelSize(
@@ -693,6 +767,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         if (lp.height != height) {
             lp.height = height;
             mWindowManager.updateViewLayout(mStatusBarView, lp);
+            mStatusBarView.invalidate();
         }
     }
 
@@ -1183,6 +1258,7 @@ public class TabletStatusBar extends BaseStatusBar implements
     @Override
     protected void setAreThereNotifications() {
         if (mNotificationPanel != null) {
+            mNotificationPanel.setClearable(isDeviceProvisioned() && mNotificationData.hasClearableItems());
             View mClearButton = mNotificationPanel.getClearButton();
             final boolean any = mNotificationData.size() > 0;
             final boolean clearable = any && mNotificationData.hasClearableItems();
@@ -1500,5 +1576,99 @@ public class TabletStatusBar extends BaseStatusBar implements
     @Override
     protected boolean shouldDisableNavbarGestures() {
         return mNotificationPanel.getVisibility() == View.VISIBLE;
+    }
+
+    private boolean isLandscape () {
+        Configuration config = mContext.getResources().getConfiguration();
+        return (config.orientation == Configuration.ORIENTATION_LANDSCAPE);
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_CLOCK[shortClick]), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_CLOCK[longClick]), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_CLOCK[doubleClick]), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.CURRENT_UI_MODE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_HEIGHT), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE), false, this);
+        }
+
+         @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+            updateColor();
+        }
+    }
+
+   protected void updateSettings() {
+        ContentResolver cr = mContext.getContentResolver();
+
+        mClockActions[shortClick] = Settings.System.getString(cr,
+                Settings.System.NOTIFICATION_CLOCK[shortClick]);
+
+        mClockActions[longClick] = Settings.System.getString(cr,
+                Settings.System.NOTIFICATION_CLOCK[longClick]);
+
+        mClockActions[doubleClick] = Settings.System.getString(cr,
+                Settings.System.NOTIFICATION_CLOCK[doubleClick]);
+
+        if (mClockActions[shortClick]  == null ||mClockActions[shortClick].equals("")) {
+            mClockActions[shortClick] = "**clockoptions**";
+        }
+        if (mClockActions[longClick]  == null || mClockActions[longClick].equals("")) {
+            mClockActions[longClick] = "**null**";
+        }
+        if (mClockActions[doubleClick] == null || mClockActions[doubleClick].equals("") || mClockActions[doubleClick].equals("**null**")) {
+            mClockActions[doubleClick] = "**null**";
+            mClockDoubleClicked = false;
+        } else {
+            mClockDoubleClicked = true;
+        }
+        mUserBarHeight = Settings.System.getInt(cr, Settings.System.NAVIGATION_BAR_HEIGHT, mNaturalBarHeight);
+        mUserBarHeightLand = Settings.System.getInt(cr, Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE, mNaturalBarHeight);
+        final int currentHeight = getStatusBarHeight();
+        final int barHeight = (isLandscape() ? mUserBarHeightLand : mUserBarHeight);
+        if (currentHeight != barHeight) {
+            onBarHeightChanged(isLandscape() ? mUserBarHeightLand : mUserBarHeight);
+        }
+        mCurrentUIMode = Settings.System.getInt(cr,
+                Settings.System.CURRENT_UI_MODE, 0);
+
+    }
+
+    protected void updateColor() {
+        ContentResolver cr = mContext.getContentResolver();
+
+        int defaultBg = Settings.System.getInt(cr,
+            Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
+        int navbarBackgroundColor = Settings.System.getInt(cr,
+            Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
+        float alpha = Color.alpha(navbarBackgroundColor);
+
+        if (defaultBg == 0) {
+            this.setBackgroundColor(navbarBackgroundColor);
+        } else if (defaultBg == 1) {
+            mNavBarView.setBackgroundResource(R.drawable.system_bar_background);
+            mNavBarView.getBackground().setColorFilter(ColorFilterMaker.
+                    changeColorAlpha(navbarBackgroundColor, .32f, 0f));
+        } else {
+            mNavBarView.setBackground(mContext.getResources().getDrawable(
+                    R.drawable.system_bar_background));
+        }
     }
 }

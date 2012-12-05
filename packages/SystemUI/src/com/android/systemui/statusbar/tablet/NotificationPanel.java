@@ -281,6 +281,11 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
             mShowing = show;
             setVisibility(show ? View.VISIBLE : View.GONE);
         }
+        if (show && !mHasClearableNotifications) { // go to settings panel is no notifications
+            flipToSettings();
+        } else {
+            flipToNotifications();
+        }
     }
 
     /**
