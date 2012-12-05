@@ -1162,26 +1162,25 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         if (shortSizeDp < 600) {
             mStockUIMode = 0; // Phone Mode
-        } else if (shortSizeDp < 720) {
-            mStockUIMode = 2; // Phablet Mode
         } else {
-            mStockUIMode = 1; // Tablet Mode (Combined SystemBar)
-        }
+            mStockUIMode = 2; // Phablet Mode
+        } // Tablet Mode will be mode ==1 but no devices default to Tablet mode since 4.2
+        
         mUserUIMode = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.USER_UI_MODE,mStockUIMode);
         switch (mUserUIMode) {
             case 0 :
-                // 0-599dp: "phone" UI with a separate status & navigation bar
+                // "phone" UI with a separate status & navigation bar
                 mHasSystemNavBar = false;
                 mNavigationBarCanMove = true;
                 break;
             case 1 :
-                // 720dp: "tablet" UI with a single combined status & navigation bar
+                // "tablet" UI with a single combined status & navigation bar
                 mHasSystemNavBar = true;
                 mNavigationBarCanMove = false;
                 break;
             case 2 :
-                // 600+dp: "phone" UI with modifications for larger screens
+                // "phone" UI with modifications for larger screens
                 mHasSystemNavBar = false;
                 mNavigationBarCanMove = false;
                 break;

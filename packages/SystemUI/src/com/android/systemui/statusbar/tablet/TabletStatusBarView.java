@@ -16,9 +16,11 @@
 
 package com.android.systemui.statusbar.tablet;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.graphics.Color;
+import android.graphics.ColorFilterMaker;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.provider.Settings;
@@ -26,6 +28,9 @@ import android.util.AttributeSet;
 import android.util.Slog;
 import android.view.View;
 import android.view.MotionEvent;
+
+import com.android.systemui.R;
+import com.android.systemui.statusbar.NavigationBarView;
 import com.android.systemui.statusbar.phone.PanelBar;
 
 public class TabletStatusBarView extends PanelBar {
@@ -35,6 +40,8 @@ public class TabletStatusBarView extends PanelBar {
     private final View[] mIgnoreChildren = new View[MAX_PANELS];
     private final View[] mPanels = new View[MAX_PANELS];
     private final int[] mPos = new int[2];
+
+    NavigationBarView mNavBarView;
 
     public TabletStatusBarView(Context context) {
         this(context, null);
@@ -123,5 +130,47 @@ public class TabletStatusBarView extends PanelBar {
     public void setIgnoreChildren(int index, View ignore, View panel) {
         mIgnoreChildren[index] = ignore;
         mPanels[index] = panel;
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR), false, this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    protected void updateSettings() {
+        ContentResolver resolver = mContext.getContentResolver();
+
+        // NavigationBar background color
+        int defaultBg = Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
+        int navbarBackgroundColor = Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
+        float alpha = Color.alpha(navbarBackgroundColor);
+
+        if (defaultBg == 0) {
+            mNavBarView.setBackground(new ColorDrawable(navbarBackgroundColor));
+            mNavBarView.setAlpha(alpha);
+        } else if (defaultBg == 1) {
+            mNavBarView.setBackgroundResource(R.drawable.system_bar_background);
+            mNavBarView.getBackground().setColorFilter(ColorFilterMaker.
+                    changeColorAlpha(navbarBackgroundColor, .32f, 0f));
+        } else {
+            mNavBarView.setBackground(mContext.getResources().getDrawable(
+                    R.drawable.system_bar_background));
+        }
     }
 }

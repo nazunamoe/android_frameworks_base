@@ -147,13 +147,9 @@
                 />
         </TableRow>
     </TableLayout>
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/notification_panel_header_padding_top"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:baselineAligned="false"
         >
 
         <com.android.systemui.statusbar.policy.Clock
@@ -161,35 +157,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Clock"
+            android:textAppearance="@style/TextAppearance.SystemBar.Expanded.Clock"
+            android:layout_gravity="left|center_vertical"
             />
     
         <com.android.systemui.statusbar.policy.DateView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Date"
+            android:layout_gravity="center"
+            android:textAppearance="@style/TextAppearance.SystemBar.Expanded.Date"
             />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
-
-        <ImageView android:id="@+id/clear_all_button"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:src="@drawable/ic_notify_clear"
-            android:contentDescription="@string/accessibility_clear_all"
-            />
+            android:orientation="vertical" >
         <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="right|center_vertical"
                 >
 
                 <ImageView
@@ -209,5 +195,12 @@
                     android:contentDescription="@string/accessibility_notifications_button"
                     />
        </FrameLayout>
-    </LinearLayout>
+       <ImageView android:id="@+id/clear_all_button"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:scaleType="center"
+           android:src="@drawable/ic_notify_clear"
+           android:contentDescription="@string/accessibility_clear_all" />
+       </LinearLayout>
+    </FrameLayout>
 </com.android.systemui.statusbar.tablet.NotificationPanelTitle>

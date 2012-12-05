@@ -16,6 +16,8 @@
 
 package com.android.systemui.statusbar.tablet;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.app.ActivityManager;
@@ -33,7 +35,6 @@ import android.content.res.Configuration;
 import android.content.res.CustomTheme;
 import android.content.res.Resources;
 import android.database.ContentObserver;
-import android.graphics.ColorFilterMaker;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -59,6 +60,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -75,7 +77,6 @@ import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.NavigationBarView;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.StatusBarIconView;
-import com.android.systemui.statusbar.NavigationBarView;
 import com.android.systemui.statusbar.policy.BatteryControllerStock;
 import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.CompatModeButton;
@@ -205,10 +206,9 @@ public class TabletStatusBar extends BaseStatusBar implements
                     | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH,
                 PixelFormat.TRANSLUCENT);
 
-        // We explicitly leave FLAG_HARDWARE_ACCELERATED out of the flags.  The status bar occupies
-        // very little screen real-estate and is updated fairly frequently.  By using CPU rendering
-        // for the status bar, we prevent the GPU from having to wake up just to do these small
-        // updates, which should help keep power consumption down.
+        if (ActivityManager.isHighEndGfx()) {
+            lp.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;
+        }
 
         lp.gravity = getStatusBarGravity();
         lp.setTitle("SystemBar");
@@ -470,6 +470,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         mNavBarView = (NavigationBarView) sb.findViewById(R.id.navigationBar);
         mNavBarView.setDisabledFlags(mDisabled);
         mNavBarView.setBar(this);
+        mNavBarView.getSearchLight().setOnTouchListener(mHomeSearchActionListener);
 
         LayoutTransition lt = new LayoutTransition();
         lt.setDuration(250);
@@ -645,6 +646,32 @@ public class TabletStatusBar extends BaseStatusBar implements
         lp.flags |= WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         mWindowManager.updateViewLayout(mStatusBarView, lp);
     }
+
+    private int mShowSearchHoldoff = 0;
+    private Runnable mShowSearchPanel = new Runnable() {
+        public void run() {
+            showSearchPanel();
+        }
+    };
+
+    View.OnTouchListener mHomeSearchActionListener = new View.OnTouchListener() {
+        public boolean onTouch(View v, MotionEvent event) {
+            switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!shouldDisableNavbarGestures()) {
+                    mHandler.removeCallbacks(mShowSearchPanel);
+                    mHandler.postDelayed(mShowSearchPanel, mShowSearchHoldoff);
+                }
+            break;
+
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                mHandler.removeCallbacks(mShowSearchPanel);
+            break;
+        }
+        return false;
+        }
+    };
 
     public int getStatusBarHeight() {
         return mStatusBarView != null ? mStatusBarView.getHeight()
@@ -1156,7 +1183,12 @@ public class TabletStatusBar extends BaseStatusBar implements
     @Override
     protected void setAreThereNotifications() {
         if (mNotificationPanel != null) {
-            mNotificationPanel.setClearable(isDeviceProvisioned() && mNotificationData.hasClearableItems());
+            View mClearButton = mNotificationPanel.getClearButton();
+            final boolean any = mNotificationData.size() > 0;
+            final boolean clearable = any && mNotificationData.hasClearableItems();
+            mClearButton.setAlpha(clearable ? 1.0f : 0.0f);
+            mClearButton.setVisibility(clearable ? View.VISIBLE : View.INVISIBLE);
+            mClearButton.setEnabled(clearable);
         }
     }
 
@@ -1467,49 +1499,6 @@ public class TabletStatusBar extends BaseStatusBar implements
 
     @Override
     protected boolean shouldDisableNavbarGestures() {
-        return mNotificationPanel.getVisibility() == View.VISIBLE
-                || (mDisabled & StatusBarManager.DISABLE_HOME) != 0;
-    }
-
-    class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR), false, this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    }
-
-    protected void updateSettings() {
-        ContentResolver resolver = mContext.getContentResolver();
-
-        // NavigationBar background color
-        int defaultBg = Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
-        int navbarBackgroundColor = Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
-
-        if (defaultBg == 0) {
-            mNavBarView.setBackgroundColor(navbarBackgroundColor);
-        } else if (defaultBg == 1) {
-            mNavBarView.setBackgroundResource(R.drawable.system_bar_background);
-            mNavBarView.getBackground().setColorFilter(ColorFilterMaker.
-                    changeColorAlpha(navbarBackgroundColor, .32f, 0f));
-        } else {
-            mNavBarView.setBackground(mContext.getResources().getDrawable(
-                    R.drawable.system_bar_background));
-        }
+        return mNotificationPanel.getVisibility() == View.VISIBLE;
     }
 }
-
-

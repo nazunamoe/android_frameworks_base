@@ -507,7 +507,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
             ObjectAnimator.ofFloat(mSettingsButton, View.ALPHA, 1f)
                 .setDuration(FLIP_DURATION));
         mClearButton.setVisibility(View.VISIBLE);
-        mClearButton.setAlpha(0f);
+        updateClearButton();
         mBar.setAreThereNotifications(); // this will show/hide the button as necessary
     }
 
