@@ -154,6 +154,7 @@ public class TabletStatusBar extends BaseStatusBar implements
     int mNotificationPeekTapDuration;
     int mNotificationFlingVelocity;
 
+
     BluetoothController mBluetoothController;
     LocationController mLocationController;
     NetworkController mNetworkController;
