@@ -213,7 +213,7 @@ public class TabletStatusBar extends BaseStatusBar implements
     private int doubleClickCounter = 0;
     public String[] mClockActions = new String[3];
     private boolean mClockDoubleClicked;
-
+    private SysAction mSysAction;
     private View mDateTimeView;
 
     public Context getContext() { return mContext; }
@@ -548,6 +548,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         mNavBarView.setDisabledFlags(mDisabled);
         mNavBarView.setBar(this);
         mNavBarView.getSearchLight().setOnTouchListener(mHomeSearchActionListener);
+        mSysAction = new SysAction(mContext);
 
         LayoutTransition lt = new LayoutTransition();
         lt.setDuration(250);
@@ -757,7 +758,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         public void run() {
                 doubleClickCounter = 0;
                 animateCollapsePanels();
-                SysAction.getInstance(mContext).launchAction(mClockActions[shortClick]);
+                mSysAction.launchAction(mClockActions[shortClick]);
         }
     };
 
@@ -774,7 +775,7 @@ public class TabletStatusBar extends BaseStatusBar implements
                     mHandler.removeCallbacks(DelayShortPress);
                     v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                     animateCollapsePanels();
-                    SysAction.getInstance(mContext).launchAction(mClockActions[doubleClick]);
+                    mSysAction.launchAction(mClockActions[doubleClick]);
                     mHandler.postDelayed(ResetDoubleClickCounter, 50);
                 } else {
                     doubleClickCounter = doubleClickCounter + 1;
@@ -784,7 +785,7 @@ public class TabletStatusBar extends BaseStatusBar implements
             } else {
                 v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 animateCollapsePanels();
-                SysAction.getInstance(mContext).launchAction(mClockActions[shortClick]);
+                mSysAction.launchAction(mClockActions[shortClick]);
             }
         }
     };
@@ -794,7 +795,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         public boolean onLongClick(View v) {
             animateCollapsePanels();
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            SysAction.getInstance(mContext).launchAction(mClockActions[longClick]);
+            mSysAction.launchAction(mClockActions[longClick]);
             return true;
         }
     };
@@ -1709,5 +1710,5 @@ public class TabletStatusBar extends BaseStatusBar implements
         mLandscape = (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
 
         UpdateWeights(mLandscape);
-   }
+    }
 }
