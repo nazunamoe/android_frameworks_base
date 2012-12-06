@@ -3380,6 +3380,14 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_ALL_WIDGETS = "lockscreen_all_widgets";
 
+        /**	
+         * Defines the shortcuts to be shown on lockscreen
+         * Usage is like this: target:icon|target:icon|target:icon
+         * if :icon is not set, default application icon will be used
+         * @hide
+         */
+        public static final String LOCKSCREEN_TARGETS = "lockscreen_targets";
+
         /**
          * Whether to minimize lockscreen challenge on screen turned on
          * @hide

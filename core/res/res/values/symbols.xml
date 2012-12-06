@@ -1374,6 +1374,7 @@
   <java-symbol type="id" name="keyguard_user_selector" />
   <java-symbol type="id" name="key_enter" />
   <java-symbol type="id" name="keyguard_selector_view_frame" />
+  <java-symbol type="id" name="targets" />
   <java-symbol type="integer" name="config_carDockRotation" />
   <java-symbol type="integer" name="config_defaultUiModeType" />
   <java-symbol type="integer" name="config_deskDockRotation" />
@@ -1397,6 +1398,7 @@
   <java-symbol type="layout" name="keyguard_screen_unlock_landscape" />
   <java-symbol type="layout" name="keyguard_screen_unlock_portrait" />
   <java-symbol type="layout" name="keyguard_selector_view" />
+  <java-symbol type="layout" name="keyguard_targets" />
   <java-symbol type="layout" name="keyguard_pattern_view" />
   <java-symbol type="layout" name="keyguard_password_view" />
   <java-symbol type="layout" name="keyguard_pin_view" />
@@ -1889,4 +1891,27 @@
 
   <!-- Wifi -->
   <java-symbol type="bool" name="config_wifiApStartInterface" />
+
+  <!-- From lockscreen targets -->
+  <java-symbol type="drawable" name="list_selector_holo_dark" />
+  <java-symbol type="drawable" name="ic_lockscreen_browser" />
+  <java-symbol type="drawable" name="ic_lockscreen_calendar" />
+  <java-symbol type="drawable" name="ic_lockscreen_camera" />
+  <java-symbol type="drawable" name="ic_lockscreen_clock" />
+  <java-symbol type="drawable" name="ic_lockscreen_cloud" />
+  <java-symbol type="drawable" name="ic_lockscreen_dial" />
+  <java-symbol type="drawable" name="ic_lockscreen_download" />
+  <java-symbol type="drawable" name="ic_lockscreen_folder" />
+  <java-symbol type="drawable" name="ic_lockscreen_gallery" />
+  <java-symbol type="drawable" name="ic_lockscreen_game" />
+  <java-symbol type="drawable" name="ic_lockscreen_map" />
+  <java-symbol type="drawable" name="ic_lockscreen_message" />
+  <java-symbol type="drawable" name="ic_lockscreen_music" />
+  <java-symbol type="drawable" name="ic_lockscreen_people" />
+  <java-symbol type="drawable" name="ic_lockscreen_phone" />
+  <java-symbol type="drawable" name="ic_lockscreen_places" />
+  <java-symbol type="drawable" name="ic_lockscreen_search" />
+  <java-symbol type="drawable" name="ic_lockscreen_settings" />
+  <java-symbol type="drawable" name="ic_lockscreen_voice" />
+
 </resources>
