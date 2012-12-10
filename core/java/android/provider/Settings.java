@@ -3386,7 +3386,7 @@ public final class Settings {
          * if :icon is not set, default application icon will be used
          * @hide
          */
-        public static final String LOCKSCREEN_TARGETS = "lockscreen_targets";
+        public static final String LOCKSCREEN_SHORTCUTS = "lockscreen_shortcuts";
 
         /**
          * Whether to minimize lockscreen challenge on screen turned on

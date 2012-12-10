@@ -22,8 +22,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-        <com.android.internal.policy.impl.keyguard.KeyguardTargets
-            android:id="@+id/targets"
+        <com.android.internal.policy.impl.keyguard.KeyguardShortcuts
+            android:id="@+id/shortcuts"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

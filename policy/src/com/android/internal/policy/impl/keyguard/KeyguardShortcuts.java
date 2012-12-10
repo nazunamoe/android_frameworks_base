@@ -35,29 +35,32 @@ import android.widget.TextView;
 
 import com.android.internal.R;
 
-public class KeyguardTargets extends LinearLayout {
+public class KeyguardShortcuts extends LinearLayout {
 
     private static final int INNER_PADDING = 20;
 
     private KeyguardSecurityCallback mCallback;
     private PackageManager mPackageManager;
+    private ContentObserver mContentObserver;
     private Context mContext;
 
-    public KeyguardTargets(Context context) {
+    public KeyguardShortcuts(Context context) {
         this(context, null);
     }
 
-    public KeyguardTargets(Context context, AttributeSet attrs) {
+    public KeyguardShortcuts(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        mContext.getContentResolver().registerContentObserver(
-            Settings.System.getUriFor(Settings.System.LOCKSCREEN_TARGETS), false, new ContentObserver(new Handler()) {
+        mContentObserver = new ContentObserver(new Handler()) {
                 @Override
                 public void onChange(boolean selfChange) {
-                    updateTargets();
-                }});
+                    updateShortcuts();
+                }};
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.LOCKSCREEN_SHORTCUTS),
+                false, mContentObserver);
         mPackageManager = mContext.getPackageManager();
-        updateTargets();
+        updateShortcuts();
     }
 
     @Override
@@ -65,19 +68,26 @@ public class KeyguardTargets extends LinearLayout {
         super.onFinishInflate();
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        // We dont like memory leaks
+        mContext.getContentResolver().unregisterContentObserver(mContentObserver);
+        removeAllViews();
+    }
+
     public void setKeyguardCallback(KeyguardSecurityCallback callback) {
         mCallback = callback;
     }
 
-    private void updateTargets() {
-        removeAllViews();
+    private void updateShortcuts() {
         String apps = Settings.System.getString(mContext.getContentResolver(),
-                Settings.System.LOCKSCREEN_TARGETS);
+                Settings.System.LOCKSCREEN_SHORTCUTS);
         if(apps == null || apps.isEmpty()) return;
-        final String[] targets = apps.split("\\|");
+        final String[] shortcuts = apps.split("\\|");
         Resources res = mContext.getResources();
-        for(int j = 0; j < targets.length; j++) {
-            String target = targets[j];
+        for(int j = 0; j < shortcuts.length; j++) {
+            String target = shortcuts[j];
             String packageName = null;
             String resourceString = null;
             String[] data = target.split(":");
@@ -119,7 +129,7 @@ public class KeyguardTargets extends LinearLayout {
                     }
                 });
                 addView(i);
-                if(j+1 < targets.length) addSeparator();
+                if(j+1 < shortcuts.length) addSeparator();
             } catch(NameNotFoundException e) {
                 // No custom icon is set and PackageManager fails to found
                 // default application icon. Or maybe it was uninstalled

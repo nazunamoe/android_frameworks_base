@@ -60,7 +60,7 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
         "com.android.systemui.action_assist_icon";
 
     private KeyguardSecurityCallback mCallback;
-    private KeyguardTargets mTargets;
+    private KeyguardShortcuts mShortcuts;
     private GlowPadView mGlowPadView;
     private ObjectAnimator mAnim;
     private View mFadeView;
@@ -411,9 +411,9 @@ public class KeyguardSelectorView extends LinearLayout implements KeyguardSecuri
 
     public void setKeyguardCallback(KeyguardSecurityCallback callback) {
         mCallback = callback;
-        mTargets = (KeyguardTargets) findViewById(R.id.targets);
-        if(mTargets != null) {
-            mTargets.setKeyguardCallback(callback);
+        mShortcuts = (KeyguardShortcuts) findViewById(R.id.shortcuts);
+        if(mShortcuts != null) {
+            mShortcuts.setKeyguardCallback(callback);
         }
     }
 
