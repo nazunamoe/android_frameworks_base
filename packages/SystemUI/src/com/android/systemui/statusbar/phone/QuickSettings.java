@@ -252,12 +252,6 @@ class QuickSettings {
         return toggleMap;
     }
 
-    // The set of QuickSettingsTiles that have dynamic spans (and need to be
-    // updated on
-    // configuration change)
-    private final ArrayList<QuickSettingsTileView> mDynamicSpannedTiles =
-            new ArrayList<QuickSettingsTileView>();
-
     private final RotationPolicy.RotationPolicyListener mRotationPolicyListener =
             new RotationPolicy.RotationPolicyListener() {
                 @Override
@@ -538,7 +532,6 @@ class QuickSettings {
                                 R.string.accessibility_quick_settings_user, state.label));
                     }
                 });
-                mDynamicSpannedTiles.add(quick);
                 break;
             case CLOCK_TILE:
                 quick = (QuickSettingsTileView)
@@ -567,7 +560,6 @@ class QuickSettings {
                          tv.setTextSize(1, mTileTextSize);
                     }
                 });
-                mDynamicSpannedTiles.add(quick);
                 break;
             case SIGNAL_TILE:
                 if (mModel.deviceSupportsTelephony()) {
@@ -641,7 +633,6 @@ class QuickSettings {
                         dismissBrightnessDialog(mBrightnessDialogShortTimeout);
                     }
                 });
-                mDynamicSpannedTiles.add(quick);
                 break;
             case SETTINGS_TILE:
                 quick = (QuickSettingsTileView)
@@ -671,7 +662,6 @@ class QuickSettings {
                         tv.setTextSize(1, mTileTextSize);
                     }
                 });
-                mDynamicSpannedTiles.add(quick);
                 break;
             case WIFI_TILE:
                 quick = (QuickSettingsTileView)
@@ -1319,7 +1309,6 @@ class QuickSettings {
                                 R.string.accessibility_quick_settings_user, state.label));
                     }
                 });
-                mDynamicSpannedTiles.add(quick);
                 break;
         }
         return quick;
@@ -1363,8 +1352,6 @@ class QuickSettings {
         if (parent.getChildCount() > 0)
             parent.removeAllViews();
         toggles = getCustomUserTiles();
-        if (mDynamicSpannedTiles.size() > 0)
-            mDynamicSpannedTiles.clear();
 
         if (!toggles.get(0).equals("")) {
             for (String toggle : toggles) {
@@ -1462,12 +1449,6 @@ class QuickSettings {
         // Update the model
         mModel.updateResources(getCustomUserTiles());
 
-        // Update the User, Time, and Settings tiles spans, and reset everything
-        // else
-        int span = r.getInteger(R.integer.quick_settings_user_time_settings_tile_span);
-        for (QuickSettingsTileView v : mDynamicSpannedTiles) {
-            v.setColumnSpan(span);
-        }
         ((QuickSettingsContainerView) mContainerView).updateResources();
         mContainerView.requestLayout();
 
