@@ -639,12 +639,22 @@ public class KeyguardViewMediator {
         final long policyTimeout = mLockPatternUtils.getDevicePolicyManager()
                 .getMaximumTimeToLock(null, mLockPatternUtils.getCurrentUser());
 
+        if (DEBUG) Log.d(TAG, "Security lock screen timeout delay is " + lockAfterTimeout
+                        + " ms; slide lock screen timeout delay is "
+                        + slideLockTimeoutDelay
+                        + " ms; Separate slide lock delay settings considered: "
+                        + separateSlideLockTimeoutEnabled
+                        + "; Policy timeout is "
+                        + policyTimeout
+                        + " ms");
+
         long timeout;
         if (policyTimeout > 0) {
             // policy in effect. Make sure we don't go beyond policy limit.
             displayTimeout = Math.max(displayTimeout, 0); // ignore negative values
             timeout = Math.min(policyTimeout - displayTimeout, lockAfterTimeout);
         } else {
+            // Not sure lockAfterTimeout is needed any more but keeping it for AOSP compatibility
             timeout = separateSlideLockTimeoutEnabled ? slideLockTimeoutDelay : lockAfterTimeout;
         }
 

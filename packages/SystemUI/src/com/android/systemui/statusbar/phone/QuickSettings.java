@@ -1321,42 +1321,6 @@ class QuickSettings {
                 });
                 mDynamicSpannedTiles.add(quick);
                 break;
-            case FAV_CONTACT_TILE:
-                quick = (QuickSettingsTileView)
-                        inflater.inflate(R.layout.quick_settings_tile, parent, false);
-                quick.setContent(R.layout.quick_settings_tile_user, inflater);
-                quick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String lookupKey = Settings.System.getString(mContext.getContentResolver(),
-                        Settings.System.QUICK_TOGGLE_FAV_CONTACT);
-
-                        if (lookupKey != null && lookupKey.length() > 0) {
-                            mBar.collapseAllPanels(true);
-                            Uri lookupUri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
-                            Uri res = ContactsContract.Contacts.lookupContact(mContext.getContentResolver(), lookupUri);
-                            Intent intent = ContactsContract.QuickContact.composeQuickContactsIntent(
-                                    mContext, v, res,
-                                    ContactsContract.QuickContact.MODE_LARGE, null);
-                            mContext.startActivityAsUser(intent, new UserHandle(UserHandle.USER_CURRENT));
-                        }
-                    }
-                });
-                mModel.addFavContactTile(quick, new QuickSettingsModel.RefreshCallback() {
-                    @Override
-                    public void refreshView(QuickSettingsTileView view, State state) {
-                        UserState us = (UserState) state;
-                        ImageView iv = (ImageView) view.findViewById(R.id.user_imageview);
-                        TextView tv = (TextView) view.findViewById(R.id.user_textview);
-                        tv.setText(state.label);
-                        tv.setTextSize(1, mTileTextSize);
-                        iv.setImageDrawable(us.avatar);
-                        view.setContentDescription(mContext.getString(
-                                R.string.accessibility_quick_settings_user, state.label));
-                    }
-                });
-                mDynamicSpannedTiles.add(quick);
-                break;
         }
         return quick;
     }
