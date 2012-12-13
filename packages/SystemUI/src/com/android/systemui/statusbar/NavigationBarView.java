@@ -1040,16 +1040,11 @@ public class NavigationBarView extends LinearLayout {
         } else {
             setBackground(mContext.getResources().getDrawable(R.drawable.nav_bar_bg));
         }
-<<<<<<< HEAD
     }
 
     makeBar();
     setMenuVisibility(mShowMenu);
-=======
-        makeBar();
-        setMenuVisibility(mShowMenu);
-        updateMenuArrowKeys();
->>>>>>> fd82068... SystemUI: nav bar menu keys as left and right dpad arrows
+    updateMenuArrowKeys();
     }
 
     private void postCheckForInvalidLayout(final String how) {
