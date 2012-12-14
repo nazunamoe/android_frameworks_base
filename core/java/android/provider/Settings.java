@@ -1959,6 +1959,12 @@ public final class Settings {
          */
         public static final String QUICK_TOGGLE_FAV_CONTACT = "quick_toggle_fav_contact";
 
+        /**
+         * Quick Settings Quick Pulldown
+         *
+         * @hide
+         */
+        public static final String QS_QUICK_PULLDOWN = "qs_quick_pulldown";
 
         /**
          * toggle to "fix" the following: (found in NotificationManagerService)
