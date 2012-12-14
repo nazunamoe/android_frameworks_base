@@ -703,7 +703,14 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     void addScreenTile(QuickSettingsTileView view, RefreshCallback cb) {
         mScreenTile = view;
         mScreenCallback = cb;
-    mScreenCallback.refreshView(mScreenTile, mScreenState);
+        refreshScreenTile();
+    }
+
+    void refreshScreenTile() {
+        Resources r = mContext.getResources();
+        mScreenState.label = r.getString(R.string.quick_settings_screen);
+        mScreenState.iconId = (mUseDefaultTheme ? R.drawable.ic_qs_screen : R.drawable.ic_qs_screen_light);
+        mScreenCallback.refreshView(mScreenTile, mScreenState);
     }
 
     // Bug report

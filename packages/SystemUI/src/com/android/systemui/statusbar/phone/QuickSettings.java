@@ -1275,6 +1275,7 @@ class QuickSettings {
             case SCREEN_TILE:
                 quick = (QuickSettingsTileView)
                         inflater.inflate(R.layout.quick_settings_tile, parent, false);
+                quick.setBackgroundResource(mTileBG);
                 quick.setContent(R.layout.quick_settings_tile_screen, inflater);
                 TextView tv = (TextView) quick.findViewById(R.id.screen_textview);
                 tv.setTextSize(1, mTileTextSize);
@@ -1289,8 +1290,10 @@ class QuickSettings {
 		        @Override
 			public void refreshView(QuickSettingsTileView view, State state) {
 		       	    TextView tv = (TextView) view.findViewById(R.id.screen_textview);
-			    tv.setText("Screen Off");
+			    tv.setText(state.label);
                             tv.setTextSize(1, mTileTextSize);
+                            tv.setTextColor(mTileText);
+                            tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         }
                  });
                  break;
