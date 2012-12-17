@@ -4023,4 +4023,7 @@
     <!-- Rebooting message -->
     <string name="reboot_progress">Your device is rebooting</string>
 
+    <!-- Hardware Rotation lock string -->
+    <string name="toast_rotation_unlocked">Display rotation unlocked</string>
+    <string name="toast_rotation_locked">Display rotation locked</string>
 </resources>
