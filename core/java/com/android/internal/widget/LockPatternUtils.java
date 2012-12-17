@@ -759,10 +759,12 @@ public class LockPatternUtils {
         List<LockPatternView.Cell> result = Lists.newArrayList();
 
         final byte size = getLockPatternSize();
+        LockPatternView.Cell.updateSize(size);
+
         final byte[] bytes = string.getBytes();
         for (int i = 0; i < bytes.length; i++) {
             byte b = bytes[i];
-            result.add(LockPatternView.Cell.of(b / size, b % size));
+            result.add(LockPatternView.Cell.of(b / size, b % size, size));
         }
         return result;
     }

@@ -138,20 +138,18 @@ public class LockPatternView extends View {
         int row;
         int column;
 
-        static byte mSize = LockPatternUtils.PATTERN_SIZE_DEFAULT;
-
         // keep # objects limited
         static Cell[][] sCells;
         static {
-            updateSize();
+            updateSize(LockPatternUtils.PATTERN_SIZE_DEFAULT);
         }
 
         /**
          * @param row The row of the cell.
          * @param column The column of the cell.
          */
-        private Cell(int row, int column) {
-            checkRange(row, column);
+        private Cell(int row, int column, byte size) {
+            checkRange(row, column, size);
             this.row = row;
             this.column = column;
         }
@@ -168,26 +166,26 @@ public class LockPatternView extends View {
          * @param row The row of the cell.
          * @param column The column of the cell.
          */
-        public static synchronized Cell of(int row, int column) {
-            checkRange(row, column);
+        public static synchronized Cell of(int row, int column, byte size) {
+            checkRange(row, column, size);
             return sCells[row][column];
         }
 
-        public static void updateSize() {
-            sCells = new Cell[mSize][mSize];
-            for (int i = 0; i < mSize; i++) {
-                for (int j = 0; j < mSize; j++) {
-                    sCells[i][j] = new Cell(i, j);
+        public static void updateSize(byte size) {
+            sCells = new Cell[size][size];
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    sCells[i][j] = new Cell(i, j, size);
                 }
             }
         }
 
-        private static void checkRange(int row, int column) {
-            if (row < 0 || row > mSize - 1) {
-                throw new IllegalArgumentException("row must be in range 0-" + (mSize - 1));
+        private static void checkRange(int row, int column, byte size) {
+            if (row < 0 || row > size - 1) {
+                throw new IllegalArgumentException("row must be in range 0-" + (size - 1));
             }
-            if (column < 0 || column > mSize - 1) {
-                throw new IllegalArgumentException("column must be in range 0-" + (mSize - 1));
+            if (column < 0 || column > size - 1) {
+                throw new IllegalArgumentException("column must be in range 0-" + (size - 1));
             }
         }
 
@@ -345,14 +343,13 @@ public class LockPatternView extends View {
     /**
      * Set the pattern size of the lockscreen
      *
-     * @param size The pattern size in bytes.
+     * @param size The pattern size.
      */
     public void setLockPatternSize(byte size) {
         mPatternSize = size;
+        Cell.updateSize(size);
         mPattern = new ArrayList<Cell>(size * size);
         mPatternDrawLookup = new boolean[size][size];
-        Cell.mSize = size;
-        Cell.updateSize();
     }
 
     /**
@@ -569,7 +566,7 @@ public class LockPatternView extends View {
                         fillInRow += Integer.signum(dRow);
                         fillInColumn += Integer.signum(dColumn);
                         if (fillInRow == cell.row && fillInColumn == cell.column) break;
-                        Cell fillInGapCell = Cell.of(fillInRow, fillInColumn);
+                        Cell fillInGapCell = Cell.of(fillInRow, fillInColumn, mPatternSize);
                         if (!mPatternDrawLookup[fillInGapCell.row][fillInGapCell.column]) {
                             addCellToPattern(fillInGapCell);
                         }
@@ -609,7 +606,7 @@ public class LockPatternView extends View {
         if (mPatternDrawLookup[rowHit][columnHit]) {
             return null;
         }
-        return Cell.of(rowHit, columnHit);
+        return Cell.of(rowHit, columnHit, mPatternSize);
     }
 
     /**
