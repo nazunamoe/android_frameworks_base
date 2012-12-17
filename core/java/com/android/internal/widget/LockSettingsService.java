@@ -32,6 +32,8 @@ import android.provider.Settings.Secure;
 import android.text.TextUtils;
 import android.util.Slog;
 
+import com.android.internal.widget.LockPatternUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -172,26 +174,28 @@ public class LockSettingsService extends ILockSettings.Stub {
     public byte getLockPatternSize(int userId) {
         try {
             long size = getLong(Settings.Secure.LOCK_PATTERN_SIZE, -1, userId);
-            if ( (size>0) && (size<128) ) {
-                return new Long(size).byteValue();
+            if (size > 0 && size < 128) {
+                return (byte) size;
             }
-        } catch (RemoteException re) {}
-        return PATTERN_SIZE_DEFAULT;
+        } catch (RemoteException re) {
+            //Any invalid size handled below
+        }
+        return LockPatternUtils.PATTERN_SIZE_DEFAULT;
     }
 
-    private boolean isModded(int userId) {
-        return getLockPatternSize(userId) != PATTERN_SIZE_DEFAULT;
+    private boolean isDefaultSize(int userId) {
+        return getLockPatternSize(userId) == LockPatternUtils.PATTERN_SIZE_DEFAULT;
     }
 
     private String getLockPatternFilename(int userId) {
-        return getLockPatternFilename(userId, isModded(userId));
+        return getLockPatternFilename(userId, isDefaultSize(userId));
     }
 
-    private String getLockPatternFilename(int userId, boolean modded) {
+    private String getLockPatternFilename(int userId, boolean defaultSize) {
         String dataSystemDirectory =
                 android.os.Environment.getDataDirectory().getAbsolutePath() +
                 SYSTEM_DIRECTORY;
-        String patternFile = (modded?"cm_":"") + LOCK_PATTERN_FILE;
+        String patternFile = (defaultSize ? "" : "xy_") + LOCK_PATTERN_FILE;
 
         if (userId == 0) {
             // Leave it in the same place for user 0
@@ -233,9 +237,9 @@ public class LockSettingsService extends ILockSettings.Stub {
     public void setLockPattern(byte[] hash, int userId) throws RemoteException {
         checkWritePermission(userId);
 
-        boolean current = isModded(userId);
-        writeFile(getLockPatternFilename(userId,  current), hash);
-        writeFile(getLockPatternFilename(userId, !current), null);
+        boolean defaultSize = isDefaultSize(userId);
+        writeFile(getLockPatternFilename(userId,  defaultSize), hash);
+        writeFile(getLockPatternFilename(userId, !defaultSize), null);
     }
 
     @Override
