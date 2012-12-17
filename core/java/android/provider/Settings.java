@@ -886,7 +886,6 @@ public final class Settings {
             MOVED_TO_SECURE.add(Secure.LOCK_PATTERN_ENABLED);
             MOVED_TO_SECURE.add(Secure.LOCK_PATTERN_VISIBLE);
             MOVED_TO_SECURE.add(Secure.LOCK_PATTERN_TACTILE_FEEDBACK_ENABLED);
-            MOVED_TO_SECURE.add(Secure.LOCK_PATTERN_SIZE);
             MOVED_TO_SECURE.add(Secure.LOGGING_ID);
             MOVED_TO_SECURE.add(Secure.PARENTAL_CONTROL_ENABLED);
             MOVED_TO_SECURE.add(Secure.PARENTAL_CONTROL_LAST_UPDATE);
@@ -1664,14 +1663,6 @@ public final class Settings {
         public static final String LOCK_PATTERN_TACTILE_FEEDBACK_ENABLED =
             "lock_pattern_tactile_feedback_enabled";
 
-        /**
-         * @deprecated Use {@link android.provider.Settings.Secure#LOCK_PATTERN_SIZE}
-         * instead
-         * @hide
-         */
-        @Deprecated
-        public static final String LOCK_PATTERN_SIZE =
-            "lock_pattern_size";
 
         /**
          * A formatted string of the next alarm that is set, or the empty string
@@ -3660,7 +3651,6 @@ public final class Settings {
             MOVED_TO_LOCK_SETTINGS.add(Secure.LOCK_PATTERN_ENABLED);
             MOVED_TO_LOCK_SETTINGS.add(Secure.LOCK_PATTERN_VISIBLE);
             MOVED_TO_LOCK_SETTINGS.add(Secure.LOCK_PATTERN_TACTILE_FEEDBACK_ENABLED);
-            MOVED_TO_LOCK_SETTINGS.add(Secure.LOCK_PATTERN_SIZE);
 
             MOVED_TO_GLOBAL = new HashSet<String>();
             MOVED_TO_GLOBAL.add(Settings.Global.ADB_ENABLED);
@@ -4295,12 +4285,6 @@ public final class Settings {
         @Deprecated
         public static final String
                 LOCK_PATTERN_TACTILE_FEEDBACK_ENABLED = "lock_pattern_tactile_feedback_enabled";
-
-        /**
-         * Size of pattern lockscreen
-         * @hide
-         */
-        public static final String LOCK_PATTERN_SIZE = "lock_pattern_size";
 
         /**
          * This preference allows the device to be locked given time after screen goes off,
