@@ -162,7 +162,7 @@ public class LockPatternUtils {
     private static volatile int sCurrentUserId = UserHandle.USER_NULL;
 
     //There is no reason you would ever want a value higher than 127
-    public static final byte PATTERN_SIZE_DEFAULT = 3;
+    public static final byte PATTERN_SIZE_DEFAULT = LockSettingsService.PATTERN_SIZE_DEFAULT;
     private static byte PATTERN_SIZE = PATTERN_SIZE_DEFAULT;
 
     public DevicePolicyManager getDevicePolicyManager() {
@@ -972,10 +972,11 @@ public class LockPatternUtils {
      * @return the pattern lockscreen size
      */
     public byte getLockPatternSize() {
-        byte ret = PATTERN_SIZE_DEFAULT;
-        long size = getLong(Settings.Secure.LOCK_PATTERN_SIZE, -1);
-        if ( (size>0) && (size<128) ) ret = new Long(size).byteValue();
-        return ret;
+        try {
+            return getLockSettings().getLockPatternSize( getCurrentOrCallingUserId() );
+        } catch (RemoteException re) {
+            return PATTERN_SIZE_DEFAULT;
+        }
     }
 
     /**
