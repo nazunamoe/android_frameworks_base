@@ -81,8 +81,6 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     private ViewHolder mItemToAnimateInWhenWindowAnimationIsFinished;
     private boolean mWaitingForWindowAnimation;
 
-    ImageView mClearRecents;
-
     private RecentTasksLoader mRecentTasksLoader;
     private ArrayList<TaskDescription> mRecentTaskDescriptions;
     private TaskDescriptionAdapter mListAdapter;

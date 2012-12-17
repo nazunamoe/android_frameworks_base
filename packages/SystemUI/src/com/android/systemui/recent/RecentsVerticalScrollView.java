@@ -190,32 +190,6 @@ public class RecentsVerticalScrollView extends ScrollView
     @Override
     public void removeAllViewsInLayout() {
         smoothScrollTo(0, 0);
-<<<<<<< HEAD
-        Thread clearAll = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int count = mLinearLayout.getChildCount();
-                View[] refView = new View[count];
-                for (int i = 0; i < count; i++) {
-                    refView[i] = mLinearLayout.getChildAt(i);
-                }
-                for (int i = 0; i < count; i++) {
-                    final View child = refView[i];
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            dismissChild(child);
-                        }
-                    });
-                    try {
-                        Thread.sleep(150);
-                    } catch (InterruptedException e) {
-                    }
-                }
-            }
-        });
-        clearAll.start();
-=======
         int count = mLinearLayout.getChildCount();
         for (int i = 0; i < count; i++) {
             final View child = mLinearLayout.getChildAt(i);
@@ -226,7 +200,6 @@ public class RecentsVerticalScrollView extends ScrollView
                 }
             }, i * 150);
         }
->>>>>>> 7ba230e... "Clear all" button on recent apps
     }
 
     public boolean onInterceptTouchEvent(MotionEvent ev) {
