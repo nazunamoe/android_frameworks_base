@@ -105,8 +105,18 @@ public class AokpTarget {
     public boolean launchAction (String action){
 
         if (action.equals(ACTION_RECENTS)) {
-            mHandler.removeCallbacks(mToggleRecents);
-            mHandler.post(mToggleRecents);
+            if (!mRecentButtonLock) {
+                try {
+                    IStatusBarService.Stub.asInterface(
+                            ServiceManager.getService(Context.STATUS_BAR_SERVICE))
+                            .toggleRecentApps();
+                } catch (RemoteException e) {
+                    // nuu
+                }
+                mRecentButtonLock = true;
+                // 250ms animation duration + 150ms start delay of animation + 1 for good luck
+                mHandler.postDelayed(mUnlockRecents, 401);
+            }
             return true;
         }
         try {
@@ -172,7 +182,7 @@ public class AokpTarget {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
             return true;
-		} else if (action.equals(ACTION_ASSIST)) {
+        } else if (action.equals(ACTION_ASSIST)) {
             Intent intent = new Intent(Intent.ACTION_ASSIST);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
@@ -404,22 +414,6 @@ public class AokpTarget {
         @Override
         public void run() {
             mRecentButtonLock = false;
-        }
-    };
-
-    final Runnable mToggleRecents = new Runnable() {
-        @Override
-        public void run() {
-            if (!mRecentButtonLock) {
-                try {
-                    IStatusBarService.Stub.asInterface(
-                            ServiceManager.getService(Context.STATUS_BAR_SERVICE))
-                            .toggleRecentApps();
-                } catch (RemoteException e) {
-                }
-                mRecentButtonLock = true;
-                mHandler.postDelayed(mUnlockRecents, 200);
-            }
         }
     };
 
