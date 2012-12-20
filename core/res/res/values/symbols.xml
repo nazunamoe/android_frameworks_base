@@ -1840,9 +1840,13 @@
   <java-symbol type="integer" name="config_backKillTimeout" />
 
 
-  <!-- derp derp derp -->
+  <!-- If this value is true, we handle Samsung CDMA's message ID method -->
   <java-symbol type="bool" name="config_smsSamsungCdmaAlternateMessageIDEncoding" />
+
+  <!-- For Samsung STK suppport -->
   <java-symbol type="bool" name="config_samsung_stk" />
+
+  <!-- Wallpaper Width -->
   <java-symbol type="integer" name="config_wallpaperMaxWidth" />
 
   <!-- Notification and battery light -->
