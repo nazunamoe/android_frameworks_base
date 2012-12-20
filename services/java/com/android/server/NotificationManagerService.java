@@ -604,8 +604,7 @@ public class NotificationManagerService extends INotificationManager.Stub
                 mScreenOn = true;
             } else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
                 mScreenOn = false;
-                mWasScreenOn = true;
-                updateLightsLocked();
+                updateNotificationPulse();
             } else if (action.equals(TelephonyManager.ACTION_PHONE_STATE_CHANGED)) {
                 mInCall = (intent.getStringExtra(TelephonyManager.EXTRA_STATE).equals(
                         TelephonyManager.EXTRA_STATE_OFFHOOK));
@@ -759,6 +758,14 @@ public class NotificationManagerService extends INotificationManager.Stub
         mAttentionLight = lights.getLight(LightsService.LIGHT_ID_ATTENTION);
 
         mCustomLedColors = new HashMap<String, String>();
+
+        Resources resources = mContext.getResources();
+        mDefaultNotificationColor = resources.getColor(
+                com.android.internal.R.color.config_defaultNotificationColor);
+        mDefaultNotificationLedOn = resources.getInteger(
+                com.android.internal.R.integer.config_defaultNotificationLedOn);
+        mDefaultNotificationLedOff = resources.getInteger(
+                com.android.internal.R.integer.config_defaultNotificationLedOff);
 
         mDefaultVibrationPattern = getLongArray(resources,
                 com.android.internal.R.array.config_defaultNotificationVibePattern,
@@ -1648,9 +1655,12 @@ public class NotificationManagerService extends INotificationManager.Stub
 
     private String getLedColor(NotificationRecord ledNotification) {
         String notiPackage = null;
-        String google = "com.google.android.gsf";
-        if ((ledNotification.pkg).equals(google)) {
+        String talk = "com.google.android.gsf";
+        String phone = "com.android.phone";
+        if ((ledNotification.pkg).equals(talk)) {
             notiPackage = "com.google.android.talk";
+        } else if ((ledNotification.pkg).equals(phone)) {
+            notiPackage = "com.android.contacts";
         } else {
             notiPackage = ledNotification.pkg;
         }
