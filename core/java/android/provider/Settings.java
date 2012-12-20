@@ -1965,6 +1965,20 @@ public final class Settings {
          */
         public static final String QUICK_TOGGLE_FAV_CONTACT = "quick_toggle_fav_contact";
 
+        /**
+         * enable and disable fast toggle in settings
+         *
+         * @hide
+         */
+        public static final String FAST_TOGGLE = "fast_toggle";
+
+        /**
+         * enable and disable fast toggle in settings
+         *
+         * @hide
+         */
+        public static final String CHOOSE_FASTTOGGLE_SIDE = "choose_fasttoggle_side";
+
        /**
         * holo dark/light theme description in quick settings
         *
@@ -1978,6 +1992,8 @@ public final class Settings {
          * @hide
          */
         public static final String QUICK_TEXT_COLOR = "quick_text_color";
+
+
 
         /**
          * toggle to "fix" the following: (found in NotificationManagerService)
