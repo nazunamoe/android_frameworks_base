@@ -664,7 +664,7 @@ class QuickSettings {
                     public boolean onLongClick(View v) {
                         Intent intent = new Intent("android.intent.action.MAIN");
                         intent.setComponent(ComponentName.
-                                unflattenFromString("com.aokp.romcontrol/.ROMControlActivity"));
+                                unflattenFromString("com.xylon.settings/.XYSettingsActivity"));
                         intent.addCategory("android.intent.category.LAUNCHER");
                         startSettingsActivity(intent);
                         return true;
