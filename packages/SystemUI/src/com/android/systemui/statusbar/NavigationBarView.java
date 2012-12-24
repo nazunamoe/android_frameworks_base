@@ -575,7 +575,7 @@ public class NavigationBarView extends LinearLayout {
 
             }
         }
-        getSearchLight().setVisibility((disableHome && !disableSearch ? View.VISIBLE : View.GONE);
+        getSearchLight().setVisibility((disableHome && !disableSearch) ? View.VISIBLE : View.GONE);
         updateMenuArrowKeys();
     }
 
