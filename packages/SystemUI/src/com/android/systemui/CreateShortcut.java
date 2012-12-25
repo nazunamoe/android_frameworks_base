@@ -67,7 +67,7 @@ public class CreateShortcut extends LauncherActivity {
       } else if (c.equals ("RingVibSilentToggle")) {
           return R.drawable.ic_lockscreen_soundon;
       }else {
-        return R.drawable.redbeanandroid;
+        return R.drawable.xdreams;
       }
   }
 

@@ -137,26 +137,28 @@ public class BeanBag extends Activity {
             0xFF333333,
         };
 
-        static int CIDS[] = {
-            R.drawable.cid_angry,
-            R.drawable.cid_angry,
-            R.drawable.cid_angry,
-            R.drawable.cid_angry,
-            R.drawable.cid_normal,
-            R.drawable.cid_normal,
-            R.drawable.cid_confused,
+        static int XYS[] = {
+            R.drawable.xdreams0,
+            R.drawable.xdreams0,
+            R.drawable.xdreams0,
+            R.drawable.xdreams0,
+            R.drawable.xdreams1,
+            R.drawable.xdreams1,
+            R.drawable.xdreams2,
+            R.drawable.xdreams2,
+            R.drawable.xdreams,
         };
 
-        static int CIDCOLORS[] = {
-            0xFF0099CC,
-            0xFF33B5E5,
-            0xFF669900,
-            0xFF99CC00,
-            0xFFCC0000,
-            0xFFFF8800,
-            0xFFFFBB33,
-            0xFF9933CC,
-            0xFFAA66CC,
+        static int XYCOLORS[] = {
+            0xFF2E96BB,
+            0xFFC80F31,
+            0xFFDC5827,
+            0xFFB9B830,
+            0xFF7D4E3A,
+            0xFF533750,
+            0xFFB28822,
+            0xFFA3BB0B,
+            0xFF44A9B5,
         };
 
         public class Bean extends ImageView {
@@ -189,7 +191,7 @@ public class BeanBag extends Activity {
             }
 
             private void pickBean() {
-                int beanId = pickInt(mIsCid ? CIDS : BEANS);
+                int beanId = pickInt(mIsXy ? XYS : BEANS);
                 if (randfrange(0,1) <= LUCKY) {
                     beanId = R.drawable.jandycane;
                 }
@@ -204,7 +206,7 @@ public class BeanBag extends Activity {
                 this.setImageDrawable(bean);
 
                 Paint pt = new Paint();
-                final int color = pickInt(mIsCid ? CIDCOLORS : COLORS);
+                final int color = pickInt(mIsXy ? XYCOLORS : COLORS);
                 ColorMatrix CM = new ColorMatrix();
                 float[] M = CM.getArray();
                 // we assume the color information is in the red channel
@@ -288,11 +290,11 @@ public class BeanBag extends Activity {
         TimeAnimator mAnim;
         private int boardWidth;
         private int boardHeight;
-        private boolean mIsCid;
+        private boolean mIsXy;
 
-        public Board(Context context, AttributeSet as, boolean isCid) {
+        public Board(Context context, AttributeSet as, boolean isXy) {
             super(context, as);
-            mIsCid = isCid;
+            mIsXy = isXy;
             setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 
             setWillNotDraw(!DEBUG);
@@ -436,7 +438,7 @@ public class BeanBag extends Activity {
                   WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 );
-        mBoard = new Board(this, null,  getIntent().getBooleanExtra("is_cid", false));
+        mBoard = new Board(this, null,  getIntent().getBooleanExtra("is_xy", false));
         setContentView(mBoard);
     }
 

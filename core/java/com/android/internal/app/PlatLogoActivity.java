@@ -65,7 +65,7 @@ public class PlatLogoActivity extends Activity {
         TextView tv = new TextView(this);
         if (light != null) tv.setTypeface(light);
         tv.setTextSize(1.25f*size);
-        tv.setTextColor(0xFFFFFFFF);
+        tv.setTextColor(0xFF33B5E5);
         tv.setShadowLayer(4*metrics.density, 0, 2*metrics.density, 0x66000000);
         tv.setText("Android " + Build.VERSION.RELEASE);
         view.addView(tv, lp);
@@ -73,7 +73,7 @@ public class PlatLogoActivity extends Activity {
         tv = new TextView(this);
         if (normal != null) tv.setTypeface(normal);
         tv.setTextSize(size);
-        tv.setTextColor(0xFFFFFFFF);
+        tv.setTextColor(0xFF33B5E5);
         tv.setShadowLayer(4*metrics.density, 0, 2*metrics.density, 0x66000000);
         tv.setText("JELLY BEAN");
         view.addView(tv, lp);
@@ -84,7 +84,7 @@ public class PlatLogoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final boolean isCid = getIntent().hasExtra("is_cid");
+        final boolean isXy = getIntent().hasExtra("is_xy");
         mToast = Toast.makeText(this, "", Toast.LENGTH_LONG);
         mToast.setView(makeView());
 
@@ -92,7 +92,7 @@ public class PlatLogoActivity extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         mContent = new ImageView(this);
-        mContent.setImageResource(isCid ? com.android.internal.R.drawable.cidlogo
+        mContent.setImageResource(isXy ? com.android.internal.R.drawable.xylogo
             : com.android.internal.R.drawable.platlogo_alt);
         mContent.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         
@@ -103,7 +103,7 @@ public class PlatLogoActivity extends Activity {
             @Override
             public void onClick(View v) {
                 mToast.show();
-                mContent.setImageResource(isCid ? com.android.internal.R.drawable.cidlogo_alt
+                mContent.setImageResource(isXy ? com.android.internal.R.drawable.xylogo_alt
                     : com.android.internal.R.drawable.platlogo);
             }
         });
@@ -116,7 +116,7 @@ public class PlatLogoActivity extends Activity {
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK
                             | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-                        .putExtra("is_cid", isCid)
+                        .putExtra("is_xy", isXy)
                         .addCategory("com.android.internal.category.PLATLOGO"));
                         //.setClassName("com.android.systemui","com.android.systemui.BeanBag"));
                 } catch (ActivityNotFoundException ex) {
