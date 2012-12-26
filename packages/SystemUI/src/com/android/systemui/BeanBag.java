@@ -140,8 +140,6 @@ public class BeanBag extends Activity {
         static int XYS[] = {
             R.drawable.xdreams0,
             R.drawable.xdreams0,
-            R.drawable.xdreams0,
-            R.drawable.xdreams0,
             R.drawable.xdreams1,
             R.drawable.xdreams1,
             R.drawable.xdreams2,
@@ -149,16 +147,16 @@ public class BeanBag extends Activity {
             R.drawable.xdreams,
         };
 
-        static int XYCOLORS[] = {
-            0xFF2E96BB,
-            0xFFC80F31,
-            0xFFDC5827,
-            0xFFB9B830,
-            0xFF7D4E3A,
-            0xFF533750,
-            0xFFB28822,
-            0xFFA3BB0B,
-            0xFF44A9B5,
+        static int CIDCOLORS[] = {
+            0xFF0099CC,
+            0xFF33B5E5,
+            0xFF669900,
+            0xFF99CC00,
+            0xFFCC0000,
+            0xFFFF8800,
+            0xFFFFBB33,
+            0xFF9933CC,
+            0xFFAA66CC,
         };
 
         public class Bean extends ImageView {
