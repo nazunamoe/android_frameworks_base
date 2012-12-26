@@ -57,7 +57,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.internal.statusbar.IStatusBarService;
-import com.android.systemui.aokp.AokpTarget;
+import com.android.systemui.navbar.NavBarTarget;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.DelegateViewHelper;
@@ -93,7 +93,7 @@ public class NavigationBarView extends LinearLayout {
     
     public DelegateViewHelper mDelegateHelper;
 
-    private AokpTarget mAokpTarget;
+    private NavBarTarget mNavBarTarget;
 
     // workaround for LayoutTransitions leaving the nav buttons in a weird state (bug 5549288)
     final static boolean WORKAROUND_INVALID_LAYOUT = true;
@@ -116,21 +116,21 @@ public class NavigationBarView extends LinearLayout {
 
     public final static int StockButtonsQty = 3;
     public final static String[] StockClickActions = {
-        AokpTarget.ACTION_BACK,
-        AokpTarget.ACTION_HOME,
-        AokpTarget.ACTION_RECENTS,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL };
+        NavBarTarget.ACTION_BACK,
+        NavBarTarget.ACTION_HOME,
+        NavBarTarget.ACTION_RECENTS,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL };
     public final static String[] StockLongpress = {
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL,
-        AokpTarget.ACTION_NULL };
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL,
+        NavBarTarget.ACTION_NULL };
 
     FrameLayout rot0;
     FrameLayout rot90;
@@ -258,7 +258,7 @@ public class NavigationBarView extends LinearLayout {
         mBackLandIcon = res.getDrawable(R.drawable.ic_sysbar_back_land);
         mBackAltIcon = res.getDrawable(R.drawable.ic_sysbar_back_ime);
         mBackAltLandIcon = res.getDrawable(R.drawable.ic_sysbar_back_ime);
-        mAokpTarget = new AokpTarget(context);
+        mNavBarTarget = new NavBarTarget(context);
     }
 
     private void makeBar() {
@@ -287,7 +287,7 @@ public class NavigationBarView extends LinearLayout {
                         mLongpressActions[j],
                         mPortraitIcons[j]);
                 v.setTag((landscape ? "key_land_" : "key_") + j);
-                v.setAokpTarget(mAokpTarget);
+                v.setNavBarTarget(mNavBarTarget);
                 iconUri = mPortraitIcons[j];
                 if (iconUri != null && iconUri.length() > 0) {
                     // custom icon from the URI here
@@ -297,7 +297,7 @@ public class NavigationBarView extends LinearLayout {
                     }
                     v.setTint(false);
                 } else {
-                    v.setImageDrawable(mAokpTarget.getIconImage(mClickActions[j]));
+                    v.setImageDrawable(mNavBarTarget.getIconImage(mClickActions[j]));
                     v.setTint(mClickActions[j].startsWith("**"));
                 }
                 addButton(navButtonLayout, v, landscape && !mLeftyMode);

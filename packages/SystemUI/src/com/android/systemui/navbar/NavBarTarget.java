@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.systemui.aokp;
+package com.android.systemui.navbar;
 
 import java.net.URISyntaxException;
 
@@ -59,12 +59,12 @@ import com.android.internal.statusbar.IStatusBarService;
 import com.android.systemui.R;
 
 /*
- * Helper classes for managing AOKP custom actions
+ * Helper classes for managing SystemUI custom actions
  */
 
-public class AokpTarget {
+public class NavBarTarget {
 
-    final String TAG = "AOKPTarget";
+    final String TAG = "NavBarTarget";
 
     public final static String ACTION_HOME = "**home**";
     public final static String ACTION_BACK = "**back**";
@@ -97,7 +97,7 @@ public class AokpTarget {
     final Object mScreenshotLock = new Object();
     ServiceConnection mScreenshotConnection = null;
 
-    public AokpTarget (Context context){
+    public NavBarTarget (Context context){
         mContext = context;
         mHandler = new Handler();
     }

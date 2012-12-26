@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package com.android.systemui.aokp;
-
-import com.android.systemui.statusbar.WidgetView;
+package com.android.systemui.navbar;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 
 /*
  * Toggle the NavBar
  */
 
-public class WidgetToggle extends Activity  {
-  public WidgetToggle() {
+public class NavbarToggle extends Activity  {
+  public NavbarToggle() {
     super();
   }
 
@@ -40,9 +38,10 @@ public class WidgetToggle extends Activity  {
   @Override
   public void onResume() {
     super.onResume();
-    Intent toggleWidgets = new Intent(
-            WidgetView.WidgetReceiver.ACTION_TOGGLE_WIDGETS);
-    sendBroadcast(toggleWidgets);
+    final boolean NavOn = Settings.System.getInt(getContentResolver(),
+      Settings.System.NAVIGATION_BAR_SHOW_NOW, 1) == 1;
+    Settings.System.putInt(getContentResolver(),
+      Settings.System.NAVIGATION_BAR_SHOW_NOW,(!NavOn) ? 1 : 0);
     this.finish();
   }
 }

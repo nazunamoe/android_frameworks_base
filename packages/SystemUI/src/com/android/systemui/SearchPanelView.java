@@ -82,7 +82,7 @@ import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.systemui.statusbar.tablet.StatusBarPanel;
 import com.android.systemui.statusbar.tablet.TabletStatusBar;
-import com.android.systemui.aokp.AokpTarget;
+import com.android.systemui.navbar.NavBarTarget;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +105,7 @@ public class SearchPanelView extends FrameLayout implements
     private GlowPadView mGlowPadView;
     private IWindowManager mWm;
 
-    private AokpTarget mAokpTarget;
+    private NavBarTarget mNavBarTarget;
 
     private PackageManager mPackageManager;
     private Resources mResources;
@@ -140,7 +140,7 @@ public class SearchPanelView extends FrameLayout implements
 
         mContentResolver = mContext.getContentResolver();
 
-        mAokpTarget = new AokpTarget(context);
+        mNavBarTarget = new NavBarTarget(context);
 
         SettingsObserver observer = new SettingsObserver(new Handler());
         observer.observe();
@@ -166,7 +166,7 @@ public class SearchPanelView extends FrameLayout implements
                     mLongPress = true;
                     Log.d(TAG,"LongPress!");
                     mBar.hideSearchPanel();
-                    mAokpTarget.launchAction(longList.get(mTarget));
+                    mNavBarTarget.launchAction(longList.get(mTarget));
                     mSearchPanelLock = true;
                  }
             }
@@ -205,7 +205,7 @@ public class SearchPanelView extends FrameLayout implements
             final int resId = mGlowPadView.getResourceIdForTarget(target);
             mTarget = target;
             if (!mLongPress) {
-               mAokpTarget.launchAction(intentList.get(target));
+               mNavBarTarget.launchAction(intentList.get(target));
                mHandler.removeCallbacks(SetLongPress);
             }
         }
