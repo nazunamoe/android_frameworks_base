@@ -147,7 +147,7 @@ public class BeanBag extends Activity {
             R.drawable.xdreams,
         };
 
-        static int CIDCOLORS[] = {
+        static int XYCOLORS[] = {
             0xFF0099CC,
             0xFF33B5E5,
             0xFF669900,
