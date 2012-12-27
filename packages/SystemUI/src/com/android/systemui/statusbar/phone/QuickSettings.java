@@ -92,7 +92,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.PhoneConstants;
-import com.android.systemui.aokp.AokpTarget;
+import com.android.systemui.navbar.NavBarTarget;
 
 import java.io.File;
 import java.io.InputStream;
@@ -187,7 +187,7 @@ class QuickSettings {
     private ConnectivityManager mConnService;
     private NfcAdapter mNfcAdapter;
 
-    private AokpTarget mAokpTarget;
+    private NavBarTarget mNavBarTarget;
 
     private BrightnessController mBrightnessController;
     private BluetoothController mBluetoothController;
@@ -275,7 +275,7 @@ class QuickSettings {
         mBluetoothState = new QuickSettingsModel.BluetoothState();
         mHandler = new Handler();
 
-        mAokpTarget = new AokpTarget(mContext);
+        mNavBarTarget = new NavBarTarget(mContext);
 
         Resources r = mContext.getResources();
         mBatteryLevels = (LevelListDrawable) r.getDrawable(R.drawable.qs_sys_battery);
@@ -813,7 +813,7 @@ class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mAokpTarget.launchAction(mAokpTarget.ACTION_VIB);
+                        mNavBarTarget.launchAction(mNavBarTarget.ACTION_VIB);
                         mModel.refreshVibrateTile();
                     }
                 });
@@ -843,7 +843,7 @@ class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mAokpTarget.launchAction(mAokpTarget.ACTION_SILENT);
+                        mNavBarTarget.launchAction(mNavBarTarget.ACTION_SILENT);
                         mModel.refreshSilentTile();
                     }
                 });
@@ -873,8 +873,8 @@ class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mAokpTarget.launchAction(mAokpTarget.ACTION_TORCH);
-                        mHandler.postDelayed(delayedRefresh, 1000);
+                        mNavBarTarget.launchAction(mNavBarTarget.ACTION_TORCH);
+                        mHandler.postDelayed(delayedRefresh, 700);
                     }
                 });
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1721,8 +1721,8 @@ class QuickSettings {
     };
 
     private void setFastCharge(final boolean on) {
-        Intent fastChargeIntent = new Intent("com.aokp.romcontrol.ACTION_CHANGE_FCHARGE_STATE");
-        fastChargeIntent.setPackage("com.aokp.romcontrol");
+        Intent fastChargeIntent = new Intent("com.xylon.settings.ACTION_CHANGE_FCHARGE_STATE");
+        fastChargeIntent.setPackage("com.xylon.settings");
         fastChargeIntent.putExtra("newState", on);
         mContext.sendBroadcast(fastChargeIntent);
         mHandler.postDelayed(new Runnable() {
