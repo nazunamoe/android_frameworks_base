@@ -166,10 +166,6 @@ public class LockPatternUtils {
     // The current user is set by KeyguardViewMediator and shared by all LockPatternUtils.
     private static volatile int sCurrentUserId = UserHandle.USER_NULL;
 
-    //There is no reason you would ever want a value higher than 127
-    public static final byte PATTERN_SIZE_DEFAULT = LockSettingsService.PATTERN_SIZE_DEFAULT;
-    private static byte PATTERN_SIZE = PATTERN_SIZE_DEFAULT;
-
     public DevicePolicyManager getDevicePolicyManager() {
         if (mDevicePolicyManager == null) {
             mDevicePolicyManager =

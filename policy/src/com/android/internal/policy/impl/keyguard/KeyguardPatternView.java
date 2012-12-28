@@ -109,7 +109,6 @@ public class KeyguardPatternView extends LinearLayout implements KeyguardSecurit
 
     public void setLockPatternUtils(LockPatternUtils utils) {
         mLockPatternUtils = utils;
-        mLockPatternUtils.updateLockPatternSize();
     }
 
     @Override
@@ -117,8 +116,6 @@ public class KeyguardPatternView extends LinearLayout implements KeyguardSecurit
         super.onFinishInflate();
         mLockPatternUtils = mLockPatternUtils == null
                 ? new LockPatternUtils(mContext) : mLockPatternUtils;
-
-        mLockPatternUtils.updateLockPatternSize();
 
         mLockPatternView = (LockPatternView) findViewById(R.id.lockPatternView);
         mLockPatternView.setSaveEnabled(false);
@@ -266,7 +263,6 @@ public class KeyguardPatternView extends LinearLayout implements KeyguardSecurit
         }
 
         public void onPatternDetected(List<LockPatternView.Cell> pattern) {
-            mLockPatternUtils.updateLockPatternSize();
             if (mLockPatternUtils.checkPattern(pattern)) {
                 mCallback.reportSuccessfulUnlockAttempt();
                 mLockPatternView.setDisplayMode(LockPatternView.DisplayMode.Correct);
