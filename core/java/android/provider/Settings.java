@@ -3305,6 +3305,13 @@ public final class Settings {
          * 0 = color fill, 1 = custom image, 2 = full transparent, 3 = default background
          * @hide
          */
+        public static final String LOCKSCREEN_BACKGROUND = "lockscreen_background";
+
+        /**
+         * Sets the lockscreen background style array helper
+         * 0 = color fill, 1 = custom image, 2 = full transparent, 3 = default background
+         * @hide
+         */
         public static final String LOCKSCREEN_BACKGROUND_VALUE = "lockscreen_background_VALUE";
 
         /**
