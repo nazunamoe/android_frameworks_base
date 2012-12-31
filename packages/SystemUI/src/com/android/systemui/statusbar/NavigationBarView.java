@@ -935,15 +935,23 @@ public class NavigationBarView extends LinearLayout {
             ContentResolver resolver = mContext.getContentResolver();
 
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE), false, this);
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE), false,
+                    this);
+
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR), false, this);
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR), false,
+                    this);
+          
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.MENU_LOCATION), false, this);
+                    Settings.System.getUriFor(Settings.System.MENU_LOCATION), false,
+                    this);
+
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.MENU_VISIBILITY), false, this);
+                    Settings.System.getUriFor(Settings.System.MENU_VISIBILITY), false,
+                    this);
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BUTTONS_QTY), false, this);
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BUTTONS_QTY), false,
+                    this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_LEFTY_MODE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -975,9 +983,10 @@ public class NavigationBarView extends LinearLayout {
 
     protected void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
-
+        
         mMenuLocation = Settings.System.getInt(resolver,
                 Settings.System.MENU_LOCATION, SHOW_RIGHT_MENU);
+
         mMenuVisbility = Settings.System.getInt(resolver,
                 Settings.System.MENU_VISIBILITY, VISIBILITY_SYSTEM);
         mMenuArrowKeys = Settings.System.getBoolean(resolver,
