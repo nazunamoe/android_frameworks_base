@@ -646,6 +646,16 @@ public class PhoneStatusBar extends BaseStatusBar {
         // listen for USER_SETUP_COMPLETE setting (per-user)
         resetUserSetupObserver();
 
+<<<<<<< HEAD
+=======
+        // update everything here
+        updateSettings();
+        mPowerWidget.setupWidget();
+        mPowerWidget.updateVisibility();
+
+        mVelocityTracker = VelocityTracker.obtain();
+
+>>>>>>> 66a0177... Mass cleanup of navigation bar background transparency
         return mStatusBarView;
     }
 
