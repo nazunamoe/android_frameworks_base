@@ -84,9 +84,6 @@ public class SignalText extends TextView {
 
         if (!mAttached) {
             mAttached = true;
-            // This should give me the default color for the textview before any ROMControl coloring
-            // has been applied.  This is important, as we want to preserve theme colors if the user
-            // hasn't specified a color
             mSignalColor = getTextColors().getDefaultColor();
             mHandler = new MyHandler(this);
             SettingsObserver settingsObserver = new SettingsObserver(mHandler);
@@ -129,13 +126,11 @@ public class SignalText extends TextView {
     }
 
     private void updateSettings() {
-        int newColor = -1;
+        int newColor = 0;
         ContentResolver resolver = getContext().getContentResolver();
         newColor = Settings.System.getInt(resolver,
-                Settings.System.STATUSBAR_SIGNAL_TEXT_COLOR,
-                mSignalColor);
-        if (newColor > -1 && newColor != mSignalColor) {
-            // newColor is valid - let's change the textview.
+                Settings.System.STATUSBAR_SIGNAL_TEXT_COLOR,mSignalColor);
+        if (newColor < 0 && newColor != mSignalColor) {
             mSignalColor = newColor;
             setTextColor(mSignalColor);
         }

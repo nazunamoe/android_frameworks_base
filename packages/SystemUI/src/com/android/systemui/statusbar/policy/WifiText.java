@@ -1,6 +1,4 @@
-
 package com.android.systemui.statusbar.policy;
-
 
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -30,16 +28,12 @@ public class WifiText extends TextView {
     private Handler mHandler;
     private Context mContext;
     private WifiManager mWifiManager;
-    protected int mSignalColor ;
-    
-    /** pulled the below values directly from the WifiManager.Java.  I don't like the idea of 
-     *  this, as it could change and we may not know about it.
-     *  I've also noticed that Rssi is sometimes > -55 which is a little odd.
-     */
-    /** Anything worse than or equal to this will show 0 bars. */
+    protected int mSignalColor;
+
+    /* Anything worse than or equal to this will show 0 bars. */
     private static final int MIN_RSSI = -100;
 
-    /** Anything better than or equal to this will show the max bars. */
+    /* Anything better than or equal to this will show the max bars. */
     private static final int MAX_RSSI = -55;
 
     public WifiText(Context context) {
@@ -71,9 +65,6 @@ public class WifiText extends TextView {
 
         if (!mAttached) {
             mAttached = true;
-            // This should give me the default color for the textview before any ROMControl coloring
-            // has been applied.  This is important, as we want to preserve theme colors if the user
-            // hasn't specified a color
             mSignalColor = getTextColors().getDefaultColor();
             mHandler = new Handler();
             SettingsObserver settingsObserver = new SettingsObserver(mHandler);
@@ -115,13 +106,11 @@ public class WifiText extends TextView {
     }
 
     private void updateSettings() {
-        int newColor = -1;
+        int newColor = 0;
         ContentResolver resolver = getContext().getContentResolver();
         newColor = Settings.System.getInt(resolver,
-                Settings.System.STATUSBAR_WIFI_SIGNAL_TEXT_COLOR,
-                mSignalColor);
-        if (newColor > -1 && newColor != mSignalColor) {
-            // newColor is valid - let's change the textview.
+                Settings.System.STATUSBAR_WIFI_SIGNAL_TEXT_COLOR,mSignalColor);
+        if (newColor < 0 && newColor != mSignalColor) {
             mSignalColor = newColor;
             setTextColor(mSignalColor);
         }
@@ -143,8 +132,7 @@ public class WifiText extends TextView {
             setText(Integer.toString(mRssi));
             SpannableStringBuilder formatted = new SpannableStringBuilder(
                     Integer.toString(mRssi) + "%");
-            CharacterStyle style = new RelativeSizeSpan(0.7f); // beautiful
-                                                               // formatting
+            CharacterStyle style = new RelativeSizeSpan(0.7f); // beautiful formatting
             if (mRssi < 10) { // mRssi < 10, 2nd char is %
                 formatted.setSpan(style, 1, 2,
                         Spannable.SPAN_EXCLUSIVE_INCLUSIVE);

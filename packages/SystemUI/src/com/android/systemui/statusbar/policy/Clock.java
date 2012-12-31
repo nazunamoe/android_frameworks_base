@@ -96,9 +96,6 @@ public class Clock extends TextView {
 
         if (!mAttached) {
             mAttached = true;
-            //This should give me the default color for the textview before any ROMControl coloring
-            // has been applied.  This is important, as we want to preserve theme colors if the user
-            // hasn't specified a color
             mClockColor = getTextColors().getDefaultColor();
             IntentFilter filter = new IntentFilter();
 
@@ -251,7 +248,7 @@ public class Clock extends TextView {
 
     protected void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
-        int newColor = -1;
+        int newColor = 0;
 
         mAmPmStyle = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_AM_PM_STYLE, AM_PM_STYLE_GONE);   
@@ -262,12 +259,10 @@ public class Clock extends TextView {
 
         newColor = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_COLOR, mClockColor);
-        if (newColor > -1 && newColor != mClockColor) {
-            // Color has changed and is valid.
+        if (newColor < 0 && newColor != mClockColor) {
             mClockColor = newColor;
             setTextColor(mClockColor);
         }
-
         updateClockVisibility();
         updateClock();
     }
