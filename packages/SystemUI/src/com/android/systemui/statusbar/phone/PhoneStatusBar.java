@@ -646,6 +646,16 @@ public class PhoneStatusBar extends BaseStatusBar {
         // listen for USER_SETUP_COMPLETE setting (per-user)
         resetUserSetupObserver();
 
+<<<<<<< HEAD
+=======
+        // update everything here
+        updateSettings();
+        mPowerWidget.setupWidget();
+        mPowerWidget.updateVisibility();
+
+        mVelocityTracker = VelocityTracker.obtain();
+
+>>>>>>> 66a0177... Mass cleanup of navigation bar background transparency
         return mStatusBarView;
     }
 
@@ -2524,9 +2534,13 @@ public class PhoneStatusBar extends BaseStatusBar {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.CURRENT_UI_MODE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
+<<<<<<< HEAD
                     Settings.System.NOTIFICATION_CLOCK[shortClick]), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[longClick]), false, this);
+=======
+                    Settings.System.STATUSBAR_BRIGHTNESS_CONTROL), false, this);
+>>>>>>> 66a0177... Mass cleanup of navigation bar background transparency
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[doubleClick]), false, this);
         }
@@ -2534,17 +2548,36 @@ public class PhoneStatusBar extends BaseStatusBar {
          @Override
         public void onChange(boolean selfChange) {
             updateSettings();
+<<<<<<< HEAD
+=======
+            update();
+        }
+
+        public void update() {
+            ContentResolver resolver = mContext.getContentResolver();
+            boolean autoBrightness = Settings.System.getInt(
+                    resolver, Settings.System.SCREEN_BRIGHTNESS_MODE, 0) ==
+                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+            mBrightnessControl = !autoBrightness && Settings.System.getInt(
+                    resolver, Settings.System.STATUSBAR_BRIGHTNESS_CONTROL, 0) == 1;
+>>>>>>> 66a0177... Mass cleanup of navigation bar background transparency
         }
     }
 
    protected void updateSettings() {
         ContentResolver cr = mContext.getContentResolver();
+<<<<<<< HEAD
 
         mClockActions[shortClick] = Settings.System.getString(cr,
                 Settings.System.NOTIFICATION_CLOCK[shortClick]);
 
         mClockActions[longClick] = Settings.System.getString(cr,
                 Settings.System.NOTIFICATION_CLOCK[longClick]);
+=======
+        mCurrentUIMode = Settings.System.getInt(cr,
+                Settings.System.CURRENT_UI_MODE, 0);
+    }
+>>>>>>> 66a0177... Mass cleanup of navigation bar background transparency
 
         mClockActions[doubleClick] = Settings.System.getString(cr,
                 Settings.System.NOTIFICATION_CLOCK[doubleClick]);
