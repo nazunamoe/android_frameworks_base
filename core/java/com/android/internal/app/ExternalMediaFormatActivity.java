@@ -43,6 +43,9 @@ public class ExternalMediaFormatActivity extends AlertActivity implements
     private StorageManager mStorageManager;
     private StorageVolume mStorageVolume = null;
 
+    private StorageManager mStorageManager;
+    private StorageVolume mStorageVolume = null;
+
    /**
     * Used to detect when the media state changes, in case we need to call
     * finish()
@@ -65,35 +68,34 @@ public class ExternalMediaFormatActivity extends AlertActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // This is necessary because this class's caller,
+        // packages/SystemUI/src/com/android/systemui/usb/StorageNotification.java,
+        // supplies the path to be erased/formatted as a String, instead of a
+        // StorageVolume. This for-loop gets the correct StorageVolume from the
+        // given path.
+        mStorageManager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
+        String path = getIntent().getStringExtra(FORMAT_PATH);
+        StorageVolume[] volumes = mStorageManager.getVolumeList();
+
+        for (StorageVolume sv : volumes) {
+            if (path.equals(sv.getPath())) {
+                mStorageVolume = sv;
+                break;
+            }
+        }
+
         Log.d("ExternalMediaFormatActivity", "onCreate!");
-
-            if (mStorageManager == null) {
-                mStorageManager = (StorageManager) getSystemService(Context.STORAGE_SERVICE);
-            }
-
-            if (savedInstanceState == null) {
-                String path = getIntent().getStringExtra(FORMAT_PATH);
-                StorageVolume[] volumes = mStorageManager.getVolumeList();
-
-                // I don't know how else to work out which mount point needs to be
-                // formatted... but that's what this does
-                for (int i = 0; i < volumes.length && mStorageVolume == null; i++) {
-                    if (path.equals(volumes[i].getPath())) {
-                        mStorageVolume = volumes[i];
-                    }
-                }
-            }
-
-            Log.d("ExternalMediaFormatActivity", "The storage volume to be formatted is : " + mStorageVolume.getPath());
+        Log.d("ExternalMediaFormatActivity", "The storage volume to be formatted is : "
+                + mStorageVolume.getPath());
 
         // Set up the "dialog"
         final AlertController.AlertParams p = mAlertParams;
         p.mIconId = com.android.internal.R.drawable.stat_sys_warning;
         p.mTitle = getString(com.android.internal.R.string.extmedia_format_title);
-        //TODO: This needs a proper message to tell the user which device will be formatted
-        // e.g., "Make sure you don't need anything on /mnt/usbdisk0", or something
-        p.mMessage = getString(com.android.internal.R.string.extmedia_format_message)
-            + "\nPath: " + mStorageVolume.getPath();
+        p.mMessage = String.format(
+                getString(com.android.internal.R.string.extmedia_format_message),
+                mStorageVolume.getPath());
         p.mPositiveButtonText = getString(com.android.internal.R.string.extmedia_format_button_format);
         p.mPositiveButtonListener = this;
         p.mNegativeButtonText = getString(com.android.internal.R.string.cancel);
@@ -116,8 +118,9 @@ public class ExternalMediaFormatActivity extends AlertActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-            unregisterReceiver(mStorageReceiver);
-        }
+
+        unregisterReceiver(mStorageReceiver);
+    }
 
    /**
     * {@inheritDoc}
@@ -127,12 +130,8 @@ public class ExternalMediaFormatActivity extends AlertActivity implements
         if (which == POSITIVE_BUTTON) {
             Intent intent = new Intent(ExternalStorageFormatter.FORMAT_ONLY);
             intent.setComponent(ExternalStorageFormatter.COMPONENT_NAME);
-            // I think this StorageVolume is supposed to come from the calling
-            // intent...
-            // which it doesn't
-            // See earlier hack in onCreate
             intent.putExtra(StorageVolume.EXTRA_STORAGE_VOLUME, mStorageVolume);
-                startService(intent);
+            startService(intent);
         }
 
             // No matter what, finish the activity
