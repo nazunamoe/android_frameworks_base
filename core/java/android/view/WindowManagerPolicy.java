@@ -618,9 +618,9 @@ public interface WindowManagerPolicy {
 
     public int getWallpaperTop(int rot);
 
-    public int getWallpaperBottom(int rot);
-
     public int getWallpaperLeft(int rot);
+
+    public int getWallpaperBottom(int rot);
 
     public int getWallpaperRight(int rot);
 
