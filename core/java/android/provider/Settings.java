@@ -3375,17 +3375,16 @@ public final class Settings {
         public static final String LOCKSCREEN_ALL_WIDGETS = "lockscreen_all_widgets";
 
         /**
-         * Whether to minimize lockscreen challenge on screen turned on
+         * Weather to minimize lockscreen challenge on screen turned on
          * @hide
          */
-        public static final String LOCKSCREEN_MINIMIZE_LOCKSCREEN_CHALLENGE = "lockscreen_minimize_lockscreen_challenge";
+        public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
 
         /**
          * Whether the hints for the left and right widgets are shown when the screen is turned on
          * @hide
          */
         public static final String LOCKSCREEN_HIDE_INITIAL_PAGE_HINTS = "lockscreen_hide_initial_page_hints";
-
 
         /**
          * Whether to enable lockscreen rotation
