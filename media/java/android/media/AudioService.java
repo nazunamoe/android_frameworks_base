@@ -484,14 +484,14 @@ public class AudioService extends IAudioService.Stub implements OnFinished {
                 null,
                 0);
 
+        mSafeMediaVolumeState = new Integer(SAFE_MEDIA_VOLUME_NOT_CONFIGURED);
+
         readPersistedSettings();
         mSettingsObserver = new SettingsObserver();
         updateStreamVolumeAlias(false /*updateVolumes*/);
         createStreamStates();
 
         mMediaServerOk = true;
-
-        mSafeMediaVolumeState = new Integer(SAFE_MEDIA_VOLUME_NOT_CONFIGURED);
 
         // Call setRingerModeInt() to apply correct mute
         // state on streams affected by ringer mode.
