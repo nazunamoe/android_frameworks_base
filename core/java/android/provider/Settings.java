@@ -3587,6 +3587,12 @@ public final class Settings {
         public static final String HIDE_EXTRAS_SYSTEM_BAR = "hide_extras_system_bar";
 
         /**
+         * Maximal notification count as overlays on the status bar
+         * @hide
+         */
+        public static final String MAX_NOTIFICATION_ICONS = "max_notification_icons";
+
+        /**
          * whether to hide the Ram Usage Bar on recent switcher
          *
          * @hide
@@ -4095,7 +4101,7 @@ public final class Settings {
          */
         public static final String NOTIFICATIONS_BEHAVIOUR = "notifications_behaviour";
 
-        /**
+        /**	
          * @hide
          */
         public static final String CUSTOM_TOGGLE_REVERT = "custom_toggle_revert";
