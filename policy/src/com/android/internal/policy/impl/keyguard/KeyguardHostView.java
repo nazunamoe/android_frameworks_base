@@ -102,8 +102,6 @@ public class KeyguardHostView extends KeyguardViewBase {
 
     private boolean mCameraDisabled;
 
-    private boolean mLockMinimizeChallenge;
-
     private boolean mSafeModeEnabled;
 
     /*package*/ interface TransportCallback {
@@ -211,9 +209,6 @@ public class KeyguardHostView extends KeyguardViewBase {
         mAppWidgetContainer.setCallbacks(mWidgetCallbacks);
         mAppWidgetContainer.setDeleteDropTarget(deleteDropTarget);
         mAppWidgetContainer.setMinScale(0.5f);
-
-        mLockMinimizeChallenge = (Settings.System.getInt(mContext.getContentResolver(), 
-                Settings.System.LOCKSCREEN_MINIMIZE_LOCKSCREEN_CHALLENGE, 0) == 1);
 
         mSlidingChallengeLayout = (SlidingChallengeLayout) findViewById(R.id.sliding_layout);
         if (mSlidingChallengeLayout != null) {
@@ -850,7 +845,7 @@ public class KeyguardHostView extends KeyguardViewBase {
         if (mViewStateManager != null) {
             mViewStateManager.showUsabilityHints();
         }
-        if (mLockMinimizeChallenge) {
+        if (Settings.System.getBoolean(getContext().getContentResolver(), Settings.System.LOCKSCREEN_MINIMIZE_LOCKSCREEN_CHALLENGE, false)) {
             if (mSlidingChallengeLayout != null) {
                 mSlidingChallengeLayout.fadeOutChallenge();
             }
