@@ -874,7 +874,7 @@ class QuickSettings {
                     @Override
                     public void onClick(View v) {
                         mNavBarTarget.launchAction(mNavBarTarget.ACTION_TORCH);
-                        mHandler.postDelayed(delayedRefresh, 700);
+                        mHandler.postDelayed(delayedRefresh, 1000);
                     }
                 });
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
