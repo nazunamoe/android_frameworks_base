@@ -874,7 +874,7 @@ class QuickSettings {
                     @Override
                     public void onClick(View v) {
                         mNavBarTarget.launchAction(mNavBarTarget.ACTION_TORCH);
-                        mHandler.postDelayed(delayedRefresh, 1000);
+                        mHandler.postDelayed(delayedRefresh, 700);
                     }
                 });
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1037,11 +1037,12 @@ class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(mContext);
                         boolean enabled = false;
-                        if (mNfcAdapter != null) {
-                            enabled = mNfcAdapter.isEnabled();
+                        if (mNfcAdapter == null) {
+                            mNfcAdapter = NfcAdapter.getDefaultAdapter();
+                            mModel.setNfcAdapter(mNfcAdapter);
                         }
+                        enabled = mNfcAdapter.isEnabled();
                         if (enabled) {
                             mNfcAdapter.disable();
                         } else {

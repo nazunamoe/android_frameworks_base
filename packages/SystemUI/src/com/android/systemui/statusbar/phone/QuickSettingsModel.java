@@ -1077,14 +1077,13 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     void addNFCTile(QuickSettingsTileView view, RefreshCallback cb) {
         mNFCTile = view;
         mNFCCallback = cb;
-        onNFCChanged();
+        refreshNFCTile();
     }
 
     void onNFCChanged() {
-        NfcAdapter adapter = NfcAdapter.getDefaultAdapter(mContext);
         boolean enabled = false;
-        if (adapter != null) {
-            enabled = adapter.isEnabled();
+        if (mNfcAdapter != null) {
+            enabled = mNfcAdapter.isEnabled();
         }
         mNFCState.enabled = enabled;
         mNFCState.iconId = enabled
