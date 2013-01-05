@@ -1048,6 +1048,7 @@ class QuickSettings {
                         } else {
                             mNfcAdapter.enable();
                         }
+                        mHandler.postDelayed(delayedRefresh, 1000);
                     }
                 });
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1793,6 +1794,7 @@ class QuickSettings {
             mModel.refreshWifiTetherTile();
             mModel.refreshUSBTetherTile();
             mModel.refreshTorchTile();
+            mModel.refreshNFCTile();
         }
     };
 
