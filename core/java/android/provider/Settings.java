@@ -1930,6 +1930,13 @@ public final class Settings {
         public static final String STATUSBAR_CLOCK_COLOR = "statusbar_clock_color";
 
         /**
+         * Ability to use stock or 'your choice of color' to the clock
+         * 0 - Color been choose in the Settings
+         * 1 - Stock/Theme Chooser clock color
+         */
+        public static final String CLOCK_COLOR_STYLE = "clock_color_style";
+
+        /**
          * Shows weekday before clock time
          * 0 - No Day
          * 1 - Small Day

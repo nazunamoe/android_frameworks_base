@@ -97,7 +97,7 @@ public class Clock extends TextView {
         if (!mAttached) {
             mAttached = true;
             IntentFilter filter = new IntentFilter();
-
+            mClockColor = getTextColors().getDefaultColor();
             filter.addAction(Intent.ACTION_TIME_TICK);
             filter.addAction(Intent.ACTION_TIME_CHANGED);
             filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
@@ -257,14 +257,7 @@ public class Clock extends TextView {
         mWeekdayStyle = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_WEEKDAY, WEEKDAY_STYLE_GONE);
 
-        mClockColor = Settings.System.getInt(resolver,
-                Settings.System.STATUSBAR_CLOCK_COLOR, defaultColor);
-        if (mClockColor == Integer.MIN_VALUE) {
-            // flag to reset the color
-            mClockColor = defaultColor;
-        }
-        setTextColor(mClockColor);
-
+        updateColor();
         updateClockVisibility();
         updateClock();
     }
@@ -274,5 +267,30 @@ public class Clock extends TextView {
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);
+    }
+
+    protected void updateColor() {
+        int defaultColor = getResources().getColor(
+                com.android.internal.R.color.holo_blue_light);
+        int defaultStyle = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.CLOCK_COLOR_STYLE, 1);
+        int newColor = -1;
+
+        if (defaultStyle == 0) {
+            mClockColor = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_CLOCK_COLOR, defaultColor);
+            if (mClockColor == Integer.MIN_VALUE) {
+                // flag to reset the color
+                mClockColor = defaultColor;
+            }
+            setTextColor(mClockColor);
+        } else {
+            newColor = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_CLOCK_COLOR, mClockColor);
+            if (newColor > -1 && newColor != mClockColor) {
+                mClockColor = newColor;
+                setTextColor(mClockColor);
+            }
+        }
     }
 }
