@@ -3247,7 +3247,7 @@ public final class Settings {
          */
         public static final String NAVIGATION_BAR_SHOW_NOW = "navigation_bar_show_now";
 
-		/**
+        /**
          * Show the NavBar dialog in Power menu
          * @hide
          */
@@ -3258,6 +3258,13 @@ public final class Settings {
          * ie compatmode button and extra ime switcher.
          */
         public static final String HIDE_EXTRAS_SYSTEM_BAR = "hide_extras_system_bar";
+
+        /**
+         * whether to hide the Ram Usage Bar on recent switcher
+         *
+         * @hide
+         */
+        public static final String RECENTS_RAM_BAR = "recents_ram_bar";
 
         /**
          * @hide
