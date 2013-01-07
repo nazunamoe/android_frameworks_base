@@ -121,7 +121,7 @@ public class QuickSettings {
     private static final int BATTERY_TILE = 9;
     private static final int AIRPLANE_TILE = 10;
     private static final int BLUETOOTH_TILE = 11;
-   // private static final int SWAGGER_TILE = 12;
+   // private static final int FLOWER_TILE = 12;
     private static final int VIBRATE_TILE = 13;
     private static final int SILENT_TILE = 14;
     private static final int FCHARGE_TILE = 15;
@@ -148,7 +148,7 @@ public class QuickSettings {
     public static final String BATTERY_TOGGLE = "BATTERY";
     public static final String AIRPLANE_TOGGLE = "AIRPLANE_MODE";
     public static final String BLUETOOTH_TOGGLE = "BLUETOOTH";
-   // public static final String SWAGGER_TOGGLE = "SWAGGER";
+   // public static final String FLOWER_TOGGLE = "FLOWER";
     public static final String VIBRATE_TOGGLE = "VIBRATE";
     public static final String SILENT_TOGGLE = "SILENT";
     public static final String FCHARGE_TOGGLE = "FCHARGE";
@@ -209,7 +209,7 @@ public class QuickSettings {
 
     private ArrayList<String> toggles;
     private String userToggles = null;
-    private long tacoSwagger = 0;
+    private long weedFlower = 0;
     private boolean tacoToggle = false;
     private int mTileTextSize = 12;
     private String mFastChargePath;
@@ -236,7 +236,7 @@ public class QuickSettings {
             toggleMap.put(BATTERY_TOGGLE, BATTERY_TILE);
             toggleMap.put(AIRPLANE_TOGGLE, AIRPLANE_TILE);
             toggleMap.put(BLUETOOTH_TOGGLE, BLUETOOTH_TILE);
-            //toggleMap.put(SWAGGER_TOGGLE, SWAGGER_TILE);
+            //toggleMap.put(FLOWER_TOGGLE, FLOWER_TILE);
             toggleMap.put(VIBRATE_TOGGLE, VIBRATE_TILE);
             toggleMap.put(SILENT_TOGGLE, SILENT_TILE);
             toggleMap.put(FCHARGE_TOGGLE, FCHARGE_TILE);
@@ -1313,12 +1313,12 @@ public class QuickSettings {
                         }
                  });
                  break;
-       /**     case SWAGGER_TILE:
+       /**     case FLOWER_TILE:
                 quick = (QuickSettingsTileView)
                         inflater.inflate(R.layout.quick_settings_tile, parent, false);
                 quick.setBackgroundResource(mTileBG);
-                quick.setContent(R.layout.quick_settings_tile_swagger, inflater);
-                TextView tv = (TextView) quick.findViewById(R.id.swagger_textview);
+                quick.setContent(R.layout.quick_settings_tile_flower, inflater);
+                TextView tv = (TextView) quick.findViewById(R.id.flower_textview);
                 tv.setTextSize(1, mTileTextSize);
                 tv.setTextColor(mTileText);
                 quick.setOnTouchListener(new View.OnTouchListener() {
@@ -1327,22 +1327,22 @@ public class QuickSettings {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 if (tacoToggle) {
-                                    TextView tv = (TextView) v.findViewById(R.id.swagger_textview);
-                                    tv.setText(R.string.quick_settings_swagger);
+                                    TextView tv = (TextView) v.findViewById(R.id.flower_textview);
+                                    tv.setText(R.string.quick_settings_flower);
                                     tv.setTextSize(1, mTileTextSize);
-                                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_qs_swagger, 0, 0);
-                                    tacoSwagger = event.getEventTime();
-                                    tacoToggle = false;
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_qs_flower, 0, 0);
+                                    weedFlower = event.getEventTime();
+                                    weedToggle = false;
                                 } else {
-                                    tacoSwagger = event.getEventTime();
+                                    weedFlower = event.getEventTime();
                                 }
                                 break;
                             case MotionEvent.ACTION_UP:
-                                if ((event.getEventTime() - tacoSwagger) > 2500) {
-                                    TextView tv = (TextView) v.findViewById(R.id.swagger_textview);
-                                    tv.setText(R.string.quick_settings_fbgt);
+                                if ((event.getEventTime() - weedFlower) > 2500) {
+                                    TextView tv = (TextView) v.findViewById(R.id.flower_textview);
+                                    tv.setText(R.string.quick_settings_weed);
                                     tv.setTextSize(1, mTileTextSize);
-                                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_qs_fbgt_on, 0, 0);
+                                    tv.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_qs_weed_on, 0, 0);
                                     tacoToggle = true;
                                 }
                                 break;
