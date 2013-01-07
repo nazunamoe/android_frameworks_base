@@ -447,25 +447,6 @@ public class NavigationBarView extends LinearLayout {
         return v;
     }
 
-    private int[] getAppIconPadding() {
-        int[] padding = new int[4];
-        // left
-        padding[0] = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources()
-                .getDisplayMetrics());
-        // top
-        padding[1] = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
-                .getDisplayMetrics());
-        // right
-        padding[2] = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources()
-                .getDisplayMetrics());
-        // bottom
-        padding[3] = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5,
-                getResources()
-                        .getDisplayMetrics());
-        return padding;
-    }
-
-    
     private LayoutParams getLayoutParams(boolean landscape, float dp) {
         float px = dp * getResources().getDisplayMetrics().density;
         return landscape ?
@@ -1056,27 +1037,10 @@ public class NavigationBarView extends LinearLayout {
                 Settings.System.putString(resolver,
                         Settings.System.NAVIGATION_CUSTOM_APP_ICONS[j], "");
             }
-
-        // NavigationBar background color
-        int defaultBg = Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
-        int navbarBackgroundColor = Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
-
-        if (defaultBg == 0) {
-            setBackgroundColor(navbarBackgroundColor);
-        } else if (defaultBg == 1) {
-            setBackgroundResource(R.drawable.nav_bar_bg);
-            getBackground().setColorFilter(ColorFilterMaker.
-                    changeColorAlpha(navbarBackgroundColor, .32f, 0f));
-        } else {
-            setBackground(mContext.getResources().getDrawable(R.drawable.nav_bar_bg));
         }
-    }
-
-    makeBar();
-    setMenuVisibility(mShowMenu);
-    updateMenuArrowKeys();
+        makeBar();
+        setMenuVisibility(mShowMenu);
+        updateMenuArrowKeys();
     }
 
     private void postCheckForInvalidLayout(final String how) {
