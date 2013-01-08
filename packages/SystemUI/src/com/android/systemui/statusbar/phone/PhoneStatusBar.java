@@ -2549,7 +2549,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         @Override
         public int getOpacity() {
-            return PixelFormat.TRANSLUCENT;
+            return PixelFormat.OPAQUE;
         }
 
         @Override
