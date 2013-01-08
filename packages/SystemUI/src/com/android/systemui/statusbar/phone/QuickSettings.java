@@ -302,6 +302,7 @@ public class QuickSettings {
                 null, null);
 
         new SettingsObserver(new Handler()).observe();
+        new SoundObserver(new Handler()).observe();
     }
 
     public void setBar(PanelBar bar) {
@@ -1875,6 +1876,27 @@ public class QuickSettings {
         @Override
         public void onChange(boolean selfChange) {
             updateSettings();
+        }
+    }
+
+    class SoundObserver extends ContentObserver {
+        SoundObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.Global
+                    .getUriFor(Settings.Global.MODE_RINGER),
+                    false, this);
+            mModel.refreshVibrateTile();
+            mModel.refreshSilentTile();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            mModel.refreshVibrateTile();
+            mModel.refreshSilentTile();
         }
     }
 }
