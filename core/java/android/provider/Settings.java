@@ -3395,10 +3395,16 @@ public final class Settings {
         public static final String LOCKSCREEN_SHORTCUTS = "lockscreen_shortcuts";
 
         /**
-         * Weather to minimize lockscreen challenge on screen turned on
+         * Whether to minimize lockscreen challenge on screen turned on
          * @hide
          */
         public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
+
+        /**
+         * Whether to use the carousel as widget container
+         * @hide
+         */
+        public static final String LOCKSCREEN_USE_WIDGET_CONTAINER_CAROUSEL = "lockscreen_use_widget_container_carousel";
 
         /**
          * Whether the hints for the left and right widgets are shown when the screen is turned on
