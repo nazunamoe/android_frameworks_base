@@ -3280,6 +3280,13 @@ public final class Settings {
             "navigation_bar_glow_duration_on",
         };
 
+        /**
+         * Whether to enable or not pie controls
+         * The value is boolean (1 or 0).
+         * @hide
+         */
+        public static final String PIE_CONTROLS = "pie_controls";
+
        /**
         * Key to store Torch state.
         * @hide 
