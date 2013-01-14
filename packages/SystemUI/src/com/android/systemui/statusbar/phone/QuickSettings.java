@@ -93,7 +93,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.PhoneConstants;
-import com.android.systemui.navbar.NavBarTarget;
+import com.android.systemui.navbar.SysAction;
 
 import java.io.File;
 import java.io.InputStream;
@@ -188,8 +188,6 @@ public class QuickSettings {
     private ConnectivityManager mConnService;
     private NfcAdapter mNfcAdapter;
 
-    private NavBarTarget mNavBarTarget;
-
     private BrightnessController mBrightnessController;
     private BluetoothController mBluetoothController;
 
@@ -275,8 +273,6 @@ public class QuickSettings {
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         mBluetoothState = new QuickSettingsModel.BluetoothState();
         mHandler = new Handler();
-
-        mNavBarTarget = new NavBarTarget(mContext);
 
         Resources r = mContext.getResources();
         mBatteryLevels = (LevelListDrawable) r.getDrawable(R.drawable.qs_sys_battery);
@@ -815,7 +811,7 @@ public class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mNavBarTarget.launchAction(mNavBarTarget.ACTION_VIB);
+                        SysAction.getInstance(mContext).launchAction(SysAction.ACTION_VIB);
                         mModel.refreshVibrateTile();
                     }
                 });
@@ -845,7 +841,7 @@ public class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mNavBarTarget.launchAction(mNavBarTarget.ACTION_SILENT);
+                        SysAction.getInstance(mContext).launchAction(SysAction.ACTION_SILENT);
                         mModel.refreshSilentTile();
                     }
                 });
@@ -875,7 +871,7 @@ public class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mNavBarTarget.launchAction(mNavBarTarget.ACTION_TORCH);
+                        SysAction.getInstance(mContext).launchAction(SysAction.ACTION_TORCH);
                         mHandler.postDelayed(delayedRefresh, 1000);
                     }
                 });
