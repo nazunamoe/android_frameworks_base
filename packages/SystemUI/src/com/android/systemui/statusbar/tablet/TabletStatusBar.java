@@ -35,6 +35,7 @@ import android.content.res.Configuration;
 import android.content.res.CustomTheme;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.graphics.ColorFilterMaker;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -1658,10 +1659,9 @@ public class TabletStatusBar extends BaseStatusBar implements
             Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
         int navbarBackgroundColor = Settings.System.getInt(cr,
             Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
-        float alpha = Color.alpha(navbarBackgroundColor);
 
         if (defaultBg == 0) {
-            this.setBackgroundColor(navbarBackgroundColor);
+            mNavBarView.setBackgroundColor(navbarBackgroundColor);
         } else if (defaultBg == 1) {
             mNavBarView.setBackgroundResource(R.drawable.system_bar_background);
             mNavBarView.getBackground().setColorFilter(ColorFilterMaker.
