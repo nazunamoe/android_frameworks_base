@@ -450,7 +450,7 @@ public class NavigationBarView extends LinearLayout {
 
         final int iconSize = 80;
         ExtensibleKeyButtonView v = null;
-        if(AwesomeAction.ACTION_RECENTS.equals(clickAction)) {
+        if(SysAction.ACTION_RECENTS.equals(clickAction)) {
             v = new RecentsKeyButtonView(mContext, null, clickAction, longpress);
         } else {
             v = new ExtensibleKeyButtonView(mContext, null, clickAction,
