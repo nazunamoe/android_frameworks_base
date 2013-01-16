@@ -67,6 +67,7 @@ import android.util.Pair;
 import android.util.Slog;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.IWindowManager;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -163,6 +164,8 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     PhoneStatusBarPolicy mIconPolicy;
 
+    private IWindowManager mWm;
+
     // These are no longer handled by the policy, because we need custom strategies for them
     BluetoothController mBluetoothController;
     BatteryControllerStock mBatteryControllerStock;
@@ -255,6 +258,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     private GestureCatcherView mGesturePanel;
     private boolean mAutoHideVisible = false;
     private int mAutoHideTimeOut = 3000;
+    private boolean mLockscreenOn;
 
     // the tracker view
     int mTrackingPosition; // the position of the top of the tracking view.
@@ -377,6 +381,8 @@ public class PhoneStatusBar extends BaseStatusBar {
         final Context context = mContext;
 
         Resources res = context.getResources();
+
+        mWm = IWindowManager.Stub.asInterface(ServiceManager.getService("window"));
 
         updateDisplaySize(); // populates mDisplayMetrics
         loadDimens();
@@ -859,12 +865,12 @@ public class PhoneStatusBar extends BaseStatusBar {
             if (mAutoHideTimeOut > 0) {
                 mHandler.postDelayed(delayHide, mAutoHideTimeOut);
             }
-                // Start the timer to hide the NavBar;
+                // Start the timer to hide the NavBar; <-- I LOLZ. Mike even comments in java. ;-)
         }
     }
 
     private void hideNavBar() {
-        if (mNavigationBarView != null) {
+        if (mNavigationBarView != null && !mLockscreenOn) {
             Log.d("PopUpNav","Removing NavBar");
             try {
                 mWindowManager.removeView(mNavigationBarView);
@@ -897,6 +903,16 @@ public class PhoneStatusBar extends BaseStatusBar {
         mGesturePanel = null;
         mHandler.removeCallbacks(delayHide);
         mAutoHideVisible = false;
+    }
+
+    @Override
+    public void setSearchLightOn() {
+        try {
+            mLockscreenOn = mWm.isKeyguardLocked();
+        } catch (RemoteException e) {
+
+        }
+        showNavBar();
     }
 
     @Override
@@ -934,7 +950,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         if (!mNavBarAutoHide) {
             // we don't add the NavBar if AutoHide is on.
-            mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());  
+            mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
         }
     }
 
@@ -2506,7 +2522,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                             && (mCurrentUIMode == 0));
                 }
                 if (mGesturePanel !=null) {
-                    mGesturePanel.setSwapXY((mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
+                    mGesturePanel.setSwapXY((mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
                             && (mCurrentUIMode == 0));
                     hideNavBar(); // Reset the Gesture window to the new orientation.
                 }
@@ -2739,15 +2755,17 @@ public class PhoneStatusBar extends BaseStatusBar {
 		void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.CURRENT_UI_MODE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[shortClick]), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[longClick]), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[doubleClick]), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.CURRENT_UI_MODE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAV_HIDE_ENABLE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAV_HIDE_TIMEOUT), false, this);
         }
 
          @Override

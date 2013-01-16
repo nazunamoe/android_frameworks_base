@@ -3226,6 +3226,16 @@ public final class Settings {
         /**
          * @hide
          */
+        public static final String DRAG_HANDLE_WEIGHT = "drag_handle_weight";
+
+        /**
+         * @hide
+         */
+        public static final String DRAG_HANDLE_VISIBLE = "drag_handle_visible";
+
+        /**
+         * @hide
+         */
         public static final String MENU_LOCATION = "menu_location";
 
         /**

@@ -98,7 +98,11 @@ public class TvStatusBar extends BaseStatusBar {
     }
 
     @Override
-    protected void showBar(boolean showSearch) {
+    protected void showBar(boolean showSearch){
+    }
+
+    @Override
+    protected void setSearchLightOn(){
     }
 
     @Override
