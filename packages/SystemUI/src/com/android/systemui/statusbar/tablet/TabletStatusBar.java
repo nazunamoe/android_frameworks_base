@@ -729,6 +729,10 @@ public class TabletStatusBar extends BaseStatusBar implements
     }
 
     @Override
+    protected void onBarTouchEvent(MotionEvent ev) {
+    }
+
+    @Override
     protected void showBar(){
     }
 

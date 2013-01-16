@@ -89,6 +89,7 @@ public class NavigationBarView extends LinearLayout {
     private boolean mColorAllIcons;
     
     public DelegateViewHelper mDelegateHelper;
+    private BaseStatusBar mBar;
 
     // workaround for LayoutTransitions leaving the nav buttons in a weird state (bug 5549288)
     final static boolean WORKAROUND_INVALID_LAYOUT = true;
@@ -188,12 +189,16 @@ public class NavigationBarView extends LinearLayout {
 
     public void setBar(BaseStatusBar phoneStatusBar) {
         mDelegateHelper.setBar(phoneStatusBar);
+        mBar = phoneStatusBar;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mDelegateHelper != null) {
             mDelegateHelper.onInterceptTouchEvent(event);
+        }
+        if (mBar != null) {
+            mBar.onBarTouchEvent(event);
         }
         return true;
     }

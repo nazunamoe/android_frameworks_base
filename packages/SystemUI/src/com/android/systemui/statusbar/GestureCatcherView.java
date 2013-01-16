@@ -3,18 +3,25 @@ package com.android.systemui.statusbar;
 import com.android.systemui.R;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.PixelFormat;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class GestureCatcherView extends LinearLayout{
 
     private Context mContext;
     private Handler mHandler;
+    private ImageView mDragButton;
     long mDowntime;
     int mTimeOut;
 
@@ -34,6 +41,9 @@ public class GestureCatcherView extends LinearLayout{
         mContext = context;
         mHandler = new Handler();
         mBar = sb;
+        mDragButton = new ImageView(mContext);
+        mDragButton.setImageDrawable(mContext.getResources().getDrawable(R.drawable.navbar_drag_button));
+        addView(mDragButton);
         this.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -72,5 +82,25 @@ public class GestureCatcherView extends LinearLayout{
 
     public void setSwapXY(boolean swap) {
         mSwapXY = swap;
+        if (mSwapXY) {
+            mDragButton.setImageDrawable(mContext.getResources().getDrawable(R.drawable.navbar_drag_button_land));
+        } else {
+            mDragButton.setImageDrawable(mContext.getResources().getDrawable(R.drawable.navbar_drag_button));
+        }
+    }
+
+    public WindowManager.LayoutParams getGesturePanelLayoutParams() {
+        boolean onSide = (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
+            && (Settings.System.getInt(mContext.getContentResolver(),Settings.System.CURRENT_UI_MODE, 0) == 0);
+        WindowManager.LayoutParams lp  = new WindowManager.LayoutParams( 
+                WindowManager.LayoutParams.WRAP_CONTENT,WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSLUCENT);
+        lp.gravity = (onSide ? Gravity.CENTER_VERTICAL | Gravity.RIGHT : Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
+        lp.setTitle("GesturePanel");
+        return lp;
     }
 }
