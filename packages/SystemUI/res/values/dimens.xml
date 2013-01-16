@@ -233,6 +233,7 @@
     <!-- Constant for hidden navbar drag handle -->
     <dimen name="drag_handle_height">10dp</dimen>
 
+<<<<<<< HEAD
     <!-- PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE -->
     <dimen name="pie_trigger_height">12dp</dimen>
 
@@ -266,4 +267,6 @@
     <dimen name="pie_panel_padding">20dp</dimen>
     <!-- PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE PIE -->
 
+=======
+>>>>>>> 24b44fa... FW: Hiding NavBar
 </resources>

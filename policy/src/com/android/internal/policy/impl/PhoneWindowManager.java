@@ -1444,7 +1444,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         Settings.System.NAVIGATION_BAR_SHOW, showByDefault);
         boolean showNavBarNow = Settings.System.getBoolean(resolver,
                 Settings.System.NAVIGATION_BAR_SHOW_NOW, showByDefault);
-
         boolean NavHide = Settings.System.getBoolean(resolver, Settings.System.NAV_HIDE_ENABLE, false);
         if (NavHide && !showNavBarNow) {// if we are autohiding, then let's force the NavBar to 'Show' status
             showNavBarNow = true;
