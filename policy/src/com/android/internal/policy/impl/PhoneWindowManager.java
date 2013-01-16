@@ -1444,8 +1444,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         Settings.System.NAVIGATION_BAR_SHOW, showByDefault);
         boolean showNavBarNow = Settings.System.getBoolean(resolver,
                 Settings.System.NAVIGATION_BAR_SHOW_NOW, showByDefault);
-        mNavBarAutoHide = Settings.System.getBoolean(resolver, Settings.System.NAV_HIDE_ENABLE, false);
-        if (mNavBarAutoHide && !showNavBarNow) {// if we are autohiding, then let's force the NavBar to 'Show' status
+
+        boolean NavHide = Settings.System.getBoolean(resolver, Settings.System.NAV_HIDE_ENABLE, false);
+        if (NavHide && !showNavBarNow) {// if we are autohiding, then let's force the NavBar to 'Show' status
             showNavBarNow = true;
             Settings.System.putBoolean(resolver,
                     Settings.System.NAVIGATION_BAR_SHOW_NOW, showNavBarNow);
@@ -1469,6 +1470,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (mUserUIMode != Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.USER_UI_MODE,mStockUIMode)) {
             resetScreenHelper();
+        }
+        if (NavHide != mNavBarAutoHide) {
+        	mNavBarAutoHide = NavHide;
+        	resetScreenHelper();
         }
     }
 

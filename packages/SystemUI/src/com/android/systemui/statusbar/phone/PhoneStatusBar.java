@@ -822,26 +822,25 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
     }
 
+    View.OnTouchListener mNavBarListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v,MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                // Action is outside the NavBar, immediately hide the NavBar
+                mHandler.removeCallbacks(delayHide);
+                if (mGesturePanel != null) {
+                    // possible that we disabled AutoHide, but still have this listener 
+                    // hanging around.
+                    hideNavBar();
+                }
+            }
+            return false;
+        }
+    };
+
     private void setupAutoHide(){
         if (mNavigationBarView !=null){
-            mNavigationBarView.setOnTouchListener(new View.OnTouchListener () {
-                @Override
-                public boolean onTouch(View v,MotionEvent event) {
-                    Log.d("PopUpNav","Got NavBar Touch");
-                    if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-                        // Action is outside the NavBar, immediately hide the NavBar
-                        mHandler.removeCallbacks(delayHide);
-                        hideNavBar();
-                    } else {
-                        // Action must be inside the View - reset the timer;
-                        if (mAutoHideTimeOut > 0) {
-                            mHandler.removeCallbacks(delayHide); // reset
-                            mHandler.postDelayed(delayHide,mAutoHideTimeOut);
-                        }
-                    }
-                    return false;
-                }
-            });
+            mNavigationBarView.setOnTouchListener(mNavBarListener);
             if (mGesturePanel == null) {
                 mGesturePanel = new GestureCatcherView(mContext,null,this);
             }
@@ -856,11 +855,9 @@ public class PhoneStatusBar extends BaseStatusBar {
     };
 
     private void showNavBar(){
-        Log.d("PopUpNav","showNavBar()");
         if (mWindowManager != null && !mAutoHideVisible){
             mWindowManager.removeView(mGesturePanel);
             mAutoHideVisible = true;
-            Log.d("PopUpNav","adding NavBar");
             mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
             repositionNavigationBar();
             if (mAutoHideTimeOut > 0) {
@@ -872,15 +869,12 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     private void hideNavBar() {
         if (mNavigationBarView != null && !mLockscreenOn) {
-            Log.d("PopUpNav","Removing NavBar");
             try {
                 mWindowManager.removeView(mNavigationBarView);
-                mWindowManager.removeView(mGesturePanel);
             } catch (IllegalArgumentException e) {
                 // we are probably in a state where NavBar has been created, but not actually added to the window
                 Log.d("PopUpNav","Failed Removing NavBar");
             }
-            Log.d("PopUpNav","Removing GesturePanel");
             try {
                 // we remove the GesturePanel just to make sure we don't have a case where we are
                 // trying to add two gesture panels
@@ -889,7 +883,6 @@ public class PhoneStatusBar extends BaseStatusBar {
                 // we are probably in a state where NavBar has been created, but not actually added to the window
                 Log.d("PopUpNav","Failed Removing Gesture");
             }
-            Log.d("PopUpNav","adding GesturePanel");
             mWindowManager.addView(mGesturePanel, mGesturePanel.getGesturePanelLayoutParams());
             mAutoHideVisible = false;
         }
@@ -903,7 +896,10 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
         mGesturePanel = null;
         mHandler.removeCallbacks(delayHide);
-        mAutoHideVisible = false;
+        addNavigationBar();
+        // let's force the NavBar back On
+        Settings.System.putBoolean(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_SHOW_NOW, true);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class GestureCatcherView extends LinearLayout{
     int mTimeOut;
     private float mButtonWeight;
     private int mGestureHeight;
-    private boolean mDragButtonVisible;
+    private int mDragButtonOpacity;
     private boolean mPhoneMode;
 
     private int mTriggerThreshhold = 20;
@@ -148,7 +148,8 @@ public class GestureCatcherView extends LinearLayout{
             setOrientation(HORIZONTAL);
         }
         mDragButton.setScaleType(ImageView.ScaleType.FIT_XY);
-        mDragButton.setImageAlpha(mDragButtonVisible ? 255 : 0);
+        float opacity = (255f * (mDragButtonOpacity/ 100f));
+        mDragButton.setImageAlpha((int) opacity);
         addView(mDragButton,dragParams);
         invalidate();
     }
@@ -162,7 +163,7 @@ public class GestureCatcherView extends LinearLayout{
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DRAG_HANDLE_WEIGHT), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.DRAG_HANDLE_VISIBLE), false, this);
+                    Settings.System.DRAG_HANDLE_OPACITY), false, this);
         }
          @Override
         public void onChange(boolean selfChange) {
@@ -171,7 +172,7 @@ public class GestureCatcherView extends LinearLayout{
     }
    protected void updateSettings() {
         ContentResolver cr = mContext.getContentResolver();
-        mDragButtonVisible = Settings.System.getBoolean(cr, Settings.System.DRAG_HANDLE_VISIBLE, true);
+        mDragButtonOpacity = Settings.System.getInt(cr, Settings.System.DRAG_HANDLE_OPACITY, 50);
         mPhoneMode = Settings.System.getInt(cr,Settings.System.CURRENT_UI_MODE, 0) == 0;
 
         mButtonWeight = Settings.System.getInt(cr, Settings.System.DRAG_HANDLE_WEIGHT, 5);
