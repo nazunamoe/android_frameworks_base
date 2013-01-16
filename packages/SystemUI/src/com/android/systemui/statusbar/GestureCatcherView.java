@@ -44,7 +44,7 @@ public class GestureCatcherView extends LinearLayout{
         mDragButton = new ImageView(mContext);
         mDragButton.setImageDrawable(mContext.getResources().getDrawable(R.drawable.navbar_drag_button));
         addView(mDragButton);
-        this.setOnTouchListener(new View.OnTouchListener() {
+        mDragButton.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -71,11 +71,21 @@ public class GestureCatcherView extends LinearLayout{
                         distance = mSwapXY ? (mDownPoint[0] - x) : (mDownPoint[1] - y);
                         if (distance > mTriggerThreshhold) {
                             mNavBarSwipeStarted = false;
-                            mBar.showBar();
+                            mBar.showBar(false);
                         }
                     }
                 }
+             // fake a touch on the NavRing
+                mBar.mSearchPanelView.dispatchTouchEvent(event);
                 return false;
+            }
+        });
+        mDragButton.setOnLongClickListener(new View.OnLongClickListener() {
+        
+            @Override
+            public boolean onLongClick(View v) {
+                mBar.showBar(true);
+                return true;
             }
         });
     }

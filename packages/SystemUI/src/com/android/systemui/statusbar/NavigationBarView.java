@@ -205,6 +205,9 @@ public class NavigationBarView extends LinearLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (mBar != null) {
+            mBar.onBarTouchEvent(event);
+        }
         return mDelegateHelper.onInterceptTouchEvent(event);
     }
 

@@ -262,7 +262,7 @@ public class TabletStatusBar extends BaseStatusBar implements
     CustomTheme mCurrentTheme;
     private boolean mRecreating = false;
 
-    
+
     protected void addPanelWindows() {
         final Context context = mContext;
         final Resources res = mContext.getResources();
@@ -754,9 +754,10 @@ public class TabletStatusBar extends BaseStatusBar implements
     }
 
     @Override
-    protected void showBar(){
+    protected void showBar(boolean showSearch){
     }
 
+    private int mShowSearchHoldoff = 0;
     private Runnable mShowSearchPanel = new Runnable() {
         public void run() {
             showSearchPanel();
