@@ -758,7 +758,7 @@ public class TabletStatusBar extends BaseStatusBar implements
     }
 
     @Override
-    protected void setSearchLightOn(){
+    protected void setSearchLightOn(boolean on){
     }
 
     private int mShowSearchHoldoff = 0;

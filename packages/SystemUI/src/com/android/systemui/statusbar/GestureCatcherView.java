@@ -45,7 +45,6 @@ public class GestureCatcherView extends LinearLayout{
     public GestureCatcherView(Context context, AttributeSet attrs, BaseStatusBar sb) {
         super(context, attrs);
 
-        Log.d(TAG,"NavPopupView Constructor");
         mContext = context;
         mBar = sb;
         mDragButton = new ImageView(mContext);
@@ -67,7 +66,6 @@ public class GestureCatcherView extends LinearLayout{
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 int action = event.getAction();
-                Log.d(TAG,"got Gesture Action:");
                 switch (action) {
                 case  MotionEvent.ACTION_DOWN :
                     if (!mNavBarSwipeStarted) {

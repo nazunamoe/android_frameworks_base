@@ -822,7 +822,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     }
 
     private void setupAutoHide(){
-        if (mNavigationBarView !=null){ 
+        if (mNavigationBarView !=null){
             mNavigationBarView.setOnTouchListener(new View.OnTouchListener () {
                 @Override
                 public boolean onTouch(View v,MotionEvent event) {
@@ -906,18 +906,20 @@ public class PhoneStatusBar extends BaseStatusBar {
     }
 
     @Override
-    public void setSearchLightOn() {
+    public void setSearchLightOn(boolean on) {
         try {
             mLockscreenOn = mWm.isKeyguardLocked();
         } catch (RemoteException e) {
 
         }
-        showNavBar();
+        if (on)
+            showNavBar();
+        else
+            hideNavBar();
     }
 
     @Override
     protected void showBar(boolean showSearch){
-        Log.d("PopUpNav","showBar()");
         showNavBar();
         if (showSearch) {
             mHandler.removeCallbacks(mShowSearchPanel);
@@ -928,7 +930,6 @@ public class PhoneStatusBar extends BaseStatusBar {
     @Override
     protected void onBarTouchEvent(MotionEvent ev){
         // NavBar/SystemBar reports a touch event - reset the hide timer if applicable
-        Log.d("PopUpNav","onBarTouchEvent()");
         if (mNavBarAutoHide && mAutoHideTimeOut > 0) {
             mHandler.removeCallbacks(delayHide); // reset
             mHandler.postDelayed(delayHide,mAutoHideTimeOut);

@@ -541,6 +541,26 @@ public class NavigationBarView extends LinearLayout {
         setDisabledFlags(disabledFlags, false);
     }
 
+<<<<<<< HEAD
+=======
+    private boolean isKeyguardEnabled() {
+        KeyguardManager km = (KeyguardManager)mContext.getSystemService(Context.KEYGUARD_SERVICE);
+        if(km == null) return false;
+
+        return km.isKeyguardLocked();
+    }
+
+    private void updateKeyguardAlpha() {
+        if((mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) != 0) {
+            // keyboard up, always darken it
+            setBackgroundAlpha(1);
+        } else {
+            // if the user set alpha is below what the keygaurd alpha, match the keyguard alpha and be pretty
+            setBackgroundAlpha(isKeyguardEnabled() && mNavigationBarAlpha < KEYGUARD_ALPHA ? KEYGUARD_ALPHA : mNavigationBarAlpha);
+        }
+    }
+
+>>>>>>> fe1117e... FW: Hiding NavBar
     public void setDisabledFlags(int disabledFlags, boolean force) {
         if (!force && mDisabledFlags == disabledFlags) return;
 
@@ -578,8 +598,12 @@ public class NavigationBarView extends LinearLayout {
 
             }
         }
+        getSearchLight().setVisibility(isKeyguardEnabled() ? View.VISIBLE : View.GONE);
         if (mNavBarAutoHide && !isRotating) {
-             mBar.setSearchLightOn();
+            if (isKeyguardEnabled())
+                mBar.setSearchLightOn(true);
+            else
+                mBar.setSearchLightOn(false);
         }
         isRotating = false;
         updateMenuArrowKeys();
