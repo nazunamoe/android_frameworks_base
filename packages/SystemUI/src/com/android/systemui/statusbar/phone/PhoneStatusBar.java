@@ -833,38 +833,59 @@ public class PhoneStatusBar extends BaseStatusBar {
     };
 
     private void showNavBar(){
+        Log.d("PopUpNav","showNavBar()");
         if (mWindowManager != null && !mAutoHideVisible){
-            mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
             mWindowManager.removeView(mGesturePanel);
-                mAutoHideVisible = true;
-                if (mAutoHideTimeOut > 0) {
-                    mHandler.postDelayed(delayHide, mAutoHideTimeOut);
-                }
-                // Start the timer to hide the NavBar;
+            mAutoHideVisible = true;
+            Log.d("PopUpNav","adding NavBar");
+            mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
+            repositionNavigationBar();
+            if (mAutoHideTimeOut > 0) {
+                mHandler.postDelayed(delayHide, mAutoHideTimeOut);
             }
+                // Start the timer to hide the NavBar;
+        }
     }
 
     private void hideNavBar() {
-        Log.d("PopUpNav","Removing NavBar");
         if (mNavigationBarView != null) {
+            Log.d("PopUpNav","Removing NavBar");
             try {
                 mWindowManager.removeView(mNavigationBarView);
-                mWindowManager.addView(mGesturePanel, getGesturePanelLayoutParams());
-                mAutoHideVisible = false;
+                mWindowManager.removeView(mGesturePanel);
             } catch (IllegalArgumentException e) {
                 // we are probably in a state where NavBar has been created, but not actually added to the window
+                Log.d("PopUpNav","Failed Removing NavBar");
             }
+            Log.d("PopUpNav","Removing GesturePanel");
+            try {
+                // we remove the GesturePanel just to make sure we don't have a case where we are
+                // trying to add two gesture panels
+                mWindowManager.removeView(mGesturePanel);
+            } catch (IllegalArgumentException e) {
+                // we are probably in a state where NavBar has been created, but not actually added to the window
+                Log.d("PopUpNav","Failed Removing Gesture");
+            }
+            Log.d("PopUpNav","adding GesturePanel");
+            mWindowManager.addView(mGesturePanel, getGesturePanelLayoutParams());
+            mAutoHideVisible = false;
         }
     }
 
     private void disableAutoHide(){
-        mWindowManager.removeView(mGesturePanel);
+        try {
+            mWindowManager.removeView(mGesturePanel);
+        } catch (IllegalArgumentException e) {
+            Log.d("PopUpNav","Failed Removing Gesture on disableAutoHide");
+        }
         mGesturePanel = null;
         mHandler.removeCallbacks(delayHide);
+        mAutoHideVisible = false;
     }
 
     @Override
     protected void showBar(){
+        Log.d("PopUpNav","showBar()");
         showNavBar();
     }
 
@@ -881,7 +902,10 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         prepareNavigationBarView();
 
-        mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
+        if (!mNavBarAutoHide) {
+            // we don't add the NavBar if AutoHide is on.
+            mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());  
+        }
     }
 
     private void repositionNavigationBar() {
@@ -894,8 +918,10 @@ public class PhoneStatusBar extends BaseStatusBar {
             return;
         }
         prepareNavigationBarView();
-
-        mWindowManager.updateViewLayout(mNavigationBarView, getNavigationBarLayoutParams());
+        if (!mNavBarAutoHide || (mNavBarAutoHide && mAutoHideVisible)) {
+            // we only want to update the NavBar if we know it's attached to the window.
+            mWindowManager.updateViewLayout(mNavigationBarView, getNavigationBarLayoutParams());
+        }
     }
 
     private void notifyNavigationBarScreenOn(boolean screenOn) {
@@ -911,7 +937,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                 WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                  | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                 | WindowManager.LayoutParams.FLAG_SPLIT_TOUCH,
+                 | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                   PixelFormat.TRANSLUCENT);
         lp.gravity = Gravity.BOTTOM;
         lp.setTitle("GesturePanel");
@@ -2443,6 +2469,10 @@ public class PhoneStatusBar extends BaseStatusBar {
                             mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
                             && (mCurrentUIMode == 0));
                 }
+                if (mGesturePanel !=null) {
+                    mGesturePanel.setSwapXY((mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) 
+                            && (mCurrentUIMode == 0));
+                }
             }
             else if (Intent.ACTION_SCREEN_ON.equals(action)) {
                 // work around problem where mDisplay.getRotation() is not stable while screen is off (bug 7086018)
@@ -2714,7 +2744,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         mNavBarAutoHide = Settings.System.getBoolean(cr, Settings.System.NAV_HIDE_ENABLE, false);
         mAutoHideTimeOut = Settings.System.getInt(cr, Settings.System.NAV_HIDE_TIMEOUT, mAutoHideTimeOut);
         if (mNavBarAutoHide) {
-            setupAutoHide ();
+            setupAutoHide();
         } else if (mGesturePanel != null) {
             disableAutoHide();
         }

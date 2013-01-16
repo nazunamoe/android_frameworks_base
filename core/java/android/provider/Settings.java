@@ -3216,7 +3216,21 @@ public final class Settings {
          * Sets the alpha of notification wallpaper
          * @hide
          */
+<<<<<<< HEAD
         public static final String NOTIF_WALLPAPER_ALPHA = "notif_wallpaper_alpha";
+=======
+        public static final String NAV_HIDE_TIMEOUT = "nav_hide_timeout";
+
+        /**
+         * @hide
+         */
+        public static final String NAV_HIDE_ENABLE = "nav_hide_enable";
+
+        /**
+         * @hide
+         */
+        public static final String MENU_LOCATION = "menu_location";
+>>>>>>> df9e881... FW: Hiding NavBar - {WIP - DO NOT MERGE}
 
         /**
          * @hide

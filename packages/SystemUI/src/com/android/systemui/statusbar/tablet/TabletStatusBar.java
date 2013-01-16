@@ -728,81 +728,10 @@ public class TabletStatusBar extends BaseStatusBar implements
         mWindowManager.updateViewLayout(mStatusBarView, lp);
     }
 
+
     @Override
     protected void showBar(){
     }
-
-    private int mShowSearchHoldoff = 0;
-    private Runnable mShowSearchPanel = new Runnable() {
-        public void run() {
-            showSearchPanel();
-        }
-    };
-
-    View.OnTouchListener mHomeSearchActionListener = new View.OnTouchListener() {
-        public boolean onTouch(View v, MotionEvent event) {
-            switch(event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (!shouldDisableNavbarGestures()) {
-                    mHandler.removeCallbacks(mShowSearchPanel);
-                    mHandler.postDelayed(mShowSearchPanel, mShowSearchHoldoff);
-                }
-            break;
-
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                mHandler.removeCallbacks(mShowSearchPanel);
-            break;
-        }
-        return false;
-        }
-    };
-
-    final Runnable DelayShortPress = new Runnable () {
-        public void run() {
-                doubleClickCounter = 0;
-                animateCollapsePanels();
-                mSysAction.launchAction(mClockActions[shortClick]);
-        }
-    };
-
-   final Runnable ResetDoubleClickCounter = new Runnable () {
-        public void run() {
-                doubleClickCounter = 0;
-        }
-    };
-
-    private View.OnClickListener mClockClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            if (mClockDoubleClicked) {
-                if (doubleClickCounter > 0) {
-                    mHandler.removeCallbacks(DelayShortPress);
-                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    animateCollapsePanels();
-                    mSysAction.launchAction(mClockActions[doubleClick]);
-                    mHandler.postDelayed(ResetDoubleClickCounter, 50);
-                } else {
-                    doubleClickCounter = doubleClickCounter + 1;
-                    v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                    mHandler.postDelayed(DelayShortPress, 400);
-                }
-            } else {
-                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                animateCollapsePanels();
-                mSysAction.launchAction(mClockActions[shortClick]);
-            }
-        }
-    };
-
-    private View.OnLongClickListener mClockLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            animateCollapsePanels();
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            mSysAction.launchAction(mClockActions[longClick]);
-            return true;
-        }
-    };
 
     public int getStatusBarHeight() {
         return mStatusBarView != null ? mStatusBarView.getHeight()
