@@ -35,7 +35,6 @@ import android.content.res.Configuration;
 import android.content.res.CustomTheme;
 import android.content.res.Resources;
 import android.database.ContentObserver;
-import android.graphics.ColorFilterMaker;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -1644,10 +1643,6 @@ public class TabletStatusBar extends BaseStatusBar implements
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[shortClick]), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[longClick]), false, this);
@@ -1673,7 +1668,6 @@ public class TabletStatusBar extends BaseStatusBar implements
          @Override
         public void onChange(boolean selfChange) {
             updateSettings();
-            updateColor();
         }
     }
 
@@ -1715,25 +1709,5 @@ public class TabletStatusBar extends BaseStatusBar implements
         mLandscape = (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
 
         UpdateWeights(mLandscape);
-    }
-
-    protected void updateColor() {
-        ContentResolver cr = mContext.getContentResolver();
-
-        int defaultBg = Settings.System.getInt(cr,
-            Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
-        int navbarBackgroundColor = Settings.System.getInt(cr,
-            Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
-
-        if (defaultBg == 0) {
-            mNavBarView.setBackgroundColor(navbarBackgroundColor);
-        } else if (defaultBg == 1) {
-            mNavBarView.setBackgroundResource(R.drawable.system_bar_background);
-            mNavBarView.getBackground().setColorFilter(ColorFilterMaker.
-                    changeColorAlpha(navbarBackgroundColor, .32f, 0f));
-        } else {
-            mNavBarView.setBackground(mContext.getResources().getDrawable(
-                    R.drawable.system_bar_background));
-        }
     }
 }
