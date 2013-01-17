@@ -873,7 +873,7 @@ public class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AwesomeAction.getInstance(mContext).launchAction(AwesomeAction.ACTION_SILENT_VIB);
+                        SysAction.getInstance(mContext).launchAction(SysAction.ACTION_SILENT_VIB);
                         mModel.refreshSoundStateTile();
                     }
                 });
