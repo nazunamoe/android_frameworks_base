@@ -1840,26 +1840,18 @@
   <!-- Developer settings - Kill app back press -->
   <java-symbol type="string" name="app_killed_message" />
 
-  <!-- For Kill app back press -->
+  <!-- -->
   <java-symbol type="integer" name="config_backKillTimeout" />
-
+  <java-symbol type="string" name="config_legacyUmsLunFile" />
+  <java-symbol type="bool" name="config_noDelayInATwoDP" />
   <java-symbol type="bool" name="config_forceDisableHardwareKeyboard" />
-
-  <!-- If this value is true, we handle Samsung CDMA's message ID method -->
   <java-symbol type="bool" name="config_smsSamsungCdmaAlternateMessageIDEncoding" />
-
-  <!-- For Samsung STK suppport -->
   <java-symbol type="bool" name="config_samsung_stk" />
-
-  <!-- Wallpaper Width -->
   <java-symbol type="integer" name="config_wallpaperMaxWidth" />
-
-  <!-- Notification and battery light -->
   <java-symbol type="bool" name="config_intrusiveNotificationLed" />
   <java-symbol type="bool" name="config_intrusiveBatteryLed" />
   <java-symbol type="bool" name="config_multiColorBatteryLed" />
   <java-symbol type="array" name="notification_light_package_mapping" />
-
   <java-symbol type="bool" name="config_hasRotationLockSwitch" />
 
   <!-- Hide Navbar -->
