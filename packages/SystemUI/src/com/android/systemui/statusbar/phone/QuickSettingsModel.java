@@ -979,7 +979,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
                 case AudioManager.RINGER_MODE_NORMAL:
                 default:
                     enabled = false;
-                    iconId = R.drawable.ic_qs_sound_off;
+                    iconId = (mUseDefaultTheme ? R.drawable.ic_qs_sound_off : R.drawable.ic_qs_sound_off_light);
                     label = R.string.quick_settings_sound_on;
                     break;
                 case AudioManager.RINGER_MODE_VIBRATE:

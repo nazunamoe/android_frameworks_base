@@ -869,6 +869,7 @@ public class QuickSettings {
             case SOUND_STATE_TILE:
                 quick = (QuickSettingsTileView)
                         inflater.inflate(R.layout.quick_settings_tile, parent, false);
+                quick.setBackgroundResource(mTileBG);
                 quick.setContent(R.layout.quick_settings_tile_sound_state, inflater);
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -891,6 +892,7 @@ public class QuickSettings {
                         tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
                         tv.setTextSize(1, mTileTextSize);
+                        tv.setTextColor(mTileText);
                     }
                 });
                 break;
