@@ -3410,6 +3410,12 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_ALL_WIDGETS = "lockscreen_all_widgets";
 
+        /**
+         * Stores values for custom lockscreen targets
+         * @hide
+         */
+        public static final String LOCKSCREEN_TARGETS = "lockscreen_targets";
+
         /**	
          * Defines the shortcuts to be shown on lockscreen
          * Usage is like this: target:icon|target:icon|target:icon
