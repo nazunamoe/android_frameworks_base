@@ -1068,7 +1068,18 @@ public class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        changeNFCState();
+                        boolean enabled = false;
+                        if (mNfcAdapter == null) {
+                            mNfcAdapter = NfcAdapter.getDefaultAdapter();
+                            mModel.setNfcAdapter(mNfcAdapter);
+                        }
+                        enabled = mNfcAdapter.isEnabled();
+                        if (enabled) {
+                            mNfcAdapter.disable();
+                        } else {
+                            mNfcAdapter.enable();
+                        }
+                        mHandler.postDelayed(delayedRefresh, 1000);
                     }
                 });
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1784,23 +1795,6 @@ public class QuickSettings {
 
                 wifiManager.setWifiEnabled(desiredState);
                 return;
-            }
-        });
-    }
-
-    private void changeNFCState() {
-        final NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(mContext);
-        if (nfcAdapter == null) {
-            return;
-        }
-
-        AsyncTask.execute(new Runnable() {
-            public void run() {
-                if (nfcAdapter.isEnabled()) {
-                    nfcAdapter.disable();
-                } else {
-                    nfcAdapter.enable();
-                }
             }
         });
     }

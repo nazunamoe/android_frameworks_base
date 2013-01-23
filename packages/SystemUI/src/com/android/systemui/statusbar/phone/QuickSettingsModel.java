@@ -33,7 +33,6 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.UserHandle;
@@ -352,9 +351,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)) {
-                NfcManager manager = (NfcManager) context.getSystemService(Context.NFC_SERVICE);
-                mNfcAdapter = manager.getDefaultAdapter();
+            if (NfcAdapter.ACTION_ADAPTER_STATE_CHANGED.equals(intent.getAction())) {
                 refreshNFCTile();
             }
         }
@@ -1124,10 +1121,10 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     void addNFCTile(QuickSettingsTileView view, RefreshCallback cb) {
         mNFCTile = view;
         mNFCCallback = cb;
-        onNFCChanged();
+        refreshNFCTile();
     }
 
-    public void onNFCChanged() {
+    void onNFCChanged() {
         boolean enabled = false;
         if (mNfcAdapter != null) {
             enabled = mNfcAdapter.isEnabled();

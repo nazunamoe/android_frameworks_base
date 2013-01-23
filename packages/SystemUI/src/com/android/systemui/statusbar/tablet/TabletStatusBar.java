@@ -1709,5 +1709,5 @@ public class TabletStatusBar extends BaseStatusBar implements
         mLandscape = (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
 
         UpdateWeights(mLandscape);
-    }
+   }
 }
