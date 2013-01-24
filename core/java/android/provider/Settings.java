@@ -3198,22 +3198,6 @@ public final class Settings {
         public static final String HIDE_EXTRAS_SYSTEM_BAR = "hide_extras_system_bar";
 
         /**
-         * If checked hide extra system bar stuff
-         * ie compatmode button and extra ime switcher.
-         */
-        public static final String HIDE_EXTRAS_SYSTEM_BAR = "hide_extras_system_bar";
-
-        /**
-         * @hide
-         */
-        public static final String NAV_HIDE_TIMEOUT = "nav_hide_timeout";
-
-        /**
-         * @hide
-         */
-        public static final String NAV_HIDE_ENABLE = "nav_hide_enable";
-
-        /**
          * @hide
          */
         public static final String NAV_HIDE_TIMEOUT = "nav_hide_timeout";
