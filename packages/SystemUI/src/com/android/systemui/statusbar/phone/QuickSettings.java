@@ -136,6 +136,7 @@ public class QuickSettings {
    // private static final int BT_TETHER_TILE = 23;
     private static final int SCREEN_TILE = 24;
     private static final int SOUND_STATE_TILE = 25;
+    private static final int POWER_MENU_TILE = 27;
 
     public static final String USER_TOGGLE = "USER";
     public static final String BRIGHTNESS_TOGGLE = "BRIGHTNESS";
@@ -164,6 +165,7 @@ public class QuickSettings {
     public static final String SCREEN_TOGGLE = "SCREEN";
     public static final String FAV_CONTACT_TOGGLE = "FAVCONTACT";
     public static final String SOUND_STATE_TOGGLE = "SOUNDSTATE";
+    public static final String POWER_MENU_TOGGLE = "POWERMENU";
 
     private static final String DEFAULT_TOGGLES = "default";
 
@@ -250,6 +252,7 @@ public class QuickSettings {
             toggleMap.put(SCREEN_TOGGLE, SCREEN_TILE);
             toggleMap.put(FAV_CONTACT_TOGGLE, FAV_CONTACT_TILE);
             toggleMap.put(SOUND_STATE_TOGGLE, SOUND_STATE_TILE);
+            toggleMap.put(POWER_MENU_TOGGLE, POWER_MENU_TILE);
             //toggleMap.put(BT_TETHER_TOGGLE, BT_TETHER_TILE);
         }
         return toggleMap;
@@ -1417,6 +1420,40 @@ public class QuickSettings {
                     }
                 });
                 break;
+            case POWER_MENU_TILE:
+                quick = (QuickSettingsTileView)
+                        inflater.inflate(R.layout.quick_settings_tile, parent, false);
+                quick.setBackgroundResource(mTileBG);
+                quick.setContent(R.layout.quick_settings_tile_powermenu, inflater);
+                quick.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getService().animateCollapsePanels();
+                        Intent intent=new Intent(Intent.ACTION_POWERMENU);
+                        mContext.sendBroadcast(intent);
+                    }
+                });
+                quick.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        getService().animateCollapsePanels();
+                        Intent intent=new Intent(Intent.ACTION_POWERMENU_REBOOT);
+                        mContext.sendBroadcast(intent);
+                        return true;
+                    }
+                });
+                mModel.addPowerMenuTile(quick, new QuickSettingsModel.RefreshCallback() {
+                    @Override
+                    public void refreshView(QuickSettingsTileView view, State state) {
+		       	TextView tv = (TextView) view.findViewById(R.id.powermenu_textview);
+			tv.setText(state.label);
+                        tv.setTextSize(1, mTileTextSize);
+                        tv.setTextColor(mTileText);
+                        tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
+                    }
+                });
+                break;
+
         }
         return quick;
     }
