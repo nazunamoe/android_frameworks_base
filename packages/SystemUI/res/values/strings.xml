@@ -576,6 +576,8 @@
     <string name="quick_settings_sync_off_label">Sync Off</string>
     <string name="quick_settings_twog_on_label">2g On</string>
     <string name="quick_settings_twog_off_label">2g Off</string>
+    <string name="quick_settings_threeg_on_label">3g On</string>
+    <string name="quick_settings_threeg_off_label">3g Off</string>
     <string name="quick_settings_lte_on_label">LTE On</string>
     <string name="quick_settings_lte_off_label">LTE Off</string>
     <string name="quick_settings_gps_on_label">GPS On</string>

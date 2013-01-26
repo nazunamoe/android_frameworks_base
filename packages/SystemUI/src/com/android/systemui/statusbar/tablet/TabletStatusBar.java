@@ -728,7 +728,6 @@ public class TabletStatusBar extends BaseStatusBar implements
         mWindowManager.updateViewLayout(mStatusBarView, lp);
     }
 
-
     @Override
     protected void showBar(){
     }
@@ -792,7 +791,8 @@ public class TabletStatusBar extends BaseStatusBar implements
                 animateCollapsePanels();
                 mSysAction.launchAction(mClockActions[shortClick]);
             }
-	  	
+        }
+    };  	
 
     private View.OnLongClickListener mClockLongClickListener = new View.OnLongClickListener() {
         @Override
