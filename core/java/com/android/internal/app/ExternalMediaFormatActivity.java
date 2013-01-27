@@ -43,9 +43,6 @@ public class ExternalMediaFormatActivity extends AlertActivity implements
     private StorageManager mStorageManager;
     private StorageVolume mStorageVolume = null;
 
-    private StorageManager mStorageManager;
-    private StorageVolume mStorageVolume = null;
-
    /**
     * Used to detect when the media state changes, in case we need to call
     * finish()
