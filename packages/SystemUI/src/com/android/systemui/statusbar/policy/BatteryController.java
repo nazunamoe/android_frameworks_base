@@ -143,6 +143,8 @@ public class BatteryController extends LinearLayout {
         mBatteryStyle = Settings.System.getInt(cr,
                 Settings.System.STATUSBAR_BATTERY_ICON, 0);
         int icon;
+        icon = plugged ? R.drawable.stat_sys_battery_charge
+                    : R.drawable.stat_sys_battery;
         int N = mIconViews.size();
         for (int i = 0; i < N; i++) {
             ImageView v = mIconViews.get(i);
