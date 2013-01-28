@@ -53,6 +53,7 @@ import com.android.internal.R;
  * minutes.
  */
 public class Clock extends TextView {
+
     private boolean mAttached;
     private Calendar mCalendar;
     private String mClockFormatString;
@@ -88,12 +89,13 @@ public class Clock extends TextView {
 
     public Clock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mContext = context;
+
+        SettingsObserver observer = new SettingsObserver(new Handler());
+        observer.observe();
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
+    public void startBroadcastReceiver() {
         if (!mAttached) {
             mAttached = true;
             IntentFilter filter = new IntentFilter();
@@ -115,6 +117,12 @@ public class Clock extends TextView {
         SettingsObserver settingsObserver = new SettingsObserver(new Handler());
         settingsObserver.observe();
         updateSettings();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        startBroadcastReceiver();
     }
 
     @Override
@@ -146,7 +154,7 @@ public class Clock extends TextView {
         setText(getSmallTime());
     }
 
-    private final CharSequence getSmallTime() {
+    public final CharSequence getSmallTime() {
         Context context = getContext();
         boolean b24 = DateFormat.is24HourFormat(context);
         int res;
