@@ -2254,34 +2254,41 @@ public final class Settings {
         public static final String NAVIGATION_BAR_BUTTON_ALPHA = "navigation_bar_button_alpha";
 
         /**
-         * Sets the navbar background style
-         * 1 - Color/alpha
-         * 2 - Default drawable plus color/alpha
-         * 3 - Default drawable
+         * Navigation bar color
          * @hide
          */
-        public static final String NAVIGATION_BAR_BACKGROUND_STYLE = "navigation_bar_background_style";
+        public static final String NAVIGATION_BAR_COLOR = "navigation_bar_color";
 
         /**
-         * Sets navbar background color/alpha
+         * Navigation bar alpha
          * @hide
          */
-        public static final String NAVIGATION_BAR_BACKGROUND_COLOR = "navigation_bar_background_color";
+        public static final String NAVIGATION_BAR_ALPHA = "navigation_bar_alpha";
 
         /**
-         * Statusbar background color/alpha chooser
+         * Is current activity launcher or not
          * @hide
          */
-        public static final String STATUSBAR_BACKGROUND_COLOR = "status_bar_color";
+        public static final String IS_HOME = "is_home";
 
         /**
-         * Statusbar background style
-         * 0 - Color/alpha only
-         * 1 - Default drawable with color/alpha
-         * 2 - Default drawable only
+         * Sets transparency of statusbar
          * @hide
          */
-        public static final String STATUSBAR_BACKGROUND_STYLE = "statusbar_background_style";
+        public static final String STATUS_BAR_ALPHA = "status_bar_alpha";
+
+        /**
+         * Sets transparency mode of status and navigation bar
+         * 0 = only home, 1 = keyguard and home (default), 2 = always
+         * @hide
+         */
+        public static final String STATUS_NAV_BAR_ALPHA_MODE = "status_nav_bar_alpha_mode";
+
+        /**
+         * Sets color of statusbar
+         * @hide
+         */
+        public static final String STATUS_BAR_COLOR = "status_bar_color";
 
         /**
          * Show the pending notification counts as overlays on the status bar
@@ -3979,77 +3986,6 @@ public final class Settings {
         public static final String WIFI_WATCHDOG_PING_TIMEOUT_MS =
             Secure.WIFI_WATCHDOG_PING_TIMEOUT_MS;
 
-<<<<<<< HEAD
-=======
-        /**
-         * @hide
-         * Show Wifi network name in notification shade
-         * 0 - don't show
-         * 1 - show
-         */
-        public static final String NOTIFICATION_SHOW_WIFI_SSID = "notification_show_wifi_ssid";
-
-        /**
-        * Sets the portrait background of notification drawer
-        * @hide
-        */
-        public static final String NOTIFICATION_BACKGROUND = "notification_background";
-
-        /**
-        * Sets the landscape background of notification drawer
-        * @hide
-        */
-        public static final String NOTIFICATION_BACKGROUND_LANDSCAPE = "notification_background_landscape";
-
-        /**
-        * Sets the alpha (transparency) of notification wallpaper
-        * @hide
-        */
-        public static final String NOTIF_WALLPAPER_ALPHA = "notif_wallpaper_alpha";
-
-        /**
-        * Sets the alpha (transparency) of notifications
-        * @hide
-        */
-        public static final String NOTIF_ALPHA = "notif_alpha";
-
-        /**
-         * Sets transparency of statusbar
-         * @hide
-         */
-        public static final String STATUS_BAR_ALPHA = "status_bar_alpha";
-
-        /**
-         * Sets transparency mode of statusbar
-         * 0 = only home, 1 = keyguard and home (default), 2 = always
-         * @hide
-         */
-        public static final String STATUS_BAR_ALPHA_MODE = "status_bar_alpha_mode";
-
-        /**
-         * Sets color of statusbar
-         * @hide
-         */
-        public static final String STATUS_BAR_COLOR = "status_bar_color";
-
-        /**
-         * @hide
-         */
-        public static final String STATUS_BAR_BRIGHTNESS_SLIDER = "statusbar_brightness_slider";
-
-        /**
-         * @hide
-         */
-        public static final String STATUSBAR_TOGGLES_BRIGHTNESS_LOC = "statusbar_toggles_brightness_loc";
-
-        /**
-         * toggle to "fix" the following: (found in NotificationManagerService)
-         *  new in 4.2: if there was supposed to be a sound and we're in vibrate mode,
-         *  we always vibrate, even if no vibration was specified
-         */
-        public static final String NOTIFICATION_CONVERT_SOUND_TO_VIBRATION = "convert_sound_to_vibration";
-
->>>>>>> 306f813... Frameworks: Status Bar transparency and color (1/2)
     }
 
     /**
