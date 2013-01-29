@@ -300,6 +300,9 @@ public class PhoneStatusBar extends BaseStatusBar {
     CustomTheme mCurrentTheme;
     private boolean mRecreating = false;
 
+    // notification shade dimming
+    private static boolean mNotificationShadeDim;
+
     // for disabling the status bar
     int mDisabled = 0;
 
@@ -325,6 +328,31 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
     };
 
+
+            update();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            update();
+        }
+
+        public void update() {
+            ContentResolver resolver = mContext.getContentResolver();
+            boolean autoBrightness = Settings.System.getInt(
+                    resolver, Settings.System.SCREEN_BRIGHTNESS_MODE, 0) ==
+                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+            mBrightnessControl = !autoBrightness && Settings.System.getInt(
+                    resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1;
+
+        }
+    }
+
+    static public boolean shouldNotificationShadeDim() {
+        return mNotificationShadeDim;
+    }
+
+>>>>>>> 5eaa0ff... SystemUI: option to toggle dimming of the notification shade (1/2)
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     private boolean mUserSetup = false;
     private ContentObserver mUserSetupObserver = new ContentObserver(new Handler()) {
@@ -2766,7 +2794,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             super(handler);
         }
 
-		void observe() {
+        void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_CLOCK[shortClick]), false, this);
@@ -2780,11 +2808,22 @@ public class PhoneStatusBar extends BaseStatusBar {
                     Settings.System.NAV_HIDE_ENABLE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAV_HIDE_TIMEOUT), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NOTIFICATION_SHADE_DIM), false, this);
+            update();
         }
 
-         @Override
+        @Override
         public void onChange(boolean selfChange) {
             updateSettings();
+            update();
+        }
+
+        public void update() {
+            ContentResolver resolver = mContext.getContentResolver();
+            mNotificationShadeDim = Settings.System.getInt(
+                resolver, Settings.System.NOTIFICATION_SHADE_DIM,
+                    ActivityManager.isHighEndGfx() ? 1 : 0) == 1;
         }
     }
 
@@ -2820,6 +2859,10 @@ public class PhoneStatusBar extends BaseStatusBar {
         } else if (mGesturePanel != null) {
             disableAutoHide();
         }
+    }
+
+    static public boolean shouldNotificationShadeDim() {
+        return mNotificationShadeDim;
     }
 
     public boolean skipToSettingsPanel() {
