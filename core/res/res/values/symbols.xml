@@ -1859,6 +1859,7 @@
   <java-symbol type="integer" name="config_wallpaperMaxWidth" />
   <java-symbol type="string" name="config_deviceKeyHandlerLib" />
   <java-symbol type="string" name="config_deviceKeyHandlerClass" />
+  <java-symbol type="string" name="config_legacyUmsLunFile" />
 
   <java-symbol type="array" name="notification_light_package_mapping" />
 
