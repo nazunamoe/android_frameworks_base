@@ -1889,7 +1889,7 @@ public final class Settings {
          * Whether to prevent loud volume levels when headset is first plugged in.
          * @hide
          */
-        public static final String SAFE_HEADSET_VOLUME_RESTORE = "safe_headset_volume_restore";
+        public static final String SAFE_HEADSET_VOLUME = "safe_headset_volume";
 
         /**
          * User interface mode. This is used to change the UI mode forcing it to
