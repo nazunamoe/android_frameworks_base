@@ -93,12 +93,13 @@ public class ToggleManager {
     public static final String QUICKRECORD_TOGGLE = "QUICKRECORD";
     public static final String SLEEP_TOGGLE = "SLEEP";
     public static final String POWER_MENU_TOGGLE = "POWERMENU";
-    public static final String REBOOT_TOGGLE = "REBOOT";
+    // public static final String REBOOT_TOGGLE = "REBOOT";
     public static final String QUIETHOURS_TOGGLE = "QUIETHOURS";
     public static final String PIE_TOGGLE = "PIE";
     // public static final String LOCKSCREEN_TOGGLE = "LOCKSCREEN";
-    public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
+    // public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
     public static final String DARK_TOGGLE = "DARK";
+    public static final String STATUSBAR_TOGGLE = "STATUSBAR";
 
     private int mStyle;
     private boolean mShowRebootOnLock = true;
@@ -153,11 +154,12 @@ public class ToggleManager {
             toggleMap.put(QUICKRECORD_TOGGLE, QuickRecordToggle.class);
             toggleMap.put(SLEEP_TOGGLE, SleepToggle.class);
             toggleMap.put(POWER_MENU_TOGGLE, PowerMenuToggle.class);
-            toggleMap.put(REBOOT_TOGGLE, RebootToggle.class);
+            // toggleMap.put(REBOOT_TOGGLE, RebootToggle.class);
             toggleMap.put(QUIETHOURS_TOGGLE, QuietHoursToggle.class);
             // toggleMap.put(LOCKSCREEN_TOGGLE, LockscreenToggle.class);
             toggleMap.put(PIE_TOGGLE, PieToggle.class);
-            toggleMap.put(SCREENSHOT_TOGGLE, ScreenshotToggle.class);
+            // toggleMap.put(SCREENSHOT_TOGGLE, ScreenshotToggle.class);
+            toggleMap.put(STATUSBAR_TOGGLE, StatusbarToggle.class);
             // toggleMap.put(BT_TETHER_TOGGLE, null);
         }
         return toggleMap;
