@@ -138,7 +138,6 @@ public class QuickSettings {
     private static final int SOUND_STATE_TILE = 25;
     private static final int POWER_MENU_TILE = 27;
     private static final int THREEG_TILE = 28;
-    private static final int SOUND_STATE_TILE = 29;
     private static final int NAVBAR_HIDE_TILE = 30;
 
     public static final String USER_TOGGLE = "USER";
@@ -999,7 +998,7 @@ public class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SysAction.getInstance(mContext).launchAction(AwesomeAction.ACTION_TORCH);
+                        SysAction.getInstance(mContext).launchAction(SysAction.ACTION_TORCH);
                     }
                 });
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
