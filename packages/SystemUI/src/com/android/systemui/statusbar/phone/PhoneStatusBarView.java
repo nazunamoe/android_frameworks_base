@@ -17,6 +17,7 @@
 package com.android.systemui.statusbar.phone;
 
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
 import android.app.StatusBarManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -37,6 +38,7 @@ public class PhoneStatusBarView extends PanelBar {
     private static final String TAG = "PhoneStatusBarView";
     private static final boolean DEBUG = PhoneStatusBar.DEBUG;
 
+    KeyguardManager mKeyguardManager;
     PhoneStatusBar mBar;
     int mScrimColor;
     float mSettingsPanelDragzoneFrac;
@@ -104,6 +106,11 @@ public class PhoneStatusBarView extends PanelBar {
     @Override
     public boolean panelsEnabled() {
         return ((mBar.mDisabled & StatusBarManager.DISABLE_EXPAND) == 0);
+    }
+
+    private boolean isKeyguardEnabled() {
+        if(mKeyguardManager == null) return false;
+        return mKeyguardManager.isKeyguardLocked();
     }
 
     @Override
@@ -269,14 +276,16 @@ public class PhoneStatusBarView extends PanelBar {
         int mStatusBarBgColor = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.STATUSBAR_BACKGROUND_COLOR, 0xFF000000);
 
-        if (defaultBg == 0) {
-            setBackgroundColor(mStatusBarBgColor);
-        } else if (defaultBg == 1) {
-            setBackgroundResource(R.drawable.status_bar_background);
-            getBackground().setColorFilter(ColorFilterMaker.
-                    changeColorAlpha(mStatusBarBgColor, .32f, 0f));
-        } else {
-            setBackground(mContext.getResources().getDrawable(R.drawable.status_bar_background));
+        if (isKeyguardEnabled()) {
+            if (defaultBg == 0) {
+                setBackgroundColor(mStatusBarBgColor);
+            } else if (defaultBg == 1) {
+                setBackgroundResource(R.drawable.status_bar_background);
+                getBackground().setColorFilter(ColorFilterMaker.
+                        changeColorAlpha(mStatusBarBgColor, .32f, 0f));
+            } else {
+                setBackground(mContext.getResources().getDrawable(R.drawable.status_bar_background));
+            }
         }
     }
 }

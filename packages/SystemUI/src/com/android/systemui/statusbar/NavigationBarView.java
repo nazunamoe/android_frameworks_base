@@ -113,6 +113,8 @@ public class NavigationBarView extends LinearLayout {
      */
     int mCurrentUIMode = 0;
 
+    public static final float KEYGUARD_ALPHA = 0.44f;
+
     public String[] mClickActions = new String[7];
     public String[] mLongpressActions = new String[7];
     public String[] mPortraitIcons = new String[7];
@@ -154,8 +156,6 @@ public class NavigationBarView extends LinearLayout {
     public static final int KEY_ARROW_LEFT = 21; // pretty cute right
     public static final int KEY_ARROW_RIGHT = 22;
     public static final int KEY_BACK_ALT = 1000;
-
-
 
     private int mMenuVisbility;
     private int mMenuLocation;
@@ -541,6 +541,17 @@ public class NavigationBarView extends LinearLayout {
         setDisabledFlags(disabledFlags, false);
     }
 
+    private boolean areKeyguardHintsEnabled() {
+        return ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0) && !((mDisabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0);
+    }
+
+    private boolean isKeyguardEnabled() {
+        KeyguardManager km = (KeyguardManager)mContext.getSystemService(Context.KEYGUARD_SERVICE);
+        if(km == null) return false;
+
+        return km.isKeyguardLocked();
+    }
+
     public void setDisabledFlags(int disabledFlags, boolean force) {
         if (!force && mDisabledFlags == disabledFlags) return;
 
@@ -551,6 +562,7 @@ public class NavigationBarView extends LinearLayout {
         final boolean disableBack = ((disabledFlags & View.STATUS_BAR_DISABLE_BACK) != 0)
               && ((mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) == 0);
         final boolean disableSearch = ((disabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0);
+        final boolean keygaurdProbablyEnabled = areKeyguardHintsEnabled();
 
         if (mCurrentUIMode != 1 && SLIPPERY_WHEN_DISABLED) { // Tabletmode doesn't deal with slippery
             setSlippery(disableHome && disableRecent && disableBack && disableSearch);
@@ -578,6 +590,7 @@ public class NavigationBarView extends LinearLayout {
 
             }
         }
+        getSearchLight().setVisibility(keygaurdProbablyEnabled ? View.VISIBLE : View.GONE);
         if (mNavBarAutoHide && !isRotating) {
              mBar.setSearchLightOn();
         }
@@ -1002,7 +1015,7 @@ public class NavigationBarView extends LinearLayout {
     protected void updateNavigationBarBackground() {
         try {
             boolean showNav = mWindowManagerService.hasNavigationBar();
-            if (showNav) {
+            if (showNav || isKeyguardEnabled()) {
                 // NavigationBar background color
                 int defaultBg = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
