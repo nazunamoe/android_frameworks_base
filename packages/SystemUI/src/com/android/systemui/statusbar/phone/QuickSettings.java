@@ -688,7 +688,7 @@ public class QuickSettings {
                         Intent intent = new Intent("android.intent.action.MAIN");
                         // gonna make this go to navbar settings at some point
                         intent.setComponent(ComponentName.
-                                unflattenFromString("com.aokp.romcontrol/.ROMControlActivity"));
+                                unflattenFromString("com.xylon.settings/.XYSettingsActivity"));
                         intent.addCategory("android.intent.category.LAUNCHER");
                         startSettingsActivity(intent);
                         return true;
