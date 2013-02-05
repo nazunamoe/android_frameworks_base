@@ -3319,12 +3319,6 @@ public final class Settings {
             "navigation_bar_glow_duration_on",
         };
 
-        /*
-         * On or off the Pie.
-         * @hide
-         */
-        public static final String PIE_CONTROLS = "pie_controls";
-
         /**
          * Pie menu, should default to 0 (no, show only when needed)
          * @hide
@@ -3374,12 +3368,6 @@ public final class Settings {
          * @hide
          */
         public static final String PIE_SIZE = "pie_size";
-
-        /**
-         * Pie Notification Ability
-         * @hide
-         */
-        public static final String PIE_NOTIFICATIONS = "pie_notifications";
 
        // PIE COLORS EVERYWHERE! //
 
