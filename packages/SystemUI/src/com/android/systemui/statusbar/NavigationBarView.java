@@ -541,17 +541,6 @@ public class NavigationBarView extends LinearLayout {
         setDisabledFlags(disabledFlags, false);
     }
 
-    private boolean areKeyguardHintsEnabled() {
-        return ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0) && !((mDisabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0);
-    }
-
-    private boolean isKeyguardEnabled() {
-        KeyguardManager km = (KeyguardManager)mContext.getSystemService(Context.KEYGUARD_SERVICE);
-        if(km == null) return false;
-
-        return km.isKeyguardLocked();
-    }
-
     public void setDisabledFlags(int disabledFlags, boolean force) {
         if (!force && mDisabledFlags == disabledFlags) return;
 
@@ -590,7 +579,6 @@ public class NavigationBarView extends LinearLayout {
 
             }
         }
-        getSearchLight().setVisibility(keygaurdProbablyEnabled ? View.VISIBLE : View.GONE);
         if (mNavBarAutoHide && !isRotating) {
              mBar.setSearchLightOn();
         }
@@ -1015,7 +1003,7 @@ public class NavigationBarView extends LinearLayout {
     protected void updateNavigationBarBackground() {
         try {
             boolean showNav = mWindowManagerService.hasNavigationBar();
-            if (showNav || isKeyguardEnabled()) {
+            if (showNav) {
                 // NavigationBar background color
                 int defaultBg = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
