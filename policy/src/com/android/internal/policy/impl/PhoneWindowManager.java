@@ -3284,9 +3284,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     pf.bottom = df.bottom = cf.bottom
                             = mRestrictedScreenTop+mRestrictedScreenHeight;
                 }
-
-                applyStableConstraints(sysUiFl, fl, cf);
-
                 if (adjust != SOFT_INPUT_ADJUST_NOTHING) {
                     vf.left = mCurLeft;
                     vf.top = mCurTop;
@@ -3333,8 +3330,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         df.bottom = cf.bottom = mRestrictedScreenTop+mRestrictedScreenHeight;
                     }
                     if (adjust != SOFT_INPUT_ADJUST_NOTHING) {
-                        vf.left = mCurLeft;
-                        vf.top = mCurTop;
+                        vf.left = mRestrictedScreenLeft;
+                        vf.top = mRestrictedScreenTop;
                         vf.right = mCurRight;
                         vf.bottom = mCurBottom;
                     } else {
