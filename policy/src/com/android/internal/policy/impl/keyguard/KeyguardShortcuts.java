@@ -23,7 +23,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -82,8 +81,8 @@ public class KeyguardShortcuts extends LinearLayout {
     }
 
     private void updateShortcuts() {
-        String apps = Settings.System.getStringForUser(mContext.getContentResolver(),
-                Settings.System.LOCKSCREEN_SHORTCUTS, UserHandle.USER_CURRENT);
+        String apps = Settings.System.getString(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_SHORTCUTS);
         if(apps == null || apps.isEmpty()) return;
         final String[] shortcuts = apps.split("\\|");
         Resources res = mContext.getResources();
