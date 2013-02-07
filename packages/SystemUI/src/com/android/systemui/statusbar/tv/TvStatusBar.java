@@ -102,11 +102,7 @@ public class TvStatusBar extends BaseStatusBar {
     }
 
     @Override
-<<<<<<< HEAD
-    protected void setSearchLightOn(){
-=======
     protected void setSearchLightOn(boolean on){
->>>>>>> fe1117e... FW: Hiding NavBar
     }
 
     @Override
