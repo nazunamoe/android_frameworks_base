@@ -744,7 +744,7 @@ public class QuickSettings {
                             if (rssiState.dataTypeIconId > 0) {
                                 iov.setImageResource(rssiState.dataTypeIconId);
                             } else {
-                                iov.setImageDrawable(null);
+                                iov.setResource(R.drawable.ic_qs_signal_data_off);
                             }
                             tv.setText(state.label);
                             tv.setTextSize(1, mTileTextSize);
