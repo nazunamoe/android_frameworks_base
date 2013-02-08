@@ -2011,8 +2011,8 @@ public final class Settings {
          */
         public static final String STATUSBAR_BRIGHTNESS_SLIDER = "statusbar_brightness_slider";
 
-        /**
-         * Ability to hide Reboot away from Reboot Keyguard?
+         /**
+         * Show the Reboot on lockscreen dialog in Power menu
          * @hide
          */
         public static final String POWER_DIALOG_SHOW_REBOOT_KEYGUARD = "power_dialog_show_reboot_keyguard";
@@ -3376,6 +3376,8 @@ public final class Settings {
          * @hide
          */
         public static final String PIE_SEARCH = "pie_search";
+
+
 
         /**
          * Pie will not rotate. Should default to 1 (yes, do not rotate)
