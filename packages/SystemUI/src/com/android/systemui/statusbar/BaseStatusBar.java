@@ -442,7 +442,7 @@ public abstract class BaseStatusBar extends SystemUI implements
         boolean sbexpanded = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.EXPANDED_DESKTOP_STYLE, 0) == 2;
 
-        return (pie && (navbarOff || sbexpanded);
+        return (pie && (navbarOff || sbexpanded));
     }
 
     public void updatePieControls() {

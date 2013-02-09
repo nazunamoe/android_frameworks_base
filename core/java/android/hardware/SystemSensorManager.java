@@ -163,7 +163,6 @@ public class SystemSensorManager extends SensorManager {
                                     }
                                 }
                             }
-                          }
                         }
                     }
 
