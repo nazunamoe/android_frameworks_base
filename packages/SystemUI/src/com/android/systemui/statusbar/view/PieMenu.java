@@ -273,7 +273,7 @@ public class PieMenu extends FrameLayout {
 
         // Fetch modes
         boolean sbexpanded = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.EXPANDED_DESKTOP_STATUS_BAR_STATE, 0) == 2;
+                Settings.System.EXPANDED_DESKTOP_STYLE, 0) == 2;
         mUseMenuAlways = Settings.System.getInt(mContext.getContentResolver(), Settings.System.PIE_MENU, 0) == 1;
         mUseLastApp = Settings.System.getInt(mContext.getContentResolver(), Settings.System.PIE_LAST_APP, 0) == 1;
         mUseSearch = Settings.System.getInt(mContext.getContentResolver(), Settings.System.PIE_SEARCH, 1) == 1;
