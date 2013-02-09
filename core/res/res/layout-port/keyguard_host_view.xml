@@ -28,18 +28,6 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-    
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="20dip">
-		<include layout="@layout/keyguard_multi_user_selector"/>            
-    </FrameLayout>
-
     <com.android.internal.policy.impl.keyguard.SlidingChallengeLayout
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
@@ -109,6 +97,5 @@
               android:contentDescription="@string/keyguard_accessibility_expand_lock_area" />
 
     </com.android.internal.policy.impl.keyguard.SlidingChallengeLayout>
-    </LinearLayout>
 </com.android.internal.policy.impl.keyguard.KeyguardHostView>
 
