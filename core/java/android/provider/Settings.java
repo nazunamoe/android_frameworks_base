@@ -3299,6 +3299,18 @@ public final class Settings {
         };
 
         /**
+         * Pie controls, should enough to dumb users
+         * @hide
+         */
+        public static final String PIE_CONTROLS = "pie_controls";
+
+        /**
+         * Pie menu, should default to 0 (no, show only when needed)
+         * @hide
+         */
+        public static final String PIE_MENU = "pie_menu";
+
+        /**
          * Pie menu, should default to 0 (no, show only when needed)
          * @hide
          */
