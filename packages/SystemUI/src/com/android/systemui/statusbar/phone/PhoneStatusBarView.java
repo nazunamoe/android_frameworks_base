@@ -93,11 +93,6 @@ public class PhoneStatusBarView extends PanelBar {
 
     @Override
     public void onAttachedToWindow() {
-        mHandler = new Handler();
-        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
-        settingsObserver.observe();
-
-        updateSettings();
         for (PanelView pv : mPanels) {
             pv.setRubberbandingEnabled(!mFullWidthNotifications);
         }
