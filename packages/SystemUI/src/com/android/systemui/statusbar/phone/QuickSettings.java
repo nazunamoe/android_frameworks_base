@@ -668,6 +668,7 @@ public class QuickSettings {
             case NAVBAR_HIDE_TILE:
                 quick = (QuickSettingsTileView)
                         inflater.inflate(R.layout.quick_settings_tile, parent, false);
+                quick.setBackgroundResource(mTileBG);
                 quick.setContent(R.layout.quick_settings_tile_navbar_hide, inflater);
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -698,9 +699,10 @@ public class QuickSettings {
                     @Override
                     public void refreshView(QuickSettingsTileView view, State state) {
                         TextView tv = (TextView) view.findViewById(R.id.navbar_hide_textview);
-                        tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                         tv.setText(state.label);
                         tv.setTextSize(1, mTileTextSize);
+                        tv.setTextColor(mTileText);
+                        tv.setCompoundDrawablesWithIntrinsicBounds(0, state.iconId, 0, 0);
                     }
                 });
                 break;
