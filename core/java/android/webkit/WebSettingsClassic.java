@@ -125,7 +125,6 @@ public class WebSettingsClassic extends WebSettings {
     private boolean         mEnableSmoothTransition = false;
     private boolean         mForceUserScalable = false;
     private boolean         mPasswordEchoEnabled = true;
-    private boolean         mWebGLEnabled = true;
 
     // AutoFill Profile data
     public static class AutoFillProfile {
@@ -1631,25 +1630,6 @@ public class WebSettingsClassic extends WebSettings {
     }
 
     /**
-     * @hide
-     */
-    public synchronized boolean isWebGLAvailable() {
-        return nativeIsWebGLAvailable();
-    }
-
-    /**
-     * Sets whether WebGL is enabled.
-     * @param flag Set to true to enable WebGL.
-     * @hide
-     */
-    public synchronized void setWebGLEnabled(boolean flag) {
-        if (mWebGLEnabled != flag) {
-            mWebGLEnabled = flag;
-            postSync();
-        }
-    }
-
-    /**
      * Sets whether viewport metatag can disable zooming.
      * @param flag Whether or not to forceably enable user scalable.
      */
@@ -1769,5 +1749,4 @@ public class WebSettingsClassic extends WebSettings {
 
     // Synchronize the native and java settings.
     private native void nativeSync(int nativeFrame);
-    private native boolean nativeIsWebGLAvailable();
 }
