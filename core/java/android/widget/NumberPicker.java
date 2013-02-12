@@ -470,6 +470,11 @@ public class NumberPicker extends LinearLayout {
     private final PressedStateHelper mPressedStateHelper;
 
     /**
+     * The keycode of the last handled DPAD down event.
+     */
+    private int mLastHandledDownDpadKeyCode = -1;
+
+    /**
      * Interface to listen for changes of the current value.
      */
     public interface OnValueChangeListener {
@@ -936,6 +941,31 @@ public class NumberPicker extends LinearLayout {
             case KeyEvent.KEYCODE_ENTER:
                 removeAllCallbacks();
                 break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+            case KeyEvent.KEYCODE_DPAD_UP:
+                if (!mHasSelectorWheel) {
+                    break;
+                }
+                switch (event.getAction()) {
+                    case KeyEvent.ACTION_DOWN:
+                        if (mWrapSelectorWheel || (keyCode == KeyEvent.KEYCODE_DPAD_DOWN)
+                                ? getValue() < getMaxValue() : getValue() > getMinValue()) {
+                            requestFocus();
+                            mLastHandledDownDpadKeyCode = keyCode;
+                            removeAllCallbacks();
+                            if (mFlingScroller.isFinished()) {
+                                changeValueByOne(keyCode == KeyEvent.KEYCODE_DPAD_DOWN);
+                            }
+                            return true;
+                        }
+                        break;
+                    case KeyEvent.ACTION_UP:
+                        if (mLastHandledDownDpadKeyCode == keyCode) {
+                            mLastHandledDownDpadKeyCode = -1;
+                            return true;
+                        }
+                        break;
+                }
         }
         return super.dispatchKeyEvent(event);
     }
@@ -1939,8 +1969,10 @@ public class NumberPicker extends LinearLayout {
                  * Ensure the user can't type in a value greater than the max
                  * allowed. We have to allow less than min as the user might
                  * want to delete some numbers and then type a new number.
+                 * And prevent multiple-"0" that exceeds the length of upper
+                 * bound number.
                  */
-                if (val > mMaxValue) {
+                if (val > mMaxValue || result.length() > String.valueOf(mMaxValue).length()) {
                     return "";
                 } else {
                     return filtered;
