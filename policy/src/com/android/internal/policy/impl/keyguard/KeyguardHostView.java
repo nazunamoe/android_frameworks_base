@@ -1147,6 +1147,14 @@ public class KeyguardHostView extends KeyguardViewBase {
         return widgetCount;
     }
 
+    private void setAddWidgetEnabled(boolean clickable) {
+        View addWidget = mAppWidgetContainer.findViewById(R.id.keyguard_add_widget);
+        if (addWidget != null) {
+            View addWidgetButton = addWidget.findViewById(R.id.keyguard_add_widget_view);
+            addWidgetButton.setEnabled(clickable);
+        }
+    }
+
     private void addDefaultWidgets() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         inflater.inflate(R.layout.keyguard_transport_control_view, this, true);
