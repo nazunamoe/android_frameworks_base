@@ -195,6 +195,8 @@ public class QuickSettings {
     private TelephonyManager tm;
     private ConnectivityManager mConnService;
     private NfcAdapter mNfcAdapter;
+    private BluetoothAdapter mBluetoothAdapter;
+    private WifiManager mWifiManager;
 
     private BrightnessController mBrightnessController;
     private BluetoothController mBluetoothController;
@@ -284,6 +286,9 @@ public class QuickSettings {
         connManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         mBluetoothState = new QuickSettingsModel.BluetoothState();
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
         mHandler = new Handler();
 
         Resources r = mContext.getResources();
@@ -760,7 +765,23 @@ public class QuickSettings {
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        startSettingsActivity(android.provider.Settings.ACTION_WIFI_SETTINGS);
+                    final boolean enable =
+                            (mWifiManager.getWifiState() != WifiManager.WIFI_STATE_ENABLED);
+                        new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... args) {
+                             // Disable tethering if enabling Wifi
+                             final int wifiApState = mWifiManager.getWifiApState();
+                             if (enable && ((wifiApState == WifiManager.WIFI_AP_STATE_ENABLING) ||
+                                            (wifiApState == WifiManager.WIFI_AP_STATE_ENABLED))) {
+                                 mWifiManager.setWifiApEnabled(null, false);
+                             }
+
+                             mWifiManager.setWifiEnabled(enable);
+                             return null;
+                             }
+                        }.execute();
+                        quick.setPressed(false);
                         return true;
                     }
                 });
@@ -1303,7 +1324,12 @@ public class QuickSettings {
                 quick.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        startSettingsActivity(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
+                        if (mBluetoothAdapter.isEnabled()) {
+                            mBluetoothAdapter.disable();
+                        } else {
+                            mBluetoothAdapter.enable();
+                        }
+                        quick.setPressed(false);
                         return true;
                     }
                 });
