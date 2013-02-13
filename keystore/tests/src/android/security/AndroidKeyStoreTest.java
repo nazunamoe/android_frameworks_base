@@ -580,14 +580,17 @@ public class AndroidKeyStoreTest extends AndroidTestCase {
         assertAliases(new String[] { });
     }
 
-    public void testKeyStore_DeleteEntry_EmptyStore_Success() throws Exception {
+    public void testKeyStore_DeleteEntry_EmptyStore_Failure() throws Exception {
         mKeyStore.load(null, null);
 
-        // Should not throw when a non-existent entry is requested for delete.
-        mKeyStore.deleteEntry(TEST_ALIAS_1);
+        try {
+            mKeyStore.deleteEntry(TEST_ALIAS_1);
+            fail("Should throw KeyStoreException with non-existent alias");
+        } catch (KeyStoreException success) {
+        }
     }
 
-    public void testKeyStore_DeleteEntry_NonExistent_Success() throws Exception {
+    public void testKeyStore_DeleteEntry_NonExistent_Failure() throws Exception {
         mKeyStore.load(null, null);
 
         // TEST_ALIAS_1
@@ -596,8 +599,11 @@ public class AndroidKeyStoreTest extends AndroidTestCase {
         assertTrue(mAndroidKeyStore.put(Credentials.USER_CERTIFICATE + TEST_ALIAS_1, FAKE_USER_1));
         assertTrue(mAndroidKeyStore.put(Credentials.CA_CERTIFICATE + TEST_ALIAS_1, FAKE_CA_1));
 
-        // Should not throw when a non-existent entry is requested for delete.
-        mKeyStore.deleteEntry(TEST_ALIAS_2);
+        try {
+            mKeyStore.deleteEntry(TEST_ALIAS_2);
+            fail("Should throw KeyStoreException with non-existent alias");
+        } catch (KeyStoreException success) {
+        }
     }
 
     public void testKeyStore_GetCertificate_Single_Success() throws Exception {
