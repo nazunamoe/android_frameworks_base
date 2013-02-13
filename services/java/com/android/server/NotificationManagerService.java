@@ -695,19 +695,6 @@ public class NotificationManagerService extends INotificationManager.Stub
         return out;
     }
 
-    static long[] getLongArray(Resources r, int resid, int maxlen, long[] def) {
-        int[] ar = r.getIntArray(resid);
-        if (ar == null) {
-            return def;
-        }
-        final int len = ar.length > maxlen ? maxlen : ar.length;
-        long[] out = new long[len];
-        for (int i=0; i<len; i++) {
-            out[i] = ar[i];
-        }
-        return out;
-    }
-
     NotificationManagerService(Context context, StatusBarManagerService statusBar,
             LightsService lights)
     {
@@ -1203,7 +1190,7 @@ public class NotificationManagerService extends INotificationManager.Stub
                 boolean hasValidSound = false;
 
                 if (!(inQuietHours && mQuietHoursMute)
-                        && (useDefaultSound || notification.sound)) {
+                        && (useDefaultSound || notification.sound != null)) {
                     if (useDefaultSound) {
                         soundUri = Settings.System.DEFAULT_NOTIFICATION_URI;
 
@@ -1215,6 +1202,7 @@ public class NotificationManagerService extends INotificationManager.Stub
                         soundUri = notification.sound;
                         hasValidSound = (soundUri != null);
                     }
+                }
 
                 if (hasValidSound) {
                     boolean looping = (notification.flags & Notification.FLAG_INSISTENT) != 0;
@@ -1282,8 +1270,6 @@ public class NotificationManagerService extends INotificationManager.Stub
             }
 
             // this option doesn't shut off the lights
-
-            // light
             // the most recent thing gets the light
             mLights.remove(old);
             if (mLedNotification == old) {
