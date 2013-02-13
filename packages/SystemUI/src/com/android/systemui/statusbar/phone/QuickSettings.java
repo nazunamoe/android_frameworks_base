@@ -523,16 +523,17 @@ public class QuickSettings {
                     @Override
                     public void onClick(View v) {
                         getService().animateCollapsePanels();
+
                         final UserManager um =
                                 (UserManager) mContext.getSystemService(Context.USER_SERVICE);
                         if (um.getUsers(true).size() > 1) {
                             try {
-                                WindowManagerGlobal.getWindowManagerService().lockNow(
-                                        LockPatternUtils.USER_SWITCH_LOCK_OPTIONS);
+                                WindowManagerGlobal.getWindowManagerService().lockNow(null);
                             } catch (RemoteException e) {
                                 Log.e(TAG, "Couldn't show user switcher", e);
                             }
                         } else {
+
                             Intent intent = ContactsContract.QuickContact.composeQuickContactsIntent(
                                     mContext, v, ContactsContract.Profile.CONTENT_URI,
                                     ContactsContract.QuickContact.MODE_LARGE, null);
@@ -781,7 +782,6 @@ public class QuickSettings {
                              return null;
                              }
                         }.execute();
-                        quick.setPressed(false);
                         return true;
                     }
                 });
@@ -1329,7 +1329,6 @@ public class QuickSettings {
                         } else {
                             mBluetoothAdapter.enable();
                         }
-                        quick.setPressed(false);
                         return true;
                     }
                 });
