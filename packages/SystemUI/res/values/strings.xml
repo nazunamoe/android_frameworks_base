@@ -517,7 +517,7 @@
     <!-- QuickSettings: Brightness dialog auto brightness button [CHAR LIMIT=NONE] -->
     <string name="quick_settings_brightness_dialog_auto_brightness_label">AUTO</string>
     <!-- QuickSettings: Screen off tile [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_screen">Screen off</string>
+    <string name="quick_settings_sleep">Sleep</string>
     <!-- SWAGGA 
     <string name="quick_settings_swagger">Swagger</string>
     <string name="quick_settings_fbgt">FBGT</string> -->

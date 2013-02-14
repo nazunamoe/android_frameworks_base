@@ -307,9 +307,9 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     private RefreshCallback mWifiTetherCallback;
     private State mWifiTetherState = new State();
 
-    private QuickSettingsTileView mScreenTile;
-    private RefreshCallback mScreenCallback;
-    private State mScreenState = new State();
+    private QuickSettingsTileView mSleepTile;
+    private RefreshCallback mSleepCallback;
+    private State mSleepState = new State();
 
     private QuickSettingsTileView mPowerMenuTile;
     private RefreshCallback mPowerMenuCallback;
@@ -417,8 +417,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
                 refresh3gTile();
             if (toggle.equals(QuickSettings.LTE_TOGGLE))
                 refreshLTETile();
-            if (toggle.equals(QuickSettings.SCREEN_TOGGLE))
-                refreshScreenTile();
+            if (toggle.equals(QuickSettings.SLEEP_TOGGLE))
+                refreshSleepTile();
             if (toggle.equals(QuickSettings.POWER_MENU_TOGGLE))
                 refreshPowerMenuTile();
             if (toggle.equals(QuickSettings.NAVBAR_HIDE_TOGGLE))
@@ -769,18 +769,18 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
             mLocationCallback.refreshView(mLocationTile, mLocationState);
     }
 
-    // Screen
-    void addScreenTile(QuickSettingsTileView view, RefreshCallback cb) {
-        mScreenTile = view;
-        mScreenCallback = cb;
-        refreshScreenTile();
+    // Sleep Tile
+    void addSleepTile(QuickSettingsTileView view, RefreshCallback cb) {
+        mSleepTile = view;
+        mSleepCallback = cb;
+        refreshSleepTile();
     }
 
-    void refreshScreenTile() {
+    void refreshSleepTile() {
         Resources r = mContext.getResources();
-        mScreenState.label = r.getString(R.string.quick_settings_screen);
-        mScreenState.iconId = (mUseDefaultTheme ? R.drawable.ic_qs_screen : R.drawable.ic_qs_screen_light);
-        mScreenCallback.refreshView(mScreenTile, mScreenState);
+        mSleepState.label = r.getString(R.string.quick_settings_sleep);
+        mSleepState.iconId = (mUseDefaultTheme ? R.drawable.ic_qs_sleep : R.drawable.ic_qs_sleep_light);
+        mSleepCallback.refreshView(mSleepTile, mSleepState);
     }
 
     // Power Menu
