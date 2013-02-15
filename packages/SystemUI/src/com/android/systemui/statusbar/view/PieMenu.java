@@ -470,6 +470,10 @@ public class PieMenu extends FrameLayout {
             }});
     }
 
+    private int extractRGB(int color) {
+        return color & 0x00FFFFFF;
+    }
+
     private void measureClock(String text) {
         mClockText = text;
         mClockTextAmPm = mPolicy.getAmPm();
