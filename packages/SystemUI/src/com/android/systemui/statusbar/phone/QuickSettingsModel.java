@@ -626,10 +626,6 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
             mWifiCallback.refreshView(mWifiTile, mWifiState);
     }
 
-    boolean deviceHasMobileData() {
-        return mHasMobileData;
-    }
-
     // RSSI
     void addRSSITile(QuickSettingsTileView view, RefreshCallback cb) {
         mRSSITile = view;
@@ -637,9 +633,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         mRSSICallback.refreshView(mRSSITile, mRSSIState);
     }
 
-    boolean deviceSupportsTelephony() {
-        PackageManager pm = mContext.getPackageManager();
-        return pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY);
+    boolean deviceHasMobileData() {
+        return mHasMobileData;
     }
 
     // NetworkSignalChanged callback

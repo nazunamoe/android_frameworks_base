@@ -193,8 +193,6 @@ public class QuickSettings {
     private TelephonyManager tm;
     private ConnectivityManager mConnService;
     private NfcAdapter mNfcAdapter;
-    private BluetoothAdapter mBluetoothAdapter;
-    private WifiManager mWifiManager;
 
     private BrightnessController mBrightnessController;
     private BluetoothController mBluetoothController;
@@ -274,7 +272,6 @@ public class QuickSettings {
         mContext = context;
         mContainerView = container;
         mModel = new QuickSettingsModel(context);
-
         mWifiDisplayStatus = new WifiDisplayStatus();
         wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
         tm = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
@@ -577,7 +574,7 @@ public class QuickSettings {
                 });
                 break;
             case SIGNAL_TILE:
-                if (mModel.deviceSupportsTelephony()) {
+                if (mModel.deviceHasMobileData()) {
                     // Mobile Network state
                     quick = (QuickSettingsTileView)
                             inflater.inflate(R.layout.quick_settings_tile, parent, false);
@@ -1564,7 +1561,6 @@ public class QuickSettings {
     }
 
     private void addTemporaryTiles(final ViewGroup parent, final LayoutInflater inflater) {
-
         // Alarm tile
         QuickSettingsTileView alarmTile = (QuickSettingsTileView)
                 inflater.inflate(R.layout.quick_settings_tile, parent, false);
@@ -1951,6 +1947,8 @@ public class QuickSettings {
         userToggles = Settings.System.getString(resolver, Settings.System.QUICK_TOGGLES);
         int columnCount = Settings.System.getInt(resolver, Settings.System.QUICK_TOGGLES_PER_ROW,
                 mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
+        ((QuickSettingsContainerView) mContainerView).setColumnCount(columnCount);
+        updateTileTextSize(columnCount);
         mUseDefaultTheme = (Settings.System.getInt(resolver, Settings.System.QUICK_THEME_STYLE, 1) == 1);
         mTileText = Settings.System.getInt(resolver, Settings.System.QUICK_TEXT_COLOR,
                 mContext.getResources().getColor(mUseDefaultTheme ? R.color.quicksettings_text_color_dark:
@@ -1958,8 +1956,6 @@ public class QuickSettings {
         mTileBG = (mUseDefaultTheme ? R.drawable.qs_tile_background : R.drawable.qs_tile_background_light);
         mTileTextBG = mContext.getResources().getColor(mUseDefaultTheme ? R.color.quicksettings_text_background_dark : R.color.quicksettings_text_background_light);
         mModel.setDefaultTheme(mUseDefaultTheme);
-        ((QuickSettingsContainerView) mContainerView).setColumnCount(columnCount);
-        updateTileTextSize(columnCount);
         setupQuickSettings();
         updateWifiDisplayStatus();
         updateResources();
