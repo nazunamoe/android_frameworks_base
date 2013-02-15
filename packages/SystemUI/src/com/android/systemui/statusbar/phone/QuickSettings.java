@@ -1531,7 +1531,7 @@ public class QuickSettings {
         tiles.add(BRIGHTNESS_TOGGLE);
         tiles.add(SETTINGS_TOGGLE);
         tiles.add(WIFI_TOGGLE);
-        if (mModel.deviceSupportsTelephony()) {
+        if (mModel.deviceHasMobileData()) {
             tiles.add(SIGNAL_TOGGLE);
         }
         if (mContext.getResources().getBoolean(R.bool.quick_settings_show_rotation_lock)) {
