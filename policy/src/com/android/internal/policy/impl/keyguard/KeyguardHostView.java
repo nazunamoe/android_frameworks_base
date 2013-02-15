@@ -339,10 +339,6 @@ public class KeyguardHostView extends KeyguardViewBase {
         }
     };
 
-    private boolean shouldEnableAddWidget() {
-        return numWidgets() < MAX_WIDGETS && mUserSetupCompleted;
-    }
-
     private int getDisabledFeatures(DevicePolicyManager dpm) {
         int disabledFeatures = DevicePolicyManager.KEYGUARD_DISABLE_FEATURES_NONE;
         if (dpm != null) {
