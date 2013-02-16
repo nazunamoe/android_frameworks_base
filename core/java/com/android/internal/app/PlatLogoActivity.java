@@ -23,6 +23,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemProperties;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -37,6 +38,7 @@ public class PlatLogoActivity extends Activity {
     ImageView mContent;
     int mCount;
     final Handler mHandler = new Handler();
+    private boolean mIsXy;
 
     private View makeView() {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -62,20 +64,22 @@ public class PlatLogoActivity extends Activity {
         lp.gravity = Gravity.CENTER_HORIZONTAL;
         lp.bottomMargin = (int) (-4*metrics.density);
 
+        String xyVersion = SystemProperties.get("ro.xylon.version");
+
         TextView tv = new TextView(this);
         if (light != null) tv.setTypeface(light);
         tv.setTextSize(1.25f*size);
-        tv.setTextColor(0xFF33B5E5);
+        tv.setTextColor(0xFFFFFFFF);
         tv.setShadowLayer(4*metrics.density, 0, 2*metrics.density, 0x66000000);
-        tv.setText("Android " + Build.VERSION.RELEASE);
+        tv.setText(mIsXy ? xyVersion : "Android " + Build.VERSION.RELEASE);
         view.addView(tv, lp);
-   
+
         tv = new TextView(this);
         if (normal != null) tv.setTypeface(normal);
         tv.setTextSize(size);
-        tv.setTextColor(0xFF33B5E5);
+        tv.setTextColor(0xFFFFFFFF);
         tv.setShadowLayer(4*metrics.density, 0, 2*metrics.density, 0x66000000);
-        tv.setText("JELLY BEAN");
+        tv.setText(mIsXy ? "Android " + Build.VERSION.RELEASE : "JELLY BEAN");
         view.addView(tv, lp);
 
         return view;
@@ -85,6 +89,7 @@ public class PlatLogoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final boolean isXy = getIntent().hasExtra("is_xy");
+        mIsXy = isXy;
         mToast = Toast.makeText(this, "", Toast.LENGTH_LONG);
         mToast.setView(makeView());
 
@@ -126,7 +131,6 @@ public class PlatLogoActivity extends Activity {
                 return true;
             }
         });
-        
         setContentView(mContent);
     }
 }
