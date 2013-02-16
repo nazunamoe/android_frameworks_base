@@ -1100,16 +1100,12 @@ class BrowserFrame extends Handler {
         }
 
         SslErrorHandler handler = new SslErrorHandler() {
-            boolean isCanceled = false;
             @Override
             public void proceed() {
                 SslCertLookupTable.getInstance().setIsAllowed(sslError);
                 post(new Runnable() {
                         public void run() {
-                            if (!isCanceled)
-                            {
-                               nativeSslCertErrorProceed(handle);
-                            }
+                            nativeSslCertErrorProceed(handle);
                         }
                     });
             }
@@ -1117,11 +1113,7 @@ class BrowserFrame extends Handler {
             public void cancel() {
                 post(new Runnable() {
                         public void run() {
-                            if (!isCanceled)
-                            {
-                               nativeSslCertErrorCancel(handle, certError);
-                            }
-                            isCanceled = true;
+                            nativeSslCertErrorCancel(handle, certError);
                         }
                     });
             }
