@@ -1033,17 +1033,13 @@ public abstract class WallpaperService extends Service {
                     }
                     Engine engine = onCreateEngine();
                     mEngine = engine;
-                    synchronized (mActiveEngines) {
-                        mActiveEngines.add(engine);
-                        engine.attach(this);
-                    }
+                    mActiveEngines.add(engine);
+                    engine.attach(this);
                     return;
                 }
                 case DO_DETACH: {
-                    synchronized (mActiveEngines) {
-                        mActiveEngines.remove(mEngine);
-                        mEngine.detach();
-                    }
+                    mActiveEngines.remove(mEngine);
+                    mEngine.detach();
                     return;
                 }
                 case DO_SET_DESIRED_SIZE: {
@@ -1124,12 +1120,10 @@ public abstract class WallpaperService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        synchronized (mActiveEngines) {
-            for (int i = 0; i < mActiveEngines.size(); i++) {
-                mActiveEngines.get(i).detach();
-            }
-            mActiveEngines.clear();
+        for (int i=0; i<mActiveEngines.size(); i++) {
+            mActiveEngines.get(i).detach();
         }
+        mActiveEngines.clear();
     }
 
     /**
