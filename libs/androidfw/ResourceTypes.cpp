@@ -509,6 +509,10 @@ status_t ResStringPool::getError() const
 void ResStringPool::uninit()
 {
     mError = NO_INIT;
+    if (mOwnedData) {
+        free(mOwnedData);
+        mOwnedData = NULL;
+    }
     if (mHeader != NULL && mCache != NULL) {
         for (size_t x = 0; x < mHeader->stringCount; x++) {
             if (mCache[x] != NULL) {
@@ -518,10 +522,6 @@ void ResStringPool::uninit()
         }
         free(mCache);
         mCache = NULL;
-    }
-    if (mOwnedData) {
-        free(mOwnedData);
-        mOwnedData = NULL;
     }
 }
 
