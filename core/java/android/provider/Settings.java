@@ -2063,7 +2063,10 @@ public final class Settings {
          */
         public static final String QUICK_TEXT_COLOR = "quick_text_color";
 
-
+        /**
+         * @hide
+         */
+        public static final String TOGGLES_STYLE = "toggls_style";
 
         /**
          * toggle to "fix" the following: (found in NotificationManagerService)
@@ -4035,7 +4038,6 @@ public final class Settings {
         @Deprecated
         public static final String WIFI_WATCHDOG_PING_TIMEOUT_MS =
             Secure.WIFI_WATCHDOG_PING_TIMEOUT_MS;
-
     }
 
     /**
