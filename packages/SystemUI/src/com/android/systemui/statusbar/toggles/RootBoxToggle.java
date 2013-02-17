@@ -14,7 +14,7 @@ public class RootBoxToggle extends BaseToggle {
     protected void init(Context c, int style) {
         super.init(c, style);
         setIcon(R.drawable.ic_qs_rb);
-        setLabel(R.string.quick_settings_settings_rootbox);
+        setLabel(R.string.quick_settings_rootbox);
     }
 
     @Override

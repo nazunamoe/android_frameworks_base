@@ -10,7 +10,7 @@ import android.os.SystemClock;
 
 import com.android.systemui.R;
 
-public class SettingsToggle extends BaseToggle {
+public class SleepToggle extends BaseToggle {
 
     @Override
     protected void init(Context c, int style) {

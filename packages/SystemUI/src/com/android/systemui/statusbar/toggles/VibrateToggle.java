@@ -6,7 +6,7 @@ import android.media.AudioManager;
 import android.view.View;
 
 import com.android.systemui.R;
-import com.android.systemui.aokp.AwesomeAction;
+import com.android.systemui.navbar.SysAction;
 
 public class VibrateToggle extends StatefulToggle {
 
@@ -20,12 +20,12 @@ public class VibrateToggle extends StatefulToggle {
 
     @Override
     protected void doEnable() {
-        AwesomeAction.launchAction(mContext, ACTION_VIB);
+        SysAction.launchAction(mContext, ACTION_VIB);
     }
 
     @Override
     protected void doDisable() {
-        AwesomeAction.launchAction(mContext, ACTION_VIB);
+        SysAction.launchAction(mContext, ACTION_VIB);
     }
 
     @Override

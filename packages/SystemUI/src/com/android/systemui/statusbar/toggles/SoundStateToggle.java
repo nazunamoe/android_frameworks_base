@@ -6,7 +6,7 @@ import android.media.AudioManager;
 import android.view.View;
 
 import com.android.systemui.R;
-import com.android.systemui.aokp.AwesomeAction;
+import com.android.systemui.navbar.SysAction;
 
 public class SoundStateToggle extends StatefulToggle {
     private AudioManager mAudioManager;
@@ -20,12 +20,12 @@ public class SoundStateToggle extends StatefulToggle {
 
     @Override
     protected void doEnable() {
-        AwesomeAction.launchAction(mContext, ACTION_SILENT_VIB);
+        SysAction.launchAction(mContext, ACTION_SILENT_VIB);
     }
 
     @Override
     protected void doDisable() {
-        AwesomeAction.launchAction(mContext, ACTION_SILENT_VIB);
+        SysAction.launchAction(mContext, ACTION_SILENT_VIB);
     }
 
     @Override

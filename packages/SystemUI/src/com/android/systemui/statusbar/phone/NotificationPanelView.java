@@ -108,10 +108,9 @@ public class NotificationPanelView extends PanelView {
         getContext().getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.FAST_TOGGLE),
                 true, mEnableObserver);
-        resolver.registerContentObserver(
+        getContext().getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.TOGGLES_STYLE),
                 true, mEnableObserver);
-
         getContext().getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.CHOOSE_FASTTOGGLE_SIDE),
                 true, mChangeSideObserver);

@@ -2036,6 +2036,11 @@ public final class Settings {
         public static final String QUICK_TOGGLE_FAV_CONTACT = "quick_toggle_fav_contact";
 
         /**
+         * @hide
+         */
+        public static final String TOGGLES_STYLE = "toggls_style";
+
+        /**
          * enable and disable fast toggle in settings
          *
          * @hide
@@ -2062,11 +2067,6 @@ public final class Settings {
          * @hide
          */
         public static final String QUICK_TEXT_COLOR = "quick_text_color";
-
-        /**
-         * @hide
-         */
-        public static final String TOGGLES_STYLE = "toggls_style";
 
         /**
          * toggle to "fix" the following: (found in NotificationManagerService)
