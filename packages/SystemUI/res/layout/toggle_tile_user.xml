@@ -37,3 +37,4 @@
         android:text="@string/quick_settings_user_label" />
 
 </com.android.systemui.statusbar.phone.QuickSettingsTileView>
+

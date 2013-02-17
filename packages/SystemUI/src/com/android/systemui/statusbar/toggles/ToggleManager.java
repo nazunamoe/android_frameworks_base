@@ -46,6 +46,7 @@ import java.util.Set;
  */
 public class ToggleManager {
 
+<<<<<<< HEAD
     private static final String TAG = ToggleManager.class.getSimpleName();
 
     public static final String ACTION_BROADCAST_TOGGLES = "com.android.systemui.statusbar.toggles.ACTION_BROADCAST_TOGGLES";
@@ -53,6 +54,8 @@ public class ToggleManager {
 
     static final boolean DEBUG = false;
 
+=======
+>>>>>>> 7fe00f1... Toggle rewrite (1/2)
     private static final String TOGGLE_PIPE = "|";
 
     public static final String USER_TOGGLE = "USER";
@@ -86,17 +89,22 @@ public class ToggleManager {
     public static final String SLEEP_TOGGLE = "SLEEP";
     public static final String POWER_MENU_TOGGLE = "POWERMENU";
 
+    private static final String TAG = ToggleManager.class.getSimpleName();
+
     private int mStyle;
 
     public static final int STYLE_TILE = 0;
     public static final int STYLE_SWITCH = 1;
     public static final int STYLE_TRADITIONAL = 2;
 
+    public static final String ACTION_BROADCAST_TOGGLES = "com.android.systemui.statusbar.toggles.ACTION_BROADCAST_TOGGLES";
+    public static final String ACTION_REQUEST_TOGGLES = "com.android.systemui.statusbar.toggles.ACTION_REQUEST_TOGGLES";
+
     private ViewGroup[] mContainers = new ViewGroup[3];
 
     Context mContext;
     BroadcastReceiver mBroadcastReceiver;
-    String mUserToggles = null;
+    private String userToggles = null;
     ArrayList<BaseToggle> mToggles = new ArrayList<BaseToggle>();
 
     private HashMap<String, Class<? extends BaseToggle>> toggleMap;
@@ -198,6 +206,7 @@ public class ToggleManager {
 
     private void setupTraditional() {
         int widgetsPerRow = 6;
+        View toggleSpacer;
 
         if (mContainers[STYLE_TRADITIONAL] != null) {
             updateToggleList();
@@ -269,12 +278,12 @@ public class ToggleManager {
     }
 
     private ArrayList<String> getToggles() {
-        if (mUserToggles == null) {
+        if (userToggles == null) {
             return getDefaultTiles();
         }
 
         ArrayList<String> tiles = new ArrayList<String>();
-        String[] splitter = mUserToggles.split("\\" + TOGGLE_PIPE);
+        String[] splitter = userToggles.split("\\" + TOGGLE_PIPE);
         for (String toggle : splitter) {
             tiles.add(toggle);
         }
@@ -304,7 +313,7 @@ public class ToggleManager {
 
     public void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
-        mUserToggles = Settings.System.getString(resolver, Settings.System.QUICK_TOGGLES);
+        userToggles = Settings.System.getString(resolver, Settings.System.QUICK_TOGGLES);
         int columnCount = Settings.System.getInt(resolver, Settings.System.QUICK_TOGGLES_PER_ROW,
                 mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
 
@@ -383,13 +392,13 @@ public class ToggleManager {
             boolean vibt = false;
             boolean silt = false;
             boolean sst = false;
-            if (mUserToggles.contains(VIBRATE_TOGGLE)) {
+            if (userToggles.contains(VIBRATE_TOGGLE)) {
                 vibt = true;
             }
-            if (mUserToggles.contains(SILENT_TOGGLE)) {
+            if (userToggles.contains(SILENT_TOGGLE)) {
                 silt = true;
             }
-            if (mUserToggles.contains(SOUND_STATE_TOGGLE)) {
+            if (userToggles.contains(SOUND_STATE_TOGGLE)) {
                 sst = true;
             }
             for (BaseToggle t : mToggles) {
@@ -406,14 +415,20 @@ public class ToggleManager {
         }
     }
 
+    private void log(String s) {
+        if (true) {
+            Log.d(TAG, s);
+        }
+    }
+
     private Bundle getAvailableToggles() {
         Bundle b = new Bundle();
 
         Set<Entry<String, Class<? extends BaseToggle>>> s = getToggleMap().entrySet();
-        Iterator<Entry<String, Class<? extends BaseToggle>>> i = s.iterator();
+        Iterator i = s.iterator();
         ArrayList<String> toggles = new ArrayList<String>();
         while (i.hasNext()) {
-            Entry<String, Class<? extends BaseToggle>> entry = i.next();
+            Entry<String, Class> entry = (Entry<String, Class>) i.next();
             toggles.add(entry.getKey());
         }
 
@@ -468,6 +483,8 @@ public class ToggleManager {
         if (mContainers[STYLE_TRADITIONAL] != null) {
             final ViewGroup c = mContainers[STYLE_TRADITIONAL];
             if (c.getVisibility() == View.VISIBLE) {
+                int height = c.getHeight();
+
                 Animation a =
                         AnimationUtils.makeOutAnimation(mContext, true);
                 a.setDuration(400);
@@ -514,17 +531,5 @@ public class ToggleManager {
             }
         }
         return mStyle == STYLE_TILE;
-    }
-
-    /* package */static void log(String msg) {
-        if (DEBUG) {
-            Log.d(TAG, msg);
-        }
-    }
-
-    /* package */static void log(String msg, Exception e) {
-        if (DEBUG) {
-            Log.d(TAG, msg, e);
-        }
     }
 }
