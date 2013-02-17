@@ -53,10 +53,6 @@ import android.widget.RelativeLayout;
 
 import com.android.systemui.ExpandHelper;
 import com.android.systemui.R;
-import com.android.systemui.statusbar.BaseStatusBar;
-import com.android.systemui.statusbar.phone.PanelBar;
-import com.android.systemui.statusbar.phone.PhoneStatusBar;
-import com.android.systemui.statusbar.phone.QuickSettings;
 import com.android.systemui.statusbar.phone.QuickSettingsContainerView;
 import com.android.systemui.statusbar.phone.SettingsPanelView;
 import com.android.systemui.statusbar.policy.BatteryController;
@@ -64,6 +60,7 @@ import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.LocationController;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
+import com.android.systemui.statusbar.toggles.XzibitToggler;
 
 public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
         View.OnClickListener {
@@ -91,7 +88,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
     Interpolator mDecelerateInterpolator = new DecelerateInterpolator();
 
     // settings
-    QuickSettings mQS;
+    XzibitToggler mQS;
     boolean mHasSettingsPanel, mHasFlipSettings;
     SettingsPanelView mSettingsPanel;
     View mFlipSettingsView;
@@ -141,10 +138,10 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
         // we can't set the services on inflate.  Need to wait until the StatusBar gets attached to
         // notification Panel.
         if (mQS != null && mBar != null) {
-            mQS.setService(mBar);
-            mQS.setBar(mCallback);
-            mQS.setup(mBar.mNetworkController, mBar.mBluetoothController, mBar.mBatteryController,
-                mBar.mLocationController);
+//            mQS.setService(mBar);
+//            mQS.setBar(mBar.mStatusBarView);
+            mQS.setControllers(mBar.mBluetoothController,mBar.mNetworkController, mBar.mBatteryController,
+                mBar.mLocationController, null);
         }
     }
 
@@ -232,14 +229,14 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
             // wherever you find it, Quick Settings needs a container to survive
             mSettingsContainer = (QuickSettingsContainerView) findViewById(R.id.quick_settings_container);
             if (mSettingsContainer != null) {
-                mQS = new QuickSettings(mContext, mSettingsContainer);
+                mQS = new XzibitToggler(mContext);
                 if (!mNotificationPanelIsFullScreenWidth) {
                     mSettingsContainer.setSystemUiVisibility(
                             View.STATUS_BAR_DISABLE_NOTIFICATION_TICKER
                             | View.STATUS_BAR_DISABLE_SYSTEM_INFO);
                 }
                 if (mSettingsPanel != null) {
-                    mSettingsPanel.setQuickSettings(mQS);
+//                    mSettingsPanel.setQuickSettings(mQS);
                 }
             } else {
                 mQS = null; // fly away, be free
