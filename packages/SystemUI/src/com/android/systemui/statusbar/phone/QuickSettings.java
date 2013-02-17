@@ -130,14 +130,13 @@ public class QuickSettings {
     private static final int WIFI_TETHER_TILE = 18;
     private static final int USB_TETHER_TILE = 19;
     private static final int TWOG_TILE = 20;
-    private static final int LTE_TILE = 21;
-    private static final int FAV_CONTACT_TILE = 22;
-   // private static final int BT_TETHER_TILE = 23;
-    private static final int SLEEP_TILE = 24;
-    private static final int SOUND_STATE_TILE = 25;
-    private static final int POWER_MENU_TILE = 26;
-    private static final int THREEG_TILE = 27;
-    private static final int NAVBAR_HIDE_TILE = 28;
+    private static final int THREEG_TILE = 21;
+    private static final int LTE_TILE = 22;
+    private static final int FAV_CONTACT_TILE = 23;
+    private static final int SOUND_STATE_TILE = 24;
+    private static final int POWER_MENU_TILE = 25;
+    private static final int NAVBAR_HIDE_TILE = 26;
+    private static final int SLEEP_TILE = 27;
 
     public static final String USER_TOGGLE = "USER";
     public static final String BRIGHTNESS_TOGGLE = "BRIGHTNESS";
@@ -158,16 +157,15 @@ public class QuickSettings {
     public static final String NFC_TOGGLE = "NFC";
     public static final String TORCH_TOGGLE = "TORCH";
     public static final String WIFI_TETHER_TOGGLE = "WIFITETHER";
-   // public static final String BT_TETHER_TOGGLE = "BTTETHER";
     public static final String USB_TETHER_TOGGLE = "USBTETHER";
     public static final String TWOG_TOGGLE = "2G";
+    public static final String THREEG_TOGGLE = "3G";
     public static final String LTE_TOGGLE = "LTE";
-    public static final String SLEEP_TOGGLE = "SLEEP";
     public static final String FAV_CONTACT_TOGGLE = "FAVCONTACT";
     public static final String SOUND_STATE_TOGGLE = "SOUNDSTATE";
     public static final String POWER_MENU_TOGGLE = "POWERMENU";
-    public static final String THREEG_TOGGLE = "3G";
     public static final String NAVBAR_HIDE_TOGGLE = "NAVBARHIDE";
+    public static final String SLEEP_TOGGLE = "SLEEP";
 
     private static final String DEFAULT_TOGGLES = "default";
 
@@ -249,12 +247,11 @@ public class QuickSettings {
             toggleMap.put(TWOG_TOGGLE, TWOG_TILE);
             toggleMap.put(THREEG_TOGGLE, THREEG_TILE);
             toggleMap.put(LTE_TOGGLE, LTE_TILE);
-            toggleMap.put(SLEEP_TOGGLE, SLEEP_TILE);
             toggleMap.put(FAV_CONTACT_TOGGLE, FAV_CONTACT_TILE);
             toggleMap.put(SOUND_STATE_TOGGLE, SOUND_STATE_TILE);
             toggleMap.put(POWER_MENU_TOGGLE, POWER_MENU_TILE);
             toggleMap.put(NAVBAR_HIDE_TOGGLE, NAVBAR_HIDE_TILE);
-            //toggleMap.put(BT_TETHER_TOGGLE, BT_TETHER_TILE);
+            toggleMap.put(SLEEP_TOGGLE, SLEEP_TILE);
         }
         return toggleMap;
     }
@@ -665,7 +662,7 @@ public class QuickSettings {
                 quick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mBar.collapseAllPanels(true);
+                        getService().animateCollapsePanels();
                         boolean enabled = Settings.System.getBoolean(mContext.getContentResolver(),
                                  Settings.System.NAV_HIDE_ENABLE, false);
                         Settings.System.putBoolean(mContext.getContentResolver(),
