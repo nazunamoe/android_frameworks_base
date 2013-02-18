@@ -71,7 +71,7 @@ public class PlatLogoActivity extends Activity {
         tv.setTextSize(1.25f*size);
         tv.setTextColor(0xFFFFFFFF);
         tv.setShadowLayer(4*metrics.density, 0, 2*metrics.density, 0x66000000);
-        tv.setText(mIsXy ? xyVersion : "Android " + Build.VERSION.RELEASE);
+        tv.setText(mIsXy ? "XYLON AOSP" : "Android " + Build.VERSION.RELEASE);
         view.addView(tv, lp);
 
         tv = new TextView(this);
