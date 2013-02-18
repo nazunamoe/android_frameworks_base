@@ -328,31 +328,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
     };
 
-
-            update();
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            update();
-        }
-
-        public void update() {
-            ContentResolver resolver = mContext.getContentResolver();
-            boolean autoBrightness = Settings.System.getInt(
-                    resolver, Settings.System.SCREEN_BRIGHTNESS_MODE, 0) ==
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
-            mBrightnessControl = !autoBrightness && Settings.System.getInt(
-                    resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1;
-
-        }
-    }
-
-    static public boolean shouldNotificationShadeDim() {
-        return mNotificationShadeDim;
-    }
-
->>>>>>> 5eaa0ff... SystemUI: option to toggle dimming of the notification shade (1/2)
     // ensure quick settings is disabled until the current user makes it through the setup wizard
     private boolean mUserSetup = false;
     private ContentObserver mUserSetupObserver = new ContentObserver(new Handler()) {
