@@ -83,7 +83,7 @@ import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.NavigationBarView;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.StatusBarIconView;
-import com.android.systemui.statusbar.policy.BatteryControllerStock;
+import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.statusbar.phone.QuickSettingsContainerView;
 import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.CompatModeButton;
@@ -190,7 +190,7 @@ public class TabletStatusBar extends BaseStatusBar implements
     BluetoothController mBluetoothController;
     LocationController mLocationController;
     NetworkController mNetworkController;
-    BatteryControllerStock mBatteryControllerStock;
+    BatteryController mBatteryController;
     DoNotDisturb mDoNotDisturb;
 
     ViewGroup mBarContents;
@@ -556,7 +556,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         mBluetoothController = new BluetoothController(mContext);
         mBluetoothController.addIconView((ImageView)sb.findViewById(R.id.bluetooth));
 
-        mBatteryControllerStock = new BatteryControllerStock(mContext);
+        mBatteryController = new BatteryController(mContext);
 
         mNetworkController = new NetworkController(mContext);
         final SignalClusterView signalCluster =

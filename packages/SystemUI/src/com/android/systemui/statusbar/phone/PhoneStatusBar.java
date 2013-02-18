@@ -100,7 +100,6 @@ import com.android.systemui.statusbar.NotificationData.Entry;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.StatusBarIconView;
 import com.android.systemui.statusbar.policy.BatteryController;
-import com.android.systemui.statusbar.policy.BatteryControllerStock;
 import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.DateView;
 import com.android.systemui.statusbar.policy.IntruderAlertView;
@@ -109,6 +108,7 @@ import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import com.android.systemui.statusbar.policy.OnSizeChangedListener;
 import com.android.systemui.statusbar.policy.Prefs;
+import com.android.systemui.statusbar.policy.SbBatteryController;
 import com.android.systemui.navbar.SysAction;
 
 import java.io.FileDescriptor;
@@ -168,7 +168,8 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     // These are no longer handled by the policy, because we need custom strategies for them
     BluetoothController mBluetoothController;
-    BatteryControllerStock mBatteryControllerStock;
+    BatteryController mBatteryController;
+    SbBatteryController mSbBatteryController;
     LocationController mLocationController;
     NetworkController mNetworkController;
 
@@ -541,8 +542,8 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         // Other icons
         mLocationController = new LocationController(mContext); // will post a notification
-        mBatteryControllerStock = new BatteryControllerStock(mContext);
-        mBatteryControllerStock.addIconView((ImageView)mStatusBarView.findViewById(R.id.battery));
+        mBatteryController = new BatteryController(mContext);
+        mSbBatteryController = (SbBatteryController)mStatusBarView.findViewById(R.id.battery_cluster);
         mNetworkController = new NetworkController(mContext);
         mBluetoothController = new BluetoothController(mContext);
 
@@ -627,7 +628,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                 }
                 mQS.setService(this);
                 mQS.setBar(mStatusBarView);
-                mQS.setup(mNetworkController, mBluetoothController, mBatteryControllerStock,
+                mQS.setup(mNetworkController, mBluetoothController, mBatteryController,
                         mLocationController);
             } else {
                 mQS = null; // fly away, be free

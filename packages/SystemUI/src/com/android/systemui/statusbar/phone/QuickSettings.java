@@ -26,7 +26,7 @@ import com.android.systemui.statusbar.phone.QuickSettingsModel.RSSIState;
 import com.android.systemui.statusbar.phone.QuickSettingsModel.State;
 import com.android.systemui.statusbar.phone.QuickSettingsModel.UserState;
 import com.android.systemui.statusbar.phone.QuickSettingsModel.WifiState;
-import com.android.systemui.statusbar.policy.BatteryControllerStock;
+import com.android.systemui.statusbar.policy.BatteryController;
 import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.BrightnessController;
 import com.android.systemui.statusbar.policy.LocationController;
@@ -321,7 +321,7 @@ public class QuickSettings {
     }
 
     public void setup(NetworkController networkController, BluetoothController bluetoothController,
-            BatteryControllerStock batteryControllerStock, LocationController locationController) {
+            BatteryController batteryController, LocationController locationController) {
         mBluetoothController = bluetoothController;
 
         setupQuickSettings();
@@ -334,7 +334,7 @@ public class QuickSettings {
         if (userTiles.contains(BLUETOOTH_TOGGLE))
             bluetoothController.addStateChangedCallback(mModel);
         if (userTiles.contains(BATTERY_TOGGLE))
-            batteryControllerStock.addStateChangedCallback(mModel);
+            batteryController.addStateChangedCallback(mModel);
         if (userTiles.contains(GPS_TOGGLE))
             locationController.addStateChangedCallback(mModel);
         if (userTiles.contains(ROTATE_TOGGLE))
