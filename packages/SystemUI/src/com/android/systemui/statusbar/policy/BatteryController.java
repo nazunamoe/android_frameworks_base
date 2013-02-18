@@ -30,8 +30,8 @@ import android.widget.TextView;
 
 import com.android.systemui.R;
 
-public class BatteryControllerStock extends BroadcastReceiver {
-    private static final String TAG = "StatusBar.BatteryControllerStock";
+public class BatteryController extends BroadcastReceiver {
+    private static final String TAG = "StatusBar.BatteryController";
 
     private Context mContext;
     private ArrayList<ImageView> mIconViews = new ArrayList<ImageView>();
@@ -44,7 +44,7 @@ public class BatteryControllerStock extends BroadcastReceiver {
         public void onBatteryLevelChanged(int level, boolean pluggedIn);
     }
 
-    public BatteryControllerStock(Context context) {
+    public BatteryController(Context context) {
         mContext = context;
 
         IntentFilter filter = new IntentFilter();

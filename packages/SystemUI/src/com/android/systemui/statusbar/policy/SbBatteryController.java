@@ -42,8 +42,8 @@ import android.widget.TextView;
 
 import com.android.systemui.R;
 
-public class BatteryController extends LinearLayout {
-    private static final String TAG = "StatusBar.BatteryController";
+public class SbBatteryController extends LinearLayout {
+    private static final String TAG = "StatusBar.SbBatteryController";
 
     private Context mContext;
     private ArrayList<ImageView> mIconViews = new ArrayList<ImageView>();
@@ -79,7 +79,7 @@ public class BatteryController extends LinearLayout {
         public void onBatteryLevelChanged(int level, boolean pluggedIn);
     }
 
-    public BatteryController(Context context, AttributeSet attrs) {
+    public SbBatteryController(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
 
