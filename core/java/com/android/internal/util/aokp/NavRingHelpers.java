@@ -24,9 +24,21 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Xfermode;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.net.Uri;
 import android.media.AudioManager;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -36,11 +48,10 @@ import static com.android.internal.util.aokp.AwesomeConstants.*;
 import com.android.internal.widget.multiwaveview.GlowPadView;
 import com.android.internal.widget.multiwaveview.TargetDrawable;
 
+import java.io.File;
 import java.net.URISyntaxException;
 
 public class NavRingHelpers {
-
-    private static final String ASSIST_ICON_METADATA_NAME = "com.android.systemui.action_assist_icon";
 
     private NavRingHelpers() {
     }
@@ -118,5 +129,67 @@ public class NavRingHelpers {
             drawable.setEnabled(false);
         }
         return drawable;
+    }
+
+    public static TargetDrawable getCustomDrawable(Context context, String action) {
+        final Resources res = context.getResources();
+
+           // try {
+                // custom icon from the URI here
+                File f = new File(Uri.parse(action).getPath());
+                Drawable activityIcon = new BitmapDrawable(res,
+                                 getRoundedCornerBitmap(BitmapFactory.decodeFile(f.getAbsolutePath())));
+
+                Drawable iconBg = res.getDrawable(
+                        com.android.internal.R.drawable.ic_navbar_blank);
+                Drawable iconBgActivated = res.getDrawable(
+                        com.android.internal.R.drawable.ic_navbar_blank_activated);
+
+                int margin = (int)(iconBg.getIntrinsicHeight() / 3);
+                LayerDrawable icon = new LayerDrawable (new Drawable[] { iconBg, activityIcon });
+                LayerDrawable iconActivated = new LayerDrawable (new Drawable[] { iconBgActivated, activityIcon });
+
+                icon.setLayerInset(1, margin, margin, margin, margin);
+                iconActivated.setLayerInset(1, margin, margin, margin, margin);
+
+                StateListDrawable selector = new StateListDrawable();
+                selector.addState(new int[] {
+                        android.R.attr.state_enabled,
+                        -android.R.attr.state_active,
+                        -android.R.attr.state_focused
+                    }, icon);
+                selector.addState(new int[] {
+                        android.R.attr.state_enabled,
+                        android.R.attr.state_active,
+                        -android.R.attr.state_focused
+                    }, iconActivated);
+                selector.addState(new int[] {
+                        android.R.attr.state_enabled,
+                        -android.R.attr.state_active,
+                        android.R.attr.state_focused
+                    }, iconActivated);
+                return new TargetDrawable(res, selector);
+          //  } catch (URISyntaxException e) {
+                // oops shouldn't have come this way....
+            //}
+    }
+
+	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+            bitmap.getHeight(), Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = 24;
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        return output;
     }
 }

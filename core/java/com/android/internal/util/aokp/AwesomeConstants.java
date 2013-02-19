@@ -17,6 +17,7 @@
 package com.android.internal.util.aokp;
 
 public class AwesomeConstants {
+
     public final static String ACTION_HOME = "**home**";
     public final static String ACTION_BACK = "**back**";
     public final static String ACTION_SCREENSHOT = "**screenshot**";

@@ -98,8 +98,7 @@ public class SearchPanelView extends FrameLayout implements
     private static final int SEARCH_PANEL_HOLD_DURATION = 0;
     static final String TAG = "SearchPanelView";
     static final boolean DEBUG = TabletStatusBar.DEBUG || PhoneStatusBar.DEBUG || false;
-    private static final String ASSIST_ICON_METADATA_NAME =
-            "com.android.systemui.action_assist_icon";
+
     private final Context mContext;
     private BaseStatusBar mBar;
     private StatusBarTouchProxy mStatusBarTouchProxy;
@@ -116,6 +115,7 @@ public class SearchPanelView extends FrameLayout implements
     private ContentResolver mContentResolver;
     private String[] targetActivities = new String[5];
     private String[] longActivities = new String[5];
+    private String[] customIcons = new String[5];
     private int startPosOffset;
 
     private int mNavRingAmount;
@@ -374,7 +374,11 @@ public class SearchPanelView extends FrameLayout implements
         for (int i = 0; i < middleStart; i++) {
             intentList.add(targetActivities[i]);
             longList.add(longActivities[i]);
-            storedDraw.add(NavRingHelpers.getTargetDrawable(mContext, targetActivities[i]));
+            if (!TextUtils.isEmpty(customIcons[i])) {
+                storedDraw.add(NavRingHelpers.getCustomDrawable(mContext, customIcons[i]));
+            } else {
+                storedDraw.add(NavRingHelpers.getTargetDrawable(mContext, targetActivities[i]));
+            }
         }
 
         // Add middle Place Holder Targets
@@ -389,7 +393,11 @@ public class SearchPanelView extends FrameLayout implements
             int i = j + middleStart;
             intentList.add(targetActivities[i]);
             longList.add(longActivities[i]);
-            storedDraw.add(NavRingHelpers.getTargetDrawable(mContext, targetActivities[i]));
+            if (!TextUtils.isEmpty(customIcons[i])) {
+                storedDraw.add(NavRingHelpers.getCustomDrawable(mContext, customIcons[i]));
+            } else {
+                storedDraw.add(NavRingHelpers.getTargetDrawable(mContext, targetActivities[i]));
+            }
         }
 
         // Add End Place Holder Targets
@@ -453,7 +461,7 @@ public class SearchPanelView extends FrameLayout implements
 
     private boolean hasValidTargets() {
         for (String target : targetActivities) {
-            if (!TextUtils.isEmpty(target)) {
+            if (!TextUtils.isEmpty(target) && !target.equals(ACTION_NULL)) {
                 return true;
             }
         }
@@ -592,6 +600,8 @@ public class SearchPanelView extends FrameLayout implements
                     Settings.System.getUriFor(Settings.System.SYSTEMUI_NAVRING[i]), false, this);
 	            resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.SYSTEMUI_NAVRING_LONG[i]), false, this);
+	            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.SYSTEMUI_NAVRING_ICON[i]), false, this);
             }
 
         }
@@ -610,6 +620,8 @@ public class SearchPanelView extends FrameLayout implements
                     mContext.getContentResolver(), Settings.System.SYSTEMUI_NAVRING[i]);
             longActivities[i] = Settings.System.getString(
                     mContext.getContentResolver(), Settings.System.SYSTEMUI_NAVRING_LONG[i]);
+            customIcons[i] = Settings.System.getString(
+                    mContext.getContentResolver(), Settings.System.SYSTEMUI_NAVRING_ICON[i]);
         }
 
         mLefty = (Settings.System.getBoolean(mContext.getContentResolver(),
