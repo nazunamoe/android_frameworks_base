@@ -84,7 +84,11 @@ import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.systemui.statusbar.tablet.StatusBarPanel;
 import com.android.systemui.statusbar.tablet.TabletStatusBar;
+<<<<<<< HEAD
 import com.android.systemui.navbar.SysAction;
+=======
+import com.android.systemui.aokp.AwesomeAction;
+>>>>>>> 7616d8b... FW: Navring Rework.
 import static com.android.internal.util.aokp.AwesomeConstants.*;
 import com.android.internal.util.aokp.NavRingHelpers;
 
