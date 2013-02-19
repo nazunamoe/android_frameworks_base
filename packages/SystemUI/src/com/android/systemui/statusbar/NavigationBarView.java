@@ -65,7 +65,6 @@ import com.android.systemui.navbar.NavBarHelpers;
 import com.android.systemui.statusbar.policy.KeyButtonView;
 import com.android.systemui.statusbar.policy.key.ExtensibleKeyButtonView;
 import com.android.systemui.statusbar.policy.key.RecentsKeyButtonView;
-import static com.android.internal.util.aokp.AwesomeConstants.*;
 
 public class NavigationBarView extends LinearLayout {
     final static boolean DEBUG = false;
@@ -473,6 +472,7 @@ public class NavigationBarView extends LinearLayout {
 
         final int iconSize = 80;
         ExtensibleKeyButtonView v = null;
+
         if(clickAction.equals(AwesomeConstant.ACTION_RECENTS)) {
             v = new RecentsKeyButtonView(mContext, null, clickAction, longpress);
         } else {
