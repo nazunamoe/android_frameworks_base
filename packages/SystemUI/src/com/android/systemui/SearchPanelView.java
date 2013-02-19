@@ -241,7 +241,7 @@ public class SearchPanelView extends FrameLayout implements
                 mHandler.removeCallbacks(SetLongPress);
                 mLongPress = false;
             } else {
-                if (mBoolLongPress) {
+                if (mBoolLongPress && !TextUtils.isEmpty(longList.get(target)) && !longList.get(target).equals(ACTION_NULL)) {
                     mTarget = target;
                     mHandler.postDelayed(SetLongPress, ViewConfiguration.getLongPressTimeout());
                 }
@@ -468,6 +468,15 @@ public class SearchPanelView extends FrameLayout implements
         return false;
     }
 
+    private boolean hasValidTargets() {
+        for (String target : targetActivities) {
+            if (!TextUtils.isEmpty(target) && !target.equals(ACTION_NULL)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void show(final boolean show, boolean animate) {
         if (!show) {
             final LayoutTransition transitioner = animate ? createLayoutTransitioner() : null;
@@ -594,6 +603,8 @@ public class SearchPanelView extends FrameLayout implements
                     Settings.System.NAVIGATION_BAR_LEFTY_MODE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SYSTEMUI_NAVRING_AMOUNT), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SYSTEMUI_NAVRING_LONG_ENABLE), false, this);
 
             for (int i = 0; i < 5; i++) {
 	            resolver.registerContentObserver(
