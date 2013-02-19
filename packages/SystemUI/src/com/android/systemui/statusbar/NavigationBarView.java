@@ -61,6 +61,7 @@ import com.android.systemui.TransparencyManager;
 import com.android.systemui.statusbar.policy.KeyButtonView;
 import com.android.systemui.statusbar.policy.key.ExtensibleKeyButtonView;
 import com.android.systemui.statusbar.policy.key.RecentsKeyButtonView;
+import static com.android.internal.util.aokp.AwesomeConstants.*;
 
 public class NavigationBarView extends LinearLayout {
     final static boolean DEBUG = false;
@@ -120,21 +121,21 @@ public class NavigationBarView extends LinearLayout {
 
     public final static int StockButtonsQty = 3;
     public final static String[] StockClickActions = {
-        SysAction.ACTION_BACK,
-        SysAction.ACTION_HOME,
-        SysAction.ACTION_RECENTS,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL };
+        ACTION_BACK,
+        ACTION_HOME,
+        ACTION_RECENTS,
+        ACTION_NULL,
+        ACTION_NULL,
+        ACTION_NULL,
+        ACTION_NULL };
     public final static String[] StockLongpress = {
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL,
-        SysAction.ACTION_NULL };
+        ACTION_NULL,
+        ACTION_NULL,
+        ACTION_NULL,
+        ACTION_NULL,
+        ACTION_NULL,
+        ACTION_NULL,
+        ACTION_NULL };
 
     FrameLayout rot0;
     FrameLayout rot90;
@@ -467,7 +468,7 @@ public class NavigationBarView extends LinearLayout {
 
         final int iconSize = 80;
         ExtensibleKeyButtonView v = null;
-        if(SysAction.ACTION_RECENTS.equals(clickAction)) {
+        if(ACTION_RECENTS.equals(clickAction)) {
             v = new RecentsKeyButtonView(mContext, null, clickAction, longpress);
         } else {
             v = new ExtensibleKeyButtonView(mContext, null, clickAction,
