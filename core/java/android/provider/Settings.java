@@ -3525,6 +3525,13 @@ public final class Settings {
         */
         public static final String TORCH_STATE = "torch_state";
 
+        /**
+         * User Interface State
+         * 1 = Rebuild UI, resets to 0 automatically
+         * @hide
+         */
+        public static final String USER_INTERFACE_STATE = "user_interface_state";
+
        /**
         * Lefty mode
         * @hide
