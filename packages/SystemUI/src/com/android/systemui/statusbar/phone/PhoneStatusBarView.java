@@ -54,6 +54,8 @@ public class PhoneStatusBarView extends PanelBar {
     private static final String TAG = "PhoneStatusBarView";
     private static final boolean DEBUG = PhoneStatusBar.DEBUG;
 
+    ActivityManager mActivityManager;
+    KeyguardManager mKeyguardManager;
     PhoneStatusBar mBar;
     int mScrimColor;
     float mSettingsPanelDragzoneFrac;
@@ -64,6 +66,46 @@ public class PhoneStatusBarView extends PanelBar {
     PanelView mLastFullyOpenedPanel = null;
     PanelView mNotificationPanel, mSettingsPanel;
     private boolean mShouldFade;
+
+    Handler mHandler;
+
+    float mAlpha = 1;
+
+    private Runnable mUpdateInHomeAlpha = new Runnable() {
+        @Override
+        public void run() {
+            new AsyncTask<Void, Void, Boolean>() {
+                @Override
+                protected Boolean doInBackground(Void... params) {
+                    final List<ActivityManager.RecentTaskInfo> recentTasks = mActivityManager.getRecentTasksForUser(
+                            1, ActivityManager.RECENT_WITH_EXCLUDED, UserHandle.CURRENT.getIdentifier());
+                    if (recentTasks.size() > 0) {
+                        ActivityManager.RecentTaskInfo recentInfo = recentTasks.get(0);
+                        Intent intent = new Intent(recentInfo.baseIntent);
+                        if (recentInfo.origActivity != null) {
+                            intent.setComponent(recentInfo.origActivity);
+                        }
+                        if (isCurrentHomeActivity(intent.getComponent(), null)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                @Override
+                protected void onPostExecute(Boolean inHome) {
+                    setBackgroundAlpha(inHome ? mAlpha : 1);
+                }
+            }.execute();
+        }
+    };
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateBackgroundAlpha();
+        }
+    };
 
     public PhoneStatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,6 +119,10 @@ public class PhoneStatusBarView extends PanelBar {
             mSettingsPanelDragzoneFrac = 0f;
         }
         mFullWidthNotifications = mSettingsPanelDragzoneFrac <= 0f;
+        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        mKeyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
+        SettingsObserver settingsObserver = new SettingsObserver(new Handler());
+        settingsObserver.observe();
         Drawable bg = mContext.getResources().getDrawable(R.drawable.status_bar_background);
         if(bg instanceof ColorDrawable) {
             setBackground(new BackgroundAlphaColorDrawable(((ColorDrawable) bg).getColor()));
@@ -96,6 +142,9 @@ public class PhoneStatusBarView extends PanelBar {
         for (PanelView pv : mPanels) {
             pv.setRubberbandingEnabled(!mFullWidthNotifications);
         }
+        IntentFilter f = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+        mContext.registerReceiver(mBroadcastReceiver, f);
+        updateBackgroundAlpha();
     }
 
     @Override
@@ -113,11 +162,17 @@ public class PhoneStatusBarView extends PanelBar {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mBar.onBarViewDetached();
+        mContext.unregisterReceiver(mBroadcastReceiver);
     }
  
     @Override
     public boolean panelsEnabled() {
         return ((mBar.mDisabled & StatusBarManager.DISABLE_EXPAND) == 0);
+    }
+
+    private boolean isKeyguardEnabled() {
+        if(mKeyguardManager == null) return false;
+        return mKeyguardManager.isKeyguardLocked();
     }
 
     @Override
@@ -255,12 +310,65 @@ public class PhoneStatusBarView extends PanelBar {
         mBar.updateCarrierLabelVisibility(false);
     }
 
-    private void updateBackgroundAlpha() {
-        if(mFadingPanel != null) {
-            mBar.mTransparencyManager.setTempStatusbarState(true);
-        } else {
-            mBar.mTransparencyManager.setTempStatusbarState(false);
-        }
-        mBar.mTransparencyManager.update();
+    /*
+     * ]0 < alpha < 1[
+     */
+    protected void setBackgroundAlpha(float alpha) {
+        Drawable bg = getBackground();
+        if (bg == null)
+            return;
+
+        int a = (int) (alpha * 255);
+        bg.setAlpha(a);
     }
+
+    public void updateBackgroundAlpha() {
+        if(mFadingPanel != null) {
+            setBackgroundAlpha(1);
+        } else if (isKeyguardEnabled()) {
+            setBackgroundAlpha(mAlpha < NavigationBarView.KEYGUARD_ALPHA ? NavigationBarView.KEYGUARD_ALPHA : mAlpha);
+        } else {
+            removeCallbacks(mUpdateInHomeAlpha);
+            postDelayed(mUpdateInHomeAlpha, 100);
+        }
+    }
+
+    private boolean isCurrentHomeActivity(ComponentName component, ActivityInfo homeInfo) {
+        if (homeInfo == null) {
+            final PackageManager pm = mContext.getPackageManager();
+            homeInfo = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+                .resolveActivityInfo(pm, 0);
+        }
+        return homeInfo != null
+            && homeInfo.packageName.equals(component.getPackageName())
+            && homeInfo.name.equals(component.getClassName());
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_ALPHA), false, this);
+            updateSettings();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    protected void updateSettings() {
+        ContentResolver resolver = mContext.getContentResolver();
+        mAlpha = Settings.System.getFloat(resolver,
+                Settings.System.NAVIGATION_BAR_ALPHA,
+                new Float(mContext.getResources().getInteger(R.integer.navigation_bar_transparency) / 255));
+
+    }
+
 }

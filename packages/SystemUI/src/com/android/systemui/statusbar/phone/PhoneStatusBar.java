@@ -661,8 +661,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         // listen for USER_SETUP_COMPLETE setting (per-user)
         resetUserSetupObserver();
-
-        mTransparencyManager.setStatusbar(mStatusBarView);
         return mStatusBarView;
     }
 
@@ -953,9 +951,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         if (!mNavBarAutoHide) {
             // we don't add the NavBar if AutoHide is on.
             mWindowManager.addView(mNavigationBarView, getNavigationBarLayoutParams());
-            mNavigationBarView.setTransparencyManager(mTransparencyManager);
-            mTransparencyManager.setNavbar(mNavigationBarView);
-            mTransparencyManager.update();
         }
     }
 
@@ -1484,7 +1479,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                 haltTicker();
             }
         }
-        mTransparencyManager.update();
+        mStatusBarView.updateBackgroundAlpha();
     }
 
     @Override
@@ -2153,7 +2148,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     }
 
     public void topAppWindowChanged(boolean showMenu) {
-        mTransparencyManager.update();
+        mStatusBarView.updateBackgroundAlpha();
 
         if (mPieControlPanel != null)
             mPieControlPanel.setMenu(showMenu);
