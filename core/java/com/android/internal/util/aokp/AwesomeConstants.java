@@ -18,6 +18,8 @@ package com.android.internal.util.aokp;
 
 public class AwesomeConstants {
 
+    public static final String ASSIST_ICON_METADATA_NAME = "com.android.systemui.action_assist_icon";
+
     public final static String ACTION_HOME = "**home**";
     public final static String ACTION_BACK = "**back**";
     public final static String ACTION_SCREENSHOT = "**screenshot**";
