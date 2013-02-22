@@ -46,6 +46,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.android.systemui.R;
+import com.android.systemui.statusbar.BackgroundAlphaColorDrawable;
 
 import java.util.List;
 

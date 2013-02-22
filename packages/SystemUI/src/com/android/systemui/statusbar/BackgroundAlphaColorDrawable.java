@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.systemui.statusbar.phone;
+package com.android.systemui.statusbar;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
