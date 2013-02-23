@@ -468,15 +468,6 @@ public class SearchPanelView extends FrameLayout implements
         return false;
     }
 
-    private boolean hasValidTargets() {
-        for (String target : targetActivities) {
-            if (!TextUtils.isEmpty(target) && !target.equals(ACTION_NULL)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void show(final boolean show, boolean animate) {
         if (!show) {
             final LayoutTransition transitioner = animate ? createLayoutTransitioner() : null;
