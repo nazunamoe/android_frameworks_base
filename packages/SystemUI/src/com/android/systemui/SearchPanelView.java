@@ -226,7 +226,7 @@ public class SearchPanelView extends FrameLayout implements
                     Log.d(TAG,"LongPress!");
                     mBar.hideSearchPanel();
                     maybeSkipKeyguard();
-                    SysAction.getInstance(mContext).launchAction(longList.get(mTarget));
+                    SysAction.launchAction(mContext, longList.get(mTarget));
                     mSearchPanelLock = true;
                  }
             }
@@ -262,11 +262,11 @@ public class SearchPanelView extends FrameLayout implements
         public void onTrigger(View v, final int target) {
             mTarget = target;
             if (!mLongPress) {
-                if (ACTION_ASSIST.equals(intentList.get(target))) {
+                if (AwesomeConstant.ACTION_ASSIST.equals(intentList.get(target))) {
                     startAssistActivity();
                 } else {
                     maybeSkipKeyguard();
-                    SysAction.getInstance(mContext).launchAction(intentList.get(target));
+                    SysAction.launchAction(mContext, intentList.get(target));
                 }
                 mHandler.removeCallbacks(SetLongPress);
             }
@@ -411,6 +411,52 @@ public class SearchPanelView extends FrameLayout implements
         }
 
         mGlowPadView.setTargetResources(storedDraw);
+    }
+
+    private TargetDrawable getTargetDrawable (String action){
+
+        TargetDrawable cDrawable = new TargetDrawable(mResources, mResources.getDrawable(com.android.internal.R.drawable.ic_lockscreen_camera));
+        cDrawable.setEnabled(false);
+
+        if (action == null || action.equals("") || action.equals("**null**"))
+            return cDrawable;
+        if (action.equals("**ime**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_ime_switcher));
+        if (action.equals("**ring_vib**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_vib));
+        if (action.equals("**ring_silent**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_silent));
+        if (action.equals("**ring_vib_silent**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_ring_vib_silent));
+        if (action.equals("**kill**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_killtask));
+        if (action.equals("**lastapp**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_lastapp));
+        if (action.equals("**power**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_power));
+        if (action.equals("**screenoff**"))
+            return new TargetDrawable(mResources, mResources.getDrawable(R.drawable.ic_action_power));
+        if (action.equals("**assist**"))
+            return new TargetDrawable(mResources, com.android.internal.R.drawable.ic_action_assist_generic);
+        try {
+            Intent in = Intent.parseUri(action, 0);
+            ActivityInfo aInfo = in.resolveActivityInfo(mPackageManager, PackageManager.GET_ACTIVITIES);
+            Drawable activityIcon = aInfo.loadIcon(mPackageManager);
+            Drawable iconBg = mResources.getDrawable(R.drawable.ic_navbar_blank);
+            Drawable iconBgActivated = mResources.getDrawable(R.drawable.ic_navbar_blank_activated);
+            int margin = (int)(iconBg.getIntrinsicHeight() / 3);
+            LayerDrawable icon = new LayerDrawable (new Drawable[] {iconBg, activityIcon});
+            icon.setLayerInset(1, margin, margin, margin, margin);
+            LayerDrawable iconActivated = new LayerDrawable (new Drawable[] {iconBgActivated, activityIcon});
+            iconActivated.setLayerInset(1, margin, margin, margin, margin);
+            StateListDrawable selector = new StateListDrawable();
+            selector.addState(new int[] {android.R.attr.state_enabled, -android.R.attr.state_active, -android.R.attr.state_focused}, icon);
+            selector.addState(new int[] {android.R.attr.state_enabled, android.R.attr.state_active, -android.R.attr.state_focused}, iconActivated);
+            selector.addState(new int[] {android.R.attr.state_enabled, -android.R.attr.state_active, android.R.attr.state_focused}, iconActivated);
+            return new TargetDrawable(mResources, selector);
+        } catch (Exception e) {
+            return cDrawable;
+        }
     }
 
     private void maybeSwapSearchIcon() {

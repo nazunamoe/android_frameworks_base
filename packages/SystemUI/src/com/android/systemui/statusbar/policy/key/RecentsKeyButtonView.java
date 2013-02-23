@@ -37,7 +37,7 @@ public class RecentsKeyButtonView extends ExtensibleKeyButtonView {
             if (mRecentsLocked)
                 return;
 
-            SysAction.getInstance(mContext).launchAction(mClickAction);
+            SysAction.launchAction(mContext, mClickAction);
             mRecentsLocked = true;
             postDelayed(mUnlockRecents, 100); // just to prevent spamming, it
                                               // looks ugly

@@ -2440,7 +2440,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             public void run() {
                     doubleClickCounter = 0;
                     animateCollapsePanels();
-                    SysAction.getInstance(mContext).launchAction(mClockActions[shortClick]);
+                    SysAction.launchAction(mContext, mClockActions[shortClick]);
             }
         };
 
@@ -2457,7 +2457,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                     mHandler.removeCallbacks(DelayShortPress);
                     vibrate();
                     animateCollapsePanels();
-                    SysAction.getInstance(mContext).launchAction(mClockActions[doubleClick]);
+                    SysAction.launchAction(mContext, mClockActions[doubleClick]);
                     mHandler.postDelayed(ResetDoubleClickCounter, 50);
                 } else {
                     doubleClickCounter = doubleClickCounter + 1;
@@ -2467,7 +2467,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             } else {
                 vibrate();
                 animateCollapsePanels();
-                SysAction.getInstance(mContext).launchAction(mClockActions[shortClick]);
+                SysAction.launchAction(mContext, mClockActions[shortClick]);
             }
 
         }
@@ -2477,7 +2477,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         @Override
         public boolean onLongClick(View v) {
             animateCollapsePanels();
-            SysAction.getInstance(mContext).launchAction(mClockActions[longClick]);
+            SysAction.launchAction(mContext, mClockActions[longClick]);
             return true;
         }
     };
