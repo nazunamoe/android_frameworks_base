@@ -140,21 +140,16 @@ public class QuickSettings {
     private static final int LTE_TILE = 22;
     private static final int FAV_CONTACT_TILE = 23;
     private static final int SOUND_STATE_TILE = 24;
-<<<<<<< HEAD
     private static final int POWER_MENU_TILE = 25;
     private static final int NAVBAR_HIDE_TILE = 26;
     private static final int SLEEP_TILE = 27;
-=======
-    private static final int NAVBAR_HIDE_TILE = 25;
-    private static final int QUICKRECORD_TILE = 26;
+    private static final int QUICKRECORD_TILE = 28;
 
     public static final int STATE_IDLE = 0;
     public static final int STATE_PLAYING = 1;
     public static final int STATE_RECORDING = 2;
     public static final int STATE_JUST_RECORDED = 3;
     public static final int STATE_NO_RECORDING = 4;
-
->>>>>>> 5d1aaa9... Framework: QuickRecord Tile (2/3)
 
     public static final String USER_TOGGLE = "USER";
     public static final String BRIGHTNESS_TOGGLE = "BRIGHTNESS";
@@ -183,13 +178,10 @@ public class QuickSettings {
     public static final String SOUND_STATE_TOGGLE = "SOUNDSTATE";
     public static final String POWER_MENU_TOGGLE = "POWERMENU";
     public static final String NAVBAR_HIDE_TOGGLE = "NAVBARHIDE";
-<<<<<<< HEAD
     public static final String SLEEP_TOGGLE = "SLEEP";
-=======
     public static final String QUICKRECORD_TOGGLE = "QUICKRECORD";
     private static final String LOG_TAG = "AudioRecord";
     private static String mQuickAudio = null;
->>>>>>> 5d1aaa9... Framework: QuickRecord Tile (2/3)
 
     private static final String DEFAULT_TOGGLES = "default";
 
@@ -278,12 +270,9 @@ public class QuickSettings {
             toggleMap.put(SOUND_STATE_TOGGLE, SOUND_STATE_TILE);
             toggleMap.put(POWER_MENU_TOGGLE, POWER_MENU_TILE);
             toggleMap.put(NAVBAR_HIDE_TOGGLE, NAVBAR_HIDE_TILE);
-<<<<<<< HEAD
             toggleMap.put(SLEEP_TOGGLE, SLEEP_TILE);
-=======
             toggleMap.put(QUICKRECORD_TOGGLE, QUICKRECORD_TILE);
             //toggleMap.put(BT_TETHER_TOGGLE, BT_TETHER_TILE);
->>>>>>> 5d1aaa9... Framework: QuickRecord Tile (2/3)
         }
         return toggleMap;
     }
