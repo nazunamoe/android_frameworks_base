@@ -3558,7 +3558,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if ((mForceStatusBar || mForceStatusBarFromKeyguard) &&
                     Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.EXPANDED_DESKTOP_STATE, 0) == 0) {
-						updateDisplayMetrics();
+                    updateDisplayMetrics();
                 if (DEBUG_LAYOUT) Log.v(TAG, "Showing status bar: forced");
                 if (mStatusBar.showLw(true)) changes |= FINISH_LAYOUT_REDO_LAYOUT;
             } else if (mTopFullscreenOpaqueWindowState != null) {
