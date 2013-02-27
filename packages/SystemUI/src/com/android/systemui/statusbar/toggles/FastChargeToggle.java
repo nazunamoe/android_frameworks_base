@@ -4,7 +4,6 @@ package com.android.systemui.statusbar.toggles;
 import android.content.Context;
 import android.content.Intent;
 import android.os.FileObserver;
-import android.util.Log;
 
 import com.android.systemui.R;
 
@@ -101,5 +100,4 @@ public class FastChargeToggle extends StatefulToggle {
             }
         }
     }
-
 }
