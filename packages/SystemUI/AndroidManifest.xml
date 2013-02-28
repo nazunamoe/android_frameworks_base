@@ -138,9 +138,9 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".aokp.AwesomeReceiver">
+            android:name=".navbar.SysReceiver">
             <intent-filter>
-                <action android:name="com.android.systemui.aokp.LAUNCH_ACTION" />
+                <action android:name="com.android.systemui.navbar.LAUNCH_ACTION" />
             </intent-filter>
         </receiver>
 
