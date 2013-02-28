@@ -67,7 +67,6 @@ public class ToggleManager {
     public static final String BATTERY_TOGGLE = "BATTERY";
     public static final String AIRPLANE_TOGGLE = "AIRPLANE_MODE";
     public static final String BLUETOOTH_TOGGLE = "BLUETOOTH";
-    public static final String SWAGGER_TOGGLE = "SWAGGER";
     public static final String VIBRATE_TOGGLE = "VIBRATE";
     public static final String SILENT_TOGGLE = "SILENT";
     public static final String FCHARGE_TOGGLE = "FCHARGE";
@@ -83,6 +82,8 @@ public class ToggleManager {
     public static final String SOUND_STATE_TOGGLE = "SOUNDSTATE";
     public static final String NAVBAR_HIDE_TOGGLE = "NAVBARHIDE";
     public static final String QUICKRECORD_TOGGLE = "QUICKRECORD";
+    public static final String SLEEP_TOGGLE = "SLEEP";
+    public static final String POWER_MENU_TOGGLE = "POWERMENU";
 
     private int mStyle;
 
@@ -114,7 +115,6 @@ public class ToggleManager {
             toggleMap.put(BATTERY_TOGGLE, BatteryToggle.class);
             toggleMap.put(AIRPLANE_TOGGLE, AirplaneModeToggle.class);
             toggleMap.put(BLUETOOTH_TOGGLE, BluetoothToggle.class);
-            toggleMap.put(SWAGGER_TOGGLE, SwaggerToggle.class);
             toggleMap.put(VIBRATE_TOGGLE, VibrateToggle.class);
             toggleMap.put(SILENT_TOGGLE, SilentToggle.class);
             toggleMap.put(FCHARGE_TOGGLE, FastChargeToggle.class);
@@ -129,6 +129,8 @@ public class ToggleManager {
             toggleMap.put(SOUND_STATE_TOGGLE, SoundStateToggle.class);
             toggleMap.put(NAVBAR_HIDE_TOGGLE, NavbarHideToggle.class);
             toggleMap.put(QUICKRECORD_TOGGLE, QuickRecordToggle.class);
+            toggleMap.put(SLEEP_TOGGLE, SleepToggle.class);
+            toggleMap.put(POWER_MENU_TOGGLE, PowerMenuToggle.class);
             // toggleMap.put(BT_TETHER_TOGGLE, null);
         }
         return toggleMap;

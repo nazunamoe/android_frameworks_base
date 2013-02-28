@@ -80,6 +80,7 @@ public class NotificationPanelView extends PanelView {
 
         setContentDescription(resources.getString(R.string.accessibility_desc_notification_shade));
 
+        final ContentResolver resolver = getContext().getContentResolver();
         mEnableObserver = new ContentObserver(mHandler) {
             @Override
             public void onChange(boolean selfChange) {
@@ -93,7 +94,8 @@ public class NotificationPanelView extends PanelView {
         mChangeSideObserver = new ContentObserver(mHandler) {
             @Override
             public void onChange(boolean selfChange) {
-                mFastTogglePos = Settings.System.getInt(getContext().getContentResolver(), Settings.System.CHOOSE_FASTTOGGLE_SIDE, 1);
+                mFastTogglePos = Settings.System.getInt(resolver,
+                    Settings.System.CHOOSE_FASTTOGGLE_SIDE, 1);
             }
         };
 
@@ -105,13 +107,13 @@ public class NotificationPanelView extends PanelView {
         mToggleStyle = Settings.System.getInt(resolver,
                 Settings.System.TOGGLES_STYLE, 0);
 
-        getContext().getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.FAST_TOGGLE),
                 true, mEnableObserver);
-        getContext().getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.TOGGLES_STYLE),
                 true, mEnableObserver);
-        getContext().getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.CHOOSE_FASTTOGGLE_SIDE),
                 true, mChangeSideObserver);
     }

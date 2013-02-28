@@ -464,15 +464,6 @@ public class SearchPanelView extends FrameLayout implements
 
     private boolean hasValidTargets() {
         for (String target : targetActivities) {
-            if (!TextUtils.isEmpty(target) && !target.equals(ACTION_NULL)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasValidTargets() {
-        for (String target : targetActivities) {
             if (!TextUtils.isEmpty(target) && !target.equals(AwesomeConstant.ACTION_NULL)) {
                 return true;
             }
