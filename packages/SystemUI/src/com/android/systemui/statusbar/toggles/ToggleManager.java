@@ -46,7 +46,6 @@ import java.util.Set;
  */
 public class ToggleManager {
 
-<<<<<<< HEAD
     private static final String TAG = ToggleManager.class.getSimpleName();
 
     public static final String ACTION_BROADCAST_TOGGLES = "com.android.systemui.statusbar.toggles.ACTION_BROADCAST_TOGGLES";
@@ -54,8 +53,6 @@ public class ToggleManager {
 
     static final boolean DEBUG = false;
 
-=======
->>>>>>> 7fe00f1... Toggle rewrite (1/2)
     private static final String TOGGLE_PIPE = "|";
 
     public static final String USER_TOGGLE = "USER";
@@ -89,16 +86,11 @@ public class ToggleManager {
     public static final String SLEEP_TOGGLE = "SLEEP";
     public static final String POWER_MENU_TOGGLE = "POWERMENU";
 
-    private static final String TAG = ToggleManager.class.getSimpleName();
-
     private int mStyle;
 
     public static final int STYLE_TILE = 0;
     public static final int STYLE_SWITCH = 1;
     public static final int STYLE_TRADITIONAL = 2;
-
-    public static final String ACTION_BROADCAST_TOGGLES = "com.android.systemui.statusbar.toggles.ACTION_BROADCAST_TOGGLES";
-    public static final String ACTION_REQUEST_TOGGLES = "com.android.systemui.statusbar.toggles.ACTION_REQUEST_TOGGLES";
 
     private ViewGroup[] mContainers = new ViewGroup[3];
 

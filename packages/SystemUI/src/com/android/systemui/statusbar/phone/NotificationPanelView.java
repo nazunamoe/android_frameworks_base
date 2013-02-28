@@ -110,13 +110,11 @@ public class NotificationPanelView extends PanelView {
         resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.FAST_TOGGLE),
                 true, mEnableObserver);
+
         resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.TOGGLES_STYLE),
                 true, mEnableObserver);
-<<<<<<< HEAD
-=======
 
->>>>>>> 7fe00f1... Toggle rewrite (1/2)
         resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.CHOOSE_FASTTOGGLE_SIDE),
                 true, mChangeSideObserver);
