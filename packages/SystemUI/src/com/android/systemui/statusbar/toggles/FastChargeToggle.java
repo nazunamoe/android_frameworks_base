@@ -3,6 +3,7 @@ package com.android.systemui.statusbar.toggles;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.FileObserver;
 
 import com.android.systemui.R;
@@ -17,15 +18,29 @@ public class FastChargeToggle extends StatefulToggle {
     private String mFastChargePath;
     private FileObserver mObserver;
 
+    private boolean mFastChargeEnabled = false;
+
     @Override
     protected void init(Context c, int style) {
         super.init(c, style);
         mFastChargePath = c.getString(com.android.internal.R.string.config_fastChargePath);
-        mObserver = new FileObserver(mFastChargePath) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                setEnabledState(mFastChargeEnabled = isFastChargeOn());
+                return null;
+            }
+
+            protected void onPostExecute(Void result) {
+                scheduleViewUpdate();
+            };
+        }.execute();
+        mObserver = new FileObserver(mFastChargePath, FileObserver.MODIFY) {
             @Override
             public void onEvent(int event, String file) {
                 log("fast charge file modified, event:" + event + ", file: " + file);
-                scheduleViewUpdate();
+                setEnabledState(mFastChargeEnabled = isFastChargeOn());
             }
         };
         mObserver.startWatching();
@@ -52,12 +67,11 @@ public class FastChargeToggle extends StatefulToggle {
 
     @Override
     protected void updateView() {
-        boolean enabled = isFastChargeOn();
-        setEnabledState(enabled);
-        setLabel(enabled
+        setEnabledState(mFastChargeEnabled);
+        setLabel(mFastChargeEnabled
                 ? R.string.quick_settings_fcharge_on_label
                 : R.string.quick_settings_fcharge_off_label);
-        setIcon(enabled
+        setIcon(mFastChargeEnabled
                 ? R.drawable.ic_qs_fcharge_on
                 : R.drawable.ic_qs_fcharge_off);
         super.updateView();

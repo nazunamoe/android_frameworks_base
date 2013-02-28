@@ -69,11 +69,22 @@ public class BatteryController extends BroadcastReceiver {
         final String action = intent.getAction();
         if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
             final int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-            final boolean plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0;
-            final int icon = plugged ? R.drawable.stat_sys_battery_charge 
-                                     : R.drawable.stat_sys_battery;
+            final int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS,
+                    BatteryManager.BATTERY_STATUS_UNKNOWN);
+
+            boolean plugged = false;
+            switch (status) {
+                case BatteryManager.BATTERY_STATUS_CHARGING:
+                case BatteryManager.BATTERY_STATUS_FULL:
+                    plugged = true;
+                    break;
+            }
+
+            final int icon = plugged ? R.drawable.stat_sys_battery_charge
+                    : R.drawable.stat_sys_battery;
+
             int N = mIconViews.size();
-            for (int i=0; i<N; i++) {
+            for (int i = 0; i < N; i++) {
                 ImageView v = mIconViews.get(i);
                 v.setImageResource(icon);
                 v.setImageLevel(level);
@@ -81,7 +92,7 @@ public class BatteryController extends BroadcastReceiver {
                         level));
             }
             N = mLabelViews.size();
-            for (int i=0; i<N; i++) {
+            for (int i = 0; i < N; i++) {
                 TextView v = mLabelViews.get(i);
                 v.setText(mContext.getString(R.string.status_bar_settings_battery_meter_format,
                         level));
@@ -90,6 +101,10 @@ public class BatteryController extends BroadcastReceiver {
             sBatteryCharging = plugged;
             updateCallbacks();
         }
+    }
+
+    public void updateCallback(BatteryStateChangeCallback cb) {
+        cb.onBatteryLevelChanged(sBatteryLevel, sBatteryCharging);
     }
 
     public void updateCallbacks() {

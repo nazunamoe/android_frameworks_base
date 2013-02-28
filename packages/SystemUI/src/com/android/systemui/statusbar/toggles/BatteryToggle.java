@@ -41,13 +41,12 @@ public class BatteryToggle extends BaseToggle implements BatteryStateChangeCallb
     public void onBatteryLevelChanged(int level, boolean pluggedIn) {
         Drawable d = null;
         if (pluggedIn) {
-            mChargingBatteryLevels.setLevel(level);
             d = mChargingBatteryLevels;
         } else {
-            mBatteryLevels.setLevel(level);
             d = mBatteryLevels;
         }
         setIcon(d);
+        setIconLevel(level);
 
         if (level == 100) {
             setLabel(R.string.quick_settings_battery_charged_label);
