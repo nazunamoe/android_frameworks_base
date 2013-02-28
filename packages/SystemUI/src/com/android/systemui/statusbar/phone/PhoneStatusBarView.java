@@ -67,6 +67,7 @@ public class PhoneStatusBarView extends PanelBar {
     PanelView mLastFullyOpenedPanel = null;
     PanelView mNotificationPanel, mSettingsPanel;
     private boolean mShouldFade;
+    private int mToggleStyle;
 
     float mAlpha;
     int mAlphaMode;
@@ -133,6 +134,10 @@ public class PhoneStatusBarView extends PanelBar {
                     mStatusBarColor != -1 ? mStatusBarColor : ((ColorDrawable) bg).getColor());
             setBackground(bacd);
         }
+
+        // no need for observer, sysui gets killed when the style is changed.
+        mToggleStyle = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.TOGGLES_STYLE, 0);
     }
 
     public void setBar(PhoneStatusBar bar) {
@@ -206,6 +211,9 @@ public class PhoneStatusBarView extends PanelBar {
                         + mNotificationPanel.getExpandedHeight() > 0) 
                     ? null 
                     : mNotificationPanel;
+        }
+        if(mToggleStyle != 0) {
+            return mNotificationPanel;
         }
 
         // We split the status bar into thirds: the left 2/3 are for notifications, and the

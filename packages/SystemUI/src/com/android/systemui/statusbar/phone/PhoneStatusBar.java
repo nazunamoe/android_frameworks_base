@@ -110,6 +110,7 @@ import com.android.systemui.statusbar.policy.OnSizeChangedListener;
 import com.android.systemui.statusbar.policy.Prefs;
 import com.android.systemui.statusbar.policy.SbBatteryController;
 import com.android.systemui.navbar.SysAction;
+import com.android.systemui.statusbar.toggles.ToggleManager;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -213,7 +214,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     TextView mNotificationPanelDebugText;
 
     // settings
-    QuickSettings mQS;
+    ToggleManager mToggleManager;
     boolean mHasSettingsPanel, mHasFlipSettings;
     SettingsPanelView mSettingsPanel;
     View mFlipSettingsView;
@@ -619,23 +620,21 @@ public class PhoneStatusBar extends BaseStatusBar {
             // wherever you find it, Quick Settings needs a container to survive
             mSettingsContainer = (QuickSettingsContainerView)
                     mStatusBarWindow.findViewById(R.id.quick_settings_container);
+
+            mToggleManager = new ToggleManager(mContext);
+            mToggleManager.setControllers(mBluetoothController, mNetworkController, mBatteryController,
+                    mLocationController, null);
+            mToggleManager.setContainer((LinearLayout) mNotificationPanel.findViewById(R.id.quick_toggles),
+                    ToggleManager.STYLE_TRADITIONAL);
             if (mSettingsContainer != null) {
-                mQS = new QuickSettings(mContext, mSettingsContainer);
+                mToggleManager.setContainer(mSettingsContainer, ToggleManager.STYLE_TILE);
                 if (!mNotificationPanelIsFullScreenWidth) {
                     mSettingsContainer.setSystemUiVisibility(
                             View.STATUS_BAR_DISABLE_NOTIFICATION_TICKER
-                            | View.STATUS_BAR_DISABLE_SYSTEM_INFO);
+                                    | View.STATUS_BAR_DISABLE_SYSTEM_INFO);
                 }
-                if (mSettingsPanel != null) {
-                    mSettingsPanel.setQuickSettings(mQS);
-                }
-                mQS.setService(this);
-                mQS.setBar(mStatusBarView);
-                mQS.setup(mNetworkController, mBluetoothController, mBatteryController,
-                        mLocationController);
-            } else {
-                mQS = null; // fly away, be free
             }
+            mToggleManager.updateSettings();
         }
 
         mClingShown = ! (DEBUG_CLINGS 
@@ -1770,6 +1769,9 @@ public class PhoneStatusBar extends BaseStatusBar {
     public void flipToSettings() {
         // Settings are not available in setup
         if (!mUserSetup) return;
+        if(mToggleManager != null && !mToggleManager.shouldFlipToSettings()) {
+            return;
+        }
 
         if (mFlipSettingsViewAnim != null) mFlipSettingsViewAnim.cancel();
         if (mScrollViewAnim != null) mScrollViewAnim.cancel();
@@ -2161,7 +2163,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         mCommandQueue.setNavigationIconHints(
                 altBack ? (mNavigationIconHints | StatusBarManager.NAVIGATION_HINT_BACK_ALT)
                         : (mNavigationIconHints & ~StatusBarManager.NAVIGATION_HINT_BACK_ALT));
-        if (mQS != null) mQS.setImeWindowStatus(vis > 0);
     }
 
     @Override
@@ -2440,7 +2441,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             public void run() {
                     doubleClickCounter = 0;
                     animateCollapsePanels();
-                    SysAction.getInstance(mContext).launchAction(mClockActions[shortClick]);
+                    SysAction.launchAction(mContext, mClockActions[shortClick]);
             }
         };
 
@@ -2457,7 +2458,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                     mHandler.removeCallbacks(DelayShortPress);
                     vibrate();
                     animateCollapsePanels();
-                    SysAction.getInstance(mContext).launchAction(mClockActions[doubleClick]);
+                    SysAction.launchAction(mContext, mClockActions[doubleClick]);
                     mHandler.postDelayed(ResetDoubleClickCounter, 50);
                 } else {
                     doubleClickCounter = doubleClickCounter + 1;
@@ -2467,7 +2468,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             } else {
                 vibrate();
                 animateCollapsePanels();
-                SysAction.getInstance(mContext).launchAction(mClockActions[shortClick]);
+                SysAction.launchAction(mContext, mClockActions[shortClick]);
             }
 
         }
@@ -2477,7 +2478,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         @Override
         public boolean onLongClick(View v) {
             animateCollapsePanels();
-            SysAction.getInstance(mContext).launchAction(mClockActions[longClick]);
+            SysAction.launchAction(mContext, mClockActions[longClick]);
             return true;
         }
     };
@@ -2598,9 +2599,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             if (mClearButton instanceof TextView) {
                 ((TextView)mClearButton).setText(context.getText(R.string.status_bar_clear_all_button));
             }
-
-            // Update the QuickSettings container
-            if (mQS != null) mQS.updateResources();
 
             loadDimens();
         }

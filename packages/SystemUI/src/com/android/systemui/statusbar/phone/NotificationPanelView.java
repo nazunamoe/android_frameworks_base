@@ -51,6 +51,7 @@ public class NotificationPanelView extends PanelView {
     int mFastTogglePos;
     ContentObserver mEnableObserver;
     ContentObserver mChangeSideObserver;
+    int mToggleStyle;
     Handler mHandler = new Handler();
 
     private float mGestureStartX;
@@ -79,29 +80,42 @@ public class NotificationPanelView extends PanelView {
 
         setContentDescription(resources.getString(R.string.accessibility_desc_notification_shade));
 
+        final ContentResolver resolver = getContext().getContentResolver();
         mEnableObserver = new ContentObserver(mHandler) {
             @Override
             public void onChange(boolean selfChange) {
-                mFastToggleEnabled = Settings.System.getBoolean(getContext().getContentResolver(), Settings.System.FAST_TOGGLE, false);
+                mFastToggleEnabled = Settings.System.getBoolean(resolver,
+                        Settings.System.FAST_TOGGLE, false);
+                mToggleStyle = Settings.System.getInt(resolver,
+                        Settings.System.TOGGLES_STYLE, 0);
             }
         };
 
         mChangeSideObserver = new ContentObserver(mHandler) {
             @Override
             public void onChange(boolean selfChange) {
-                mFastTogglePos = Settings.System.getInt(getContext().getContentResolver(), Settings.System.CHOOSE_FASTTOGGLE_SIDE, 1);
+                mFastTogglePos = Settings.System.getInt(resolver,
+                    Settings.System.CHOOSE_FASTTOGGLE_SIDE, 1);
             }
         };
 
         // Initialization
-        mFastToggleEnabled = Settings.System.getBoolean(getContext().getContentResolver(), Settings.System.FAST_TOGGLE, false);
-        mFastTogglePos = Settings.System.getInt(getContext().getContentResolver(), Settings.System.CHOOSE_FASTTOGGLE_SIDE, 1);
+        mFastToggleEnabled = Settings.System.getBoolean(resolver,
+                Settings.System.FAST_TOGGLE, false);
+        mFastTogglePos = Settings.System.getInt(resolver,
+                Settings.System.CHOOSE_FASTTOGGLE_SIDE, 1);
+        mToggleStyle = Settings.System.getInt(resolver,
+                Settings.System.TOGGLES_STYLE, 0);
 
-        getContext().getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.FAST_TOGGLE),
                 true, mEnableObserver);
 
-        getContext().getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
+                Settings.System.getUriFor(Settings.System.TOGGLES_STYLE),
+                true, mEnableObserver);
+
+        resolver.registerContentObserver(
                 Settings.System.getUriFor(Settings.System.CHOOSE_FASTTOGGLE_SIDE),
                 true, mChangeSideObserver);
     }
@@ -160,6 +174,11 @@ public class NotificationPanelView extends PanelView {
                         // Pointer is at the handle portion of the view?
                         mGestureStartY > getHeight() - mHandleBarHeight - getPaddingBottom();
                     mOkToFlip = getExpandedHeight() == 0;
+                    if(mToggleStyle != 0) {
+                        // don't allow settings panel with non-tile toggles
+                        shouldFlip = false;
+                        break;
+                    }
                     if (mFastTogglePos == 1) {
                         if ((event.getX(0) > getWidth() * (1.0f - STATUS_BAR_SETTINGS_FLIP_PERCENTAGE_RIGHT) && mFastToggleEnabled)
                             || (mStatusBar.skipToSettingsPanel()) && !mFastToggleEnabled) {

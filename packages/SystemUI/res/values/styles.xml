@@ -165,6 +165,8 @@
         <item name="android:textSize">14dp</item>
         <item name="android:textColor">#ff3a3b39</item>
     </style>
+    
+    
 
     <style name="BaseBrightnessDialogContainer">
         <item name="android:layout_width">match_parent</item>
@@ -223,6 +225,17 @@
       <item name="android:shadowDx">0</item>
       <item name="android:shadowDy">0</item>
       <item name="android:shadowRadius">2.5</item>
+    </style>
+
+    <style name="TextAppearance.StatusBar.Toggle" parent="@*android:style/TextAppearance.StatusBar.Icon">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+    </style>
+
+     <style name="brucekey_icon">
+       <item name="android:layout_width">wrap_content</item>
+       <item name="android:layout_height">wrap_content</item>
     </style>
     
     <style name="ClingButton">

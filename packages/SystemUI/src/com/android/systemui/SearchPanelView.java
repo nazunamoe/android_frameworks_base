@@ -84,6 +84,7 @@ import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.systemui.statusbar.tablet.StatusBarPanel;
 import com.android.systemui.statusbar.tablet.TabletStatusBar;
+
 import com.android.systemui.navbar.SysAction;
 import static com.android.internal.util.aokp.AwesomeConstants.*;
 import com.android.internal.util.aokp.NavRingHelpers;
@@ -125,7 +126,7 @@ public class SearchPanelView extends FrameLayout implements
     private boolean mSearchPanelLock;
     private int mTarget;
     private boolean mLongPress = false;
-    private String mEmpty = ACTION_ASSIST;
+    private String mEmpty = "**assist**";
 
     //need to make an intent list and an intent counter
     String[] intent;
@@ -226,7 +227,7 @@ public class SearchPanelView extends FrameLayout implements
                     Log.d(TAG,"LongPress!");
                     mBar.hideSearchPanel();
                     maybeSkipKeyguard();
-                    SysAction.getInstance(mContext).launchAction(longList.get(mTarget));
+                    SysAction.launchAction(mContext, longList.get(mTarget));
                     mSearchPanelLock = true;
                  }
             }
@@ -244,7 +245,7 @@ public class SearchPanelView extends FrameLayout implements
                 mHandler.removeCallbacks(SetLongPress);
                 mLongPress = false;
             } else {
-                if (mBoolLongPress && !TextUtils.isEmpty(longList.get(target)) && !longList.get(target).equals(ACTION_NULL)) {
+                if (mBoolLongPress && !TextUtils.isEmpty(longList.get(target)) && !longList.get(target).equals(AwesomeConstant.ACTION_NULL)) {
                     mTarget = target;
                     mHandler.postDelayed(SetLongPress, ViewConfiguration.getLongPressTimeout());
                 }
@@ -262,11 +263,11 @@ public class SearchPanelView extends FrameLayout implements
         public void onTrigger(View v, final int target) {
             mTarget = target;
             if (!mLongPress) {
-                if (ACTION_ASSIST.equals(intentList.get(target))) {
+                if (AwesomeConstant.ACTION_ASSIST.equals(intentList.get(target))) {
                     startAssistActivity();
                 } else {
                     maybeSkipKeyguard();
-                    SysAction.getInstance(mContext).launchAction(intentList.get(target));
+                    SysAction.launchAction(mContext, intentList.get(target));
                 }
                 mHandler.removeCallbacks(SetLongPress);
             }
@@ -316,7 +317,7 @@ public class SearchPanelView extends FrameLayout implements
 
         String tgtCenter = Settings.System.getString(mContext.getContentResolver(), Settings.System.SYSTEMUI_NAVRING[0]);
         if (TextUtils.isEmpty(tgtCenter)) {
-            Settings.System.putString(mContext.getContentResolver(), Settings.System.SYSTEMUI_NAVRING[0], ACTION_ASSIST);
+            Settings.System.putString(mContext.getContentResolver(), Settings.System.SYSTEMUI_NAVRING[0], mEmpty);
         }
 
         // Custom Targets
@@ -464,7 +465,7 @@ public class SearchPanelView extends FrameLayout implements
 
     private boolean hasValidTargets() {
         for (String target : targetActivities) {
-            if (!TextUtils.isEmpty(target) && !target.equals(ACTION_NULL)) {
+            if (!TextUtils.isEmpty(target) && !target.equals(AwesomeConstant.ACTION_NULL)) {
                 return true;
             }
         }

@@ -607,7 +607,10 @@ public class KeyguardWidgetPager extends PagedView implements PagedView.PageSwit
         for (int i = 0; i < count; i++) {
             KeyguardWidgetFrame child = getWidgetPageAt(i);
             if (i != mCurrentPage) {
-                child.setBackgroundAlpha(KeyguardWidgetFrame.OUTLINE_ALPHA_MULTIPLIER);
+                if (!Settings.System.getBoolean(getContext().getContentResolver(),
+                        Settings.System.LOCKSCREEN_HIDE_INITIAL_PAGE_HINTS, false)) {
+                    child.setBackgroundAlpha(KeyguardWidgetFrame.OUTLINE_ALPHA_MULTIPLIER);
+                }
                 child.setContentAlpha(0f);
             } else {
                 child.setBackgroundAlpha(0f);

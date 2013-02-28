@@ -2036,6 +2036,11 @@ public final class Settings {
         public static final String QUICK_TOGGLE_FAV_CONTACT = "quick_toggle_fav_contact";
 
         /**
+         * @hide
+         */
+        public static final String TOGGLES_STYLE = "toggls_style";
+
+        /**
          * enable and disable fast toggle in settings
          *
          * @hide
@@ -2062,8 +2067,6 @@ public final class Settings {
          * @hide
          */
         public static final String QUICK_TEXT_COLOR = "quick_text_color";
-
-
 
         /**
          * toggle to "fix" the following: (found in NotificationManagerService)
@@ -2817,11 +2820,6 @@ public final class Settings {
          */
         @Deprecated
         public static final String SHOW_WEB_SUGGESTIONS = "show_web_suggestions";
-        
-        /**
-         * @hide
-         */
-        public static final String SYSTEMUI_RECENTS_MEM_DISPLAY = "vanir_interface_recents_mem_display";
 
         /**
          * Whether the notification LED should repeatedly flash when a notification is
@@ -3252,7 +3250,7 @@ public final class Settings {
          */
         public static final String NAVIGATION_BAR_SHOW_NOW = "navigation_bar_show_now";
 
-		/**
+        /**
          * Show the NavBar dialog in Power menu
          * @hide
          */
@@ -3263,6 +3261,42 @@ public final class Settings {
          * ie compatmode button and extra ime switcher.
          */
         public static final String HIDE_EXTRAS_SYSTEM_BAR = "hide_extras_system_bar";
+
+        /**
+         * whether to hide the Ram Usage Bar on recent switcher
+         *
+         * @hide
+         */
+        public static final String RECENTS_RAM_BAR = "recents_ram_bar";
+
+        /**
+         * whether which Ram Usage Bar mode is used on recent switcher
+         * 0 = none, 1 = only app use, 2 = app and cache use, 3 = app, cache and system use
+         * @hide
+         */
+        public static final String RECENTS_RAM_BAR_MODE = "recents_ram_bar_mode";
+
+        /**
+         * Ram Usage Bar system mem color
+         *
+         * @hide
+         */
+        public static final String RECENTS_RAM_BAR_MEM_COLOR = "recents_ram_bar_mem_color";
+
+        /**
+         * Ram Usage Bar cached mem color
+         *
+         * @hide
+         */
+        public static final String RECENTS_RAM_BAR_CACHE_COLOR = "recents_ram_bar_cache_color";
+
+        /**
+         * Ram Usage Bar app mem color
+         *
+         * @hide
+         */
+        public static final String RECENTS_RAM_BAR_ACTIVE_APPS_COLOR = "recents_ram_bar_active_apps_color";
+
 
         /**
          * @hide
@@ -3364,7 +3398,7 @@ public final class Settings {
         public static final String PIE_CONTROLS = "pie_controls";
 
         /**
-         * Pie menu, should default to 0 (no, show only when needed)
+         * Pie menu, should default to 1 (yes, show)
          * @hide
          */
         public static final String PIE_MENU = "pie_menu";
@@ -3376,7 +3410,7 @@ public final class Settings {
         public static final String PIE_SEARCH = "pie_search";
 
         /**
-         * Pie will not rotate. Should default to 0 (no, rotate)
+         * Pie will not rotate. Should default to 1 (yes, do not rotate)
          * @hide
          */
         public static final String PIE_STICK = "pie_stick";
@@ -3393,8 +3427,8 @@ public final class Settings {
          */
         public static final String PIE_LAST_APP = "pie_last_app";
 
-        /*
-         * Pie gap angle, should default to 1
+        /**
+         * Pie gap angle, should default to 3
          * @hide
          */
         public static final String PIE_GAP = "pie_gap";
@@ -4004,7 +4038,6 @@ public final class Settings {
         @Deprecated
         public static final String WIFI_WATCHDOG_PING_TIMEOUT_MS =
             Secure.WIFI_WATCHDOG_PING_TIMEOUT_MS;
-
     }
 
     /**
