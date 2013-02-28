@@ -85,13 +85,13 @@ public class ThreeGToggle extends StatefulToggle {
     protected void doEnable() {
         TelephonyManager tm = (TelephonyManager) mContext
                 .getSystemService(Context.TELEPHONY_SERVICE);
-        tm.toggle2G(true);
+        tm.toggle3G(true);
     }
 
     @Override
     protected void doDisable() {
         TelephonyManager tm = (TelephonyManager) mContext
                 .getSystemService(Context.TELEPHONY_SERVICE);
-        tm.toggle2G(false);
+        tm.toggle3G(false);
     }
 }
