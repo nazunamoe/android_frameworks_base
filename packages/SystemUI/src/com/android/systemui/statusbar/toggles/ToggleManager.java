@@ -243,6 +243,7 @@ public class ToggleManager {
                 if (networkController != null && toggle instanceof NetworkSignalChangedCallback) {
                     networkController
                             .addNetworkSignalChangedCallback((NetworkSignalChangedCallback) toggle);
+                    networkController.notifySignalsChangedCallbacks((NetworkSignalChangedCallback) toggle);
                 }
 
                 if (bluetoothController != null && toggle instanceof BluetoothStateChangeCallback) {
@@ -266,6 +267,9 @@ public class ToggleManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(batteryController != null) {
+            batteryController.updateCallbacks();
         }
     }
 
