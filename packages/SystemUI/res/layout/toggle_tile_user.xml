@@ -43,6 +43,5 @@
             android:background="@color/qs_tile_user_label"
             android:gravity="center"
             android:text="@string/quick_settings_user_label" />
-    </RelativeLayout>
 
 </com.android.systemui.statusbar.phone.QuickSettingsTileView>
