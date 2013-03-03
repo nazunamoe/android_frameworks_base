@@ -380,11 +380,11 @@ public class PieMenu extends FrameLayout {
 
         if (mEnableColor) {
             mPieBackground.setColor(Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.PIE_BACKGROUND, COLOR_PIE_BACKGROUND) | COLOR_ALPHA_MASK);
+                        Settings.System.PIE_BACKGROUND, COLOR_PIE_BACKGROUND));
             mPieSelected.setColor(Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.PIE_SELECT, COLOR_PIE_SELECT) | COLOR_ALPHA_MASK);
+                        Settings.System.PIE_SELECT, COLOR_PIE_SELECT));
             mPieOutlines.setColor(Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.PIE_OUTLINES, COLOR_PIE_OUTLINES) | COLOR_ALPHA_MASK);
+                        Settings.System.PIE_OUTLINES, COLOR_PIE_OUTLINES));
             mClockPaint.setColor(Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.PIE_STATUS_CLOCK, COLOR_STATUS));
             mAmPmPaint.setColor(Settings.System.getInt(mContext.getContentResolver(),
