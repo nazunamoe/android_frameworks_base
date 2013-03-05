@@ -47,4 +47,5 @@
     <string name="toggle_QUICKRECORD">Quick Record</string>
     <string name="toggle_QUIETHOURS">Quiet Hours</string>
     <string name="toggle_PIE">Pie</string>
+    <string name="toggle_SCREENSHOT">Screenshot</string>
 </resources>
