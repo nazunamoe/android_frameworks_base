@@ -289,7 +289,7 @@ public class PieMenu extends FrameLayout {
         mNavbarOff = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1 && !sbexpanded;
         mPieSize = Settings.System.getFloat(mContext.getContentResolver(),
-                Settings.System.PIE_SIZE, 1f);
+                Settings.System.PIE_SIZE, 0.9f);
         mPieGap = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PIE_GAP, 3);
         mHapticFeedback = Settings.System.getInt(mContext.getContentResolver(),
