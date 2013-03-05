@@ -19,31 +19,11 @@ public class RebootToggle extends BaseToggle {
 
     @Override
     public void onClick(View v) {
-        try {
-            Process proc = Runtime.getRuntime()
-                .exec(new String[]{ "su", "-c", "reboot" });
-            proc.waitFor();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+        Intent intent=new Intent(Intent.ACTION_POWERMENU_REBOOT);
+        mContext.sendBroadcast(intent);
 
         collapseStatusBar();
         dismissKeyguard();
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        try {
-            Process proc = Runtime.getRuntime()
-                .exec(new String[]{ "su", "-c", "recovery" });
-            proc.waitFor();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-        collapseStatusBar();
-        dismissKeyguard();
-        return super.onLongClick(v);
     }
 
 }
