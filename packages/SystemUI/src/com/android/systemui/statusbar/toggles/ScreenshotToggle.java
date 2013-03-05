@@ -9,20 +9,22 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.RemoteException;
+import android.provider.Settings;
 import android.view.View;
 
 import com.android.systemui.R;
 
 public class ScreenshotToggle extends BaseToggle {
 
-    final private Handler mHandler;
-    final Object mScreenshotLock = new Object();
     ServiceConnection mScreenshotConnection = null;
+    Handler mHandler;
+
+    final Object mScreenshotLock = new Object();
 
     @Override
     protected void init(Context c, int style) {
         super.init(c, style);
-        mHandler = new Handler();
 
         setIcon(R.drawable.ic_qs_screenshot);
         setLabel(R.string.quick_settings_screenshot);
@@ -34,6 +36,18 @@ public class ScreenshotToggle extends BaseToggle {
         collapseStatusBar();
         dismissKeyguard();
     }
+
+    final Runnable mScreenshotTimeout = new Runnable() {
+        @Override
+        public void run() {
+            synchronized (mScreenshotLock) {
+                if (mScreenshotConnection != null) {
+                    mContext.unbindService(mScreenshotConnection);
+                    mScreenshotConnection = null;
+                }
+            }
+        }
+    };
 
     private void takeScreenshot() {
         synchronized (mScreenshotLock) {
@@ -89,7 +103,8 @@ public class ScreenshotToggle extends BaseToggle {
             };
             if (mContext.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
                 mScreenshotConnection = conn;
-                H.postDelayed(mScreenshotTimeout, 10000);
+                H.postDelayed(mScreenshotTimeout, Settings.System.getInt(mContext.getContentResolver(),
+                                Settings.System.SCREENSHOT_TIMEOUT, 20000));
             }
         }
     }

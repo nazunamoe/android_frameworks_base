@@ -2048,6 +2048,12 @@ public final class Settings {
         public static final String FAST_TOGGLE = "fast_toggle";
 
         /**
+         * Screen shoot timeout
+         * @hide
+         */
+        public static final String SCREENSHOT_TIMEOUT = "screenshot_timeout";
+
+        /**
          * enable and disable fast toggle in settings
          *
          * @hide
