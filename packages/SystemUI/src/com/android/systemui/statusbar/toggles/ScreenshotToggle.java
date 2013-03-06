@@ -33,7 +33,6 @@ public class ScreenshotToggle extends BaseToggle {
     @Override
     public void onClick(View v) {
         collapseStatusBar();
-        dismissKeyguard();
         takeScreenshot();
     }
 
@@ -85,7 +84,7 @@ public class ScreenshotToggle extends BaseToggle {
 
                         /* wait for the dialog box to close */
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(1200);
                         } catch (InterruptedException ie) {
                         }
 
@@ -104,7 +103,7 @@ public class ScreenshotToggle extends BaseToggle {
             if (mContext.bindService(intent, conn, Context.BIND_AUTO_CREATE)) {
                 mScreenshotConnection = conn;
                 H.postDelayed(mScreenshotTimeout, Settings.System.getInt(mContext.getContentResolver(),
-                                Settings.System.SCREENSHOT_TIMEOUT, 20000));
+                                Settings.System.SCREENSHOT_TIMEOUT, 10000));
             }
         }
     }
