@@ -32,9 +32,9 @@ public class ScreenshotToggle extends BaseToggle {
 
     @Override
     public void onClick(View v) {
-        takeScreenshot();
         collapseStatusBar();
         dismissKeyguard();
+        takeScreenshot();
     }
 
     final Runnable mScreenshotTimeout = new Runnable() {
