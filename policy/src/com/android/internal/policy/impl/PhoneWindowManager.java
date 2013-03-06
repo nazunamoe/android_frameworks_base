@@ -56,6 +56,7 @@ import android.os.IRemoteCallback;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.Parcel;
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.RemoteException;
@@ -357,6 +358,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // Behavior of volume wake
     boolean mVolumeWakeScreen;
+
+    // HW overlays state
+    int mDisableOverlays = 0;
 
     // Behavior of volbtn music controls
     boolean mVolBtnMusicControls;
@@ -1039,6 +1043,42 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         });
     }
 
+    private int updateFlingerOptions() {
+        int disableOverlays = 0;
+        try {
+            IBinder flinger = ServiceManager.getService("SurfaceFlinger");
+            if (flinger != null) {
+                Parcel data = Parcel.obtain();
+                Parcel reply = Parcel.obtain();
+                data.writeInterfaceToken("android.ui.ISurfaceComposer");
+                flinger.transact(1010, data, reply, 0);
+                reply.readInt();
+                reply.readInt();
+                reply.readInt();
+                reply.readInt();
+                disableOverlays = reply.readInt();
+                reply.recycle();
+                data.recycle();
+            }
+        } catch (RemoteException ex) {
+        }
+        return disableOverlays;
+    }
+
+    private void writeDisableOverlaysOption(int state) {
+        try {
+            IBinder flinger = ServiceManager.getService("SurfaceFlinger");
+            if (flinger != null) {
+                Parcel data = Parcel.obtain();
+                data.writeInterfaceToken("android.ui.ISurfaceComposer");
+                data.writeInt(state);
+                flinger.transact(1008, data, null, 0);
+                data.recycle();
+            }
+        } catch (RemoteException ex) {
+        }
+    }
+
     /** {@inheritDoc} */
     public void init(Context context, IWindowManager windowManager,
             WindowManagerFuncs windowManagerFuncs) {
@@ -1055,6 +1095,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         try {
             mOrientationListener.setCurrentRotation(windowManager.getRotation());
         } catch (RemoteException ex) { }
+
+        mDisableOverlays = updateFlingerOptions();
+
         mSettingsObserver = new SettingsObserver(mHandler);
         mSettingsObserver.observe();
 
@@ -1064,6 +1107,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     false, new ContentObserver(new Handler()) {
             @Override
             public void onChange(boolean selfChange) {
+
+                boolean expDesktop = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
+
+                if (!expDesktop) {
+                    // When leaving fullscreen switch back to original HW state
+                    int disableOverlays = updateFlingerOptions();
+                    if (disableOverlays != mDisableOverlays) writeDisableOverlaysOption(mDisableOverlays);
+                } else {
+                    // Before switching to fullscreen safe current HW state, then disable
+                    mDisableOverlays = updateFlingerOptions();
+                    writeDisableOverlaysOption(1);
+                }
 
                 if (Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.EXPANDED_DESKTOP_RESTART_LAUNCHER, 1) == 1) {
