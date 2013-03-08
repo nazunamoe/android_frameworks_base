@@ -2930,6 +2930,13 @@ public final class Settings {
          * @hide
          */
         public static final String FULLSCREEN_KEYBOARD = "fullscreen_keyboard";
+
+        /**
+         * Automatic keyboard rotation timeout.  0 to disable completely.
+         *
+         * @hide
+         */
+        public static final String KEYBOARD_ROTATION_TIMEOUT = "keyboard_rotation_timeout";
         
         /**
          * @deprecated Use {@link android.provider.Settings.Global#DESK_DOCK_SOUND}

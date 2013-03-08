@@ -961,7 +961,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
-    public void showRebootDialog() {
+    void showRebootDialog() {
         if (mGlobalActions == null) {
             mGlobalActions = new GlobalActions(mContext, mWindowManagerFuncs);
         }
