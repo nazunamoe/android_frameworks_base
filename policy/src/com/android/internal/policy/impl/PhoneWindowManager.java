@@ -389,6 +389,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
             if (action.equals(Intent.ACTION_SCREENSHOT)) {
                 takeScreenshot();
+            } else if (action.equals(Intent.ACTION_REBOOTMENU)) {
+                showRebootDialog();
             }
         }
 
@@ -400,6 +402,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 filter.addAction(Intent.ACTION_POWERMENU);
                 filter.addAction(Intent.ACTION_POWERMENU_REBOOT);
                 filter.addAction(Intent.ACTION_SCREENSHOT);
+                filter.addAction(Intent.ACTION_REBOOTMENU);
                 mContext.registerReceiver(mPowerMenuReceiver, filter);
             }
         }
@@ -971,7 +974,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
-    void showRebootDialog() {
+    public void showRebootDialog() {
         if (mGlobalActions == null) {
             mGlobalActions = new GlobalActions(mContext, mWindowManagerFuncs);
         }

@@ -98,6 +98,7 @@ public class ToggleManager {
     public static final String DARK_TOGGLE = "DARK";
     public static final String STATUSBAR_TOGGLE = "STATUSBAR";
     public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
+    public static final String REBOOT_TOGGLE = "REBOOT";
 
     private int mStyle;
     private boolean mShowRebootOnLock = true;
@@ -157,6 +158,7 @@ public class ToggleManager {
             toggleMap.put(PIE_TOGGLE, PieToggle.class);
             toggleMap.put(STATUSBAR_TOGGLE, StatusbarToggle.class);
             toggleMap.put(SCREENSHOT_TOGGLE, ScreenshotToggle.class);
+            toggleMap.put(REBOOT_TOGGLE, RebootToggle.class);
             // toggleMap.put(BT_TETHER_TOGGLE, null);
         }
         return toggleMap;
@@ -176,9 +178,6 @@ public class ToggleManager {
         };
         mContext.registerReceiver(mBroadcastReceiver, new IntentFilter(ACTION_REQUEST_TOGGLES));
 
-        mKeyguard = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
-        mShowRebootOnLock = Settings.System.getBoolean(mContext.getContentResolver(),
-            Settings.System.POWER_DIALOG_SHOW_REBOOT_KEYGUARD, true);
     }
 
     public void cleanup() {
