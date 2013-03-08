@@ -378,10 +378,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
+
             if (action.equals(Intent.ACTION_POWERMENU)) {
                 showGlobalActionsDialog();
-            }
-            if (action.equals(Intent.ACTION_POWERMENU_REBOOT)) {
+            } else if (action.equals(Intent.ACTION_REBOOTMENU)) {
+                showRebootDialog();
+            } else if (action.equals(Intent.ACTION_POWERMENU_REBOOT)) {
                 mWindowManagerFuncs.rebootTile();
             }
         }
@@ -391,6 +393,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mIsRegistered = true;
 
                 IntentFilter filter = new IntentFilter();
+                filter.addAction(Intent.ACTION_REBOOTMENU);
                 filter.addAction(Intent.ACTION_POWERMENU);
                 filter.addAction(Intent.ACTION_POWERMENU_REBOOT);
                 mContext.registerReceiver(mPowerMenuReceiver, filter);
@@ -949,6 +952,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
         final boolean keyguardShowing = keyguardIsShowingTq();
         mGlobalActions.showDialog(keyguardShowing, isDeviceProvisioned());
+        if (keyguardShowing) {
+            // since it took two seconds of long press to bring this up,
+            // poke the wake lock so they have some time to see the dialog.
+            mKeyguardMediator.userActivity();
+        }
+    }
+
+    public void showRebootDialog() {
+        if (mGlobalActions == null) {
+            mGlobalActions = new GlobalActions(mContext, mWindowManagerFuncs);
+        }
+        final boolean keyguardShowing = keyguardIsShowingTq();
+        mGlobalActions.createRebootDialog().show();
         if (keyguardShowing) {
             // since it took two seconds of long press to bring this up,
             // poke the wake lock so they have some time to see the dialog.

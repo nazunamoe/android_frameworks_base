@@ -1,6 +1,7 @@
 
 package com.android.systemui.statusbar.toggles;
 
+import android.app.KeyguardManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothAdapter.BluetoothStateChangeCallback;
 import android.content.BroadcastReceiver;
@@ -12,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.ServiceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -89,8 +91,10 @@ public class ToggleManager {
     public static final String QUIETHOURS_TOGGLE = "QUIETHOURS";
     public static final String PIE_TOGGLE = "PIE";
     public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
+    public static final String REBOOT_TOGGLE = "REBOOT";
 
     private int mStyle;
+    private boolean mShowRebootOnLock = true;
 
     public static final int STYLE_TILE = 0;
     public static final int STYLE_SWITCH = 1;
@@ -100,6 +104,7 @@ public class ToggleManager {
 
     Context mContext;
     BroadcastReceiver mBroadcastReceiver;
+    KeyguardManager mKeyguard;
     String mUserToggles = "";
     ArrayList<BaseToggle> mToggles = new ArrayList<BaseToggle>();
 
@@ -141,6 +146,7 @@ public class ToggleManager {
             toggleMap.put(QUIETHOURS_TOGGLE, QuietHoursToggle.class);
             toggleMap.put(PIE_TOGGLE, PieToggle.class);
             toggleMap.put(SCREENSHOT_TOGGLE, ScreenshotToggle.class);
+            toggleMap.put(REBOOT_TOGGLE, RebootToggle.class);
             // toggleMap.put(BT_TETHER_TOGGLE, null);
         }
         return toggleMap;
@@ -159,6 +165,10 @@ public class ToggleManager {
             }
         };
         mContext.registerReceiver(mBroadcastReceiver, new IntentFilter(ACTION_REQUEST_TOGGLES));
+
+        mKeyguard = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
+        mShowRebootOnLock = Settings.System.getBoolean(mContext.getContentResolver(),
+            Settings.System.POWER_DIALOG_SHOW_REBOOT_KEYGUARD, true);
     }
 
     public void cleanup() {
@@ -293,6 +303,11 @@ public class ToggleManager {
             tiles.add(toggle);
         }
 
+        if (mUserToggles.contains(REBOOT_TOGGLE)) {
+            if (!mShowRebootOnLock && mKeyguard.isKeyguardLocked()) {
+                tiles.remove(REBOOT_TOGGLE);
+            }
+        }
         return tiles;
     }
 
