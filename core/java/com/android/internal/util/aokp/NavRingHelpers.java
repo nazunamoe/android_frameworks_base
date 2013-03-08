@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,7 +49,6 @@ import com.android.internal.widget.multiwaveview.GlowPadView;
 import com.android.internal.widget.multiwaveview.TargetDrawable;
 
 import java.io.File;
-import java.lang.Exception;
 import java.net.URISyntaxException;
 
 public class NavRingHelpers {
@@ -62,7 +60,7 @@ public class NavRingHelpers {
         int resourceId = -1;
         final Resources res = context.getResources();
 
-        if (TextUtils.isEmpty(action) || action.equals(AwesomeConstant.ACTION_NULL)) {
+        if (TextUtils.isEmpty(action)) {
             TargetDrawable drawable = new TargetDrawable(res, com.android.internal.R.drawable.ic_action_empty);
             drawable.setEnabled(false);
             return drawable;
@@ -70,6 +68,9 @@ public class NavRingHelpers {
 
         AwesomeConstant IconEnum = fromString(action);
             switch (IconEnum) {
+            case ACTION_NULL:
+                resourceId = com.android.internal.R.drawable.ic_action_empty;
+                break;
             case ACTION_ASSIST:
                 resourceId = com.android.internal.R.drawable.ic_action_assist_generic;
                 break;
@@ -187,7 +188,7 @@ public class NavRingHelpers {
         return new TargetDrawable(res, selector);
     }
 
-	public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
             bitmap.getHeight(), Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
