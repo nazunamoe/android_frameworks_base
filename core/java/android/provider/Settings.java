@@ -2962,6 +2962,13 @@ public final class Settings {
         public static final String MANUAL_SAFE_MEDIA_VOLUME = "manual_safe_media_volume";
 
         /**
+         * Goodbye fullscreen keyboard
+         *
+         * @hide
+         */
+        public static final String FULLSCREEN_KEYBOARD = "fullscreen_keyboard";
+        
+        /**
          * @deprecated Use {@link android.provider.Settings.Global#DESK_DOCK_SOUND}
          * instead
          * @hide
