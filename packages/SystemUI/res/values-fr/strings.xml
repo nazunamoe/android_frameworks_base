@@ -282,6 +282,6 @@
 
     <!-- Recents Ram Bar -->
     <string name="memory">RAM</string>
-    <string name="service_free_mem"><xliff:g id="memory">%1$s</xliff:g> libre</string>
-    <string name="service_used_mem"><xliff:g id="memory">%1$s</xliff:g> utilisé</string>
+    <string name="service_free_mem"><xliff:g id="memory">%1$s</xliff:g> libres</string>
+    <string name="service_used_mem"><xliff:g id="memory">%1$s</xliff:g> utilisés</string>
 </resources>
