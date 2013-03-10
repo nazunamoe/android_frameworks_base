@@ -2012,6 +2012,12 @@ public final class Settings {
         public static final String STATUSBAR_BRIGHTNESS_SLIDER = "statusbar_brightness_slider";
 
         /**
+         * Ability to hide Reboot away from Reboot Keyguard?
+         * @hide
+         */
+        public static final String POWER_DIALOG_SHOW_REBOOT_KEYGUARD = "power_dialog_show_reboot_keyguard";
+
+        /**
          * Ability to hide Screenshot away from Reboot Menu
          * @hide
          */
