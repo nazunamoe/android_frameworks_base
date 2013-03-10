@@ -370,7 +370,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private PowerMenuReceiver mPowerMenuReceiver;
 
-    // PowerMenu Tile stuffs
+    // PowerMenu Tile
     class PowerMenuReceiver extends BroadcastReceiver {
         private boolean mIsRegistered = false;
 
@@ -384,11 +384,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (action.equals(Intent.ACTION_POWERMENU)) {
                 showGlobalActionsDialog();
             }
-            if (action.equals(Intent.ACTION_REBOOTMENU)) {
-                showRebootDialog();
-            }
             if (action.equals(Intent.ACTION_POWERMENU_REBOOT)) {
                 mWindowManagerFuncs.rebootTile();
+            }
+            if (action.equals(Intent.ACTION_SCREENSHOT)) {
+                takeScreenshot();
             }
         }
 
@@ -397,9 +397,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mIsRegistered = true;
 
                 IntentFilter filter = new IntentFilter();
-                filter.addAction(Intent.ACTION_REBOOTMENU);
                 filter.addAction(Intent.ACTION_POWERMENU);
                 filter.addAction(Intent.ACTION_POWERMENU_REBOOT);
+                filter.addAction(Intent.ACTION_SCREENSHOT);
                 mContext.registerReceiver(mPowerMenuReceiver, filter);
             }
         }
@@ -3815,7 +3815,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     };
 
     // Assume this is called from the Handler thread.
-    private void takeScreenshot() {
+   public void takeScreenshot() {
         synchronized (mScreenshotLock) {
             if (mScreenshotConnection != null) {
                 return;

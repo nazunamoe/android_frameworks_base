@@ -700,13 +700,13 @@ public class Intent implements Parcelable, Cloneable {
      */
     public static final String ACTION_POWERMENU_REBOOT = "android.intent.action.POWERMENU_REBOOT";
 
-   /**
-     *  Global Action: Shows 3-way reboot menu dialog
+    /**
+     * PhoneWindowManager: Take Screenshot via takeScreenshot()
      *  <p>Input: nothing
      *  <p>Output: nothing
      *  @hide
      */
-    public static final String ACTION_REBOOTMENU = "android.intent.action.REBOOTMENU";
+    public static final String ACTION_SCREENSHOT = "android.intent.action.SCREENSHOT";
 
     /**
      * The name of the extra used to define the Intent of a shortcut.
