@@ -262,7 +262,7 @@
     <string name="action_screenshot">Capture d\'écran</string>
     <string name="action_menu">Menu</string>
     <string name="action_ime">IME Switcher</string>
-    <string name="action_kill">Fermer l'application</string>
+    <string name="action_kill">Fermer l\'application</string>
     <string name="action_power">Power</string>
     <string name="action_search">Rechercher</string>
     <string name="action_notifications">Notifications</string>
