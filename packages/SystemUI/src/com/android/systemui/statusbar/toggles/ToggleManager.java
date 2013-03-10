@@ -91,7 +91,6 @@ public class ToggleManager {
     public static final String QUIETHOURS_TOGGLE = "QUIETHOURS";
     public static final String PIE_TOGGLE = "PIE";
     public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
-    public static final String REBOOT_TOGGLE = "REBOOT";
 
     private int mStyle;
     private boolean mShowRebootOnLock = true;
@@ -146,7 +145,6 @@ public class ToggleManager {
             toggleMap.put(QUIETHOURS_TOGGLE, QuietHoursToggle.class);
             toggleMap.put(PIE_TOGGLE, PieToggle.class);
             toggleMap.put(SCREENSHOT_TOGGLE, ScreenshotToggle.class);
-            toggleMap.put(REBOOT_TOGGLE, RebootToggle.class);
             // toggleMap.put(BT_TETHER_TOGGLE, null);
         }
         return toggleMap;
