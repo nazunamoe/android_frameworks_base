@@ -267,9 +267,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         mShowRebootOnLock = Settings.System.getBoolean(mContext.getContentResolver(),
                 Settings.System.POWER_DIALOG_SHOW_REBOOT_KEYGUARD, true);
 
-        mEnableAirplaneToggle = Settings.System.getBoolean(mContext.getContentResolver(),
-                Settings.System.POWER_DIALOG_SHOW_AIRPLANE_TOGGLE, true);
-
         mAirplaneModeOn = new ToggleAction(
                 R.drawable.ic_lock_airplane_mode,
                 R.drawable.ic_lock_airplane_mode_off,
