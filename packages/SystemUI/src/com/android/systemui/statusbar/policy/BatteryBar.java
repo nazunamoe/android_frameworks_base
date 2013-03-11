@@ -50,7 +50,7 @@ public class BatteryBar extends RelativeLayout implements Animatable {
     private boolean shouldAnimateCharging = true;
     private boolean isAnimating = false;
 
-    private SettingsObserver mSettingsObserver;
+    private Handler mHandler = new Handler();
 
     LinearLayout mBatteryBarLayout;
     View mBatteryBar;
@@ -68,11 +68,13 @@ public class BatteryBar extends RelativeLayout implements Animatable {
             super(handler);
         }
 
-        void observe() {
+        void observer() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR_COLOR),
-                    false, this);
+                    Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR), false, this);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR_COLOR), false,
+                    this);
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR_ANIMATE),
                     false, this);
@@ -149,8 +151,8 @@ public class BatteryBar extends RelativeLayout implements Animatable {
             filter.addAction(Intent.ACTION_SCREEN_ON);
             getContext().registerReceiver(mIntentReceiver, filter, null, getHandler());
 
-            mSettingsObserver = new SettingsObserver(new Handler());
-            mSettingsObserver.observe();
+            SettingsObserver observer = new SettingsObserver(mHandler);
+            observer.observer();
             updateSettings();
         }
     }
@@ -161,7 +163,6 @@ public class BatteryBar extends RelativeLayout implements Animatable {
         if (mAttached) {
             mAttached = false;
             getContext().unregisterReceiver(mIntentReceiver);
-            getContext().getContentResolver().unregisterContentObserver(mSettingsObserver);
         }
     }
 

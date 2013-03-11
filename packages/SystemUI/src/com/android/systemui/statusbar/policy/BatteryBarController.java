@@ -52,8 +52,6 @@ public class BatteryBarController extends LinearLayout {
     private int mBatteryLevel = 0;
     private boolean mBatteryCharging = false;
 
-    private SettingsObserver mSettingsObserver;
-
     boolean isAttached = false;
     boolean isVertical = false;
 
@@ -62,14 +60,13 @@ public class BatteryBarController extends LinearLayout {
             super(handler);
         }
 
-        void observe() {
+        void observer() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR),
-                    false, this);
+                    Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR), false, this);
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR_STYLE),
-                    false, this);
+                    Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR_STYLE), false,
+                    this);
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.STATUSBAR_BATTERY_BAR_THICKNESS),
                     false, this);
@@ -101,8 +98,8 @@ public class BatteryBarController extends LinearLayout {
             filter.addAction(Intent.ACTION_BATTERY_CHANGED);
             getContext().registerReceiver(mIntentReceiver, filter);
 
-            mSettingsObserver = new SettingsObserver(new Handler());
-            mSettingsObserver.observe();
+            SettingsObserver observer = new SettingsObserver(new Handler());
+            observer.observer();
             updateSettings();
         }
     }
@@ -125,7 +122,6 @@ public class BatteryBarController extends LinearLayout {
         if (isAttached) {
             isAttached = false;
             removeBars();
-            getContext().getContentResolver().unregisterContentObserver(mSettingsObserver);
         }
         super.onDetachedFromWindow();
     }
@@ -155,10 +151,16 @@ public class BatteryBarController extends LinearLayout {
             params.width = pixels;
         } else {
             params.height = pixels;
+            setLayoutParams(params);
         }
 
-        setLayoutParams(params);
-        mBatteryLevel = Prefs.getLastBatteryLevel(getContext());
+        if (isVertical) {
+            params.width = pixels;
+        } else {
+            params.height = pixels;
+            setLayoutParams(params);
+            mBatteryLevel = Prefs.getLastBatteryLevel(getContext());
+        }
 
         if (mStyle == STYLE_REGULAR) {
             addView(new BatteryBar(mContext, mBatteryCharging, mBatteryLevel, isVertical),
@@ -169,13 +171,13 @@ public class BatteryBarController extends LinearLayout {
             BatteryBar bar2 = new BatteryBar(mContext, mBatteryCharging, mBatteryLevel, isVertical);
 
             if (isVertical) {
-                bar2.setRotationY(180f);
+                bar2.setRotation(180);
                 addView(bar2, (new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                         LayoutParams.MATCH_PARENT, 1)));
                 addView(bar1, (new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                         LayoutParams.MATCH_PARENT, 1)));
             } else {
-                bar1.setRotationY(180f);
+                bar1.setRotation(180);
                 addView(bar1, (new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                         LayoutParams.MATCH_PARENT, 1)));
                 addView(bar2, (new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
