@@ -1,4 +1,3 @@
-/**
 package com.android.systemui.statusbar.toggles;
 
 import android.content.ComponentName;
@@ -8,19 +7,20 @@ import android.view.View;
 
 import com.android.systemui.R;
 
-public class RootBoxToggle extends BaseToggle {
+public class XylonToggle extends BaseToggle {
 
     @Override
     protected void init(Context c, int style) {
         super.init(c, style);
-        setIcon(R.drawable.ic_qs_rb);
-        setLabel(R.string.quick_settings_rootbox);
+        setIcon(R.drawable.ic_qs_xy);
+        setLabel(R.string.quick_settings_xylon_label);
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = new Intent("android.intent.action.MAIN");
-        intent.setClassName("com.android.settings", "com.android.settings.Settings$RootboxActivity");
+        intent.setComponent(ComponentName
+                .unflattenFromString("com.xylon.settings/.XYSettingsActivity"));
         intent.addCategory("android.intent.category.LAUNCHER");
 
         collapseStatusBar();
@@ -28,4 +28,4 @@ public class RootBoxToggle extends BaseToggle {
         startActivity(intent);
     }
 
-}**/
+}

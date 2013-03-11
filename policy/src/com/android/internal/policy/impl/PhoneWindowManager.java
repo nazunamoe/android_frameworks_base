@@ -381,9 +381,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
             if (action.equals(Intent.ACTION_POWERMENU)) {
                 showGlobalActionsDialog();
-            } else if (action.equals(Intent.ACTION_REBOOTMENU)) {
+            }
+            if (action.equals(Intent.ACTION_REBOOTMENU)) {
                 showRebootDialog();
-            } else if (action.equals(Intent.ACTION_POWERMENU_REBOOT)) {
+            }
+            if (action.equals(Intent.ACTION_POWERMENU_REBOOT)) {
                 mWindowManagerFuncs.rebootTile();
             }
         }
