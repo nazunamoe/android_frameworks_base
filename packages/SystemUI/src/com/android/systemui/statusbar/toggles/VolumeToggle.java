@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.provider.Settings;
 import android.view.View;
 
 import com.android.systemui.R;
@@ -31,8 +32,9 @@ public class VolumeToggle extends BaseToggle {
 
     @Override
     public boolean onLongClick(View v) {
-        Intent intent = new Intent(android.provider.Settings.ACTION_SOUND_SETTINGS);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        dismissKeyguard();
+        collapseStatusBar();
+        startActivity(new Intent(android.provider.Settings.ACTION_SOUND_SETTINGS));
         return super.onLongClick(v);
     }
 
