@@ -10,7 +10,7 @@ import com.android.systemui.R;
 
 public class VolumeToggle extends BaseToggle {
 
-    private PowerManager pm;
+    private AudioManager am;
 
     @Override
     protected void init(Context c, int style) {
