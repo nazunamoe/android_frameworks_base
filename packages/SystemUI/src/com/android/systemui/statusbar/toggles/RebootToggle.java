@@ -27,10 +27,11 @@ public class RebootToggle extends BaseToggle {
 
     @Override
     public void onClick(View v) {
-        collapseStatusBar();
-        dismissKeyguard();
         Intent intent = new Intent(Intent.ACTION_REBOOTMENU);
         mContext.sendBroadcast(intent);
+
+        collapseStatusBar();
+        dismissKeyguard();
     }
 
     @Override
