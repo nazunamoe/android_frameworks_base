@@ -761,7 +761,7 @@
     <string name="lockscreen_pattern_wrong" msgid="4317955014948108794">"Veuillez réessayer."</string>
     <string name="lockscreen_password_wrong" msgid="5737815393253165301">"Veuillez réessayer."</string>
     <string name="faceunlock_multiple_failures" msgid="754137583022792429">"Nombre maximal autorisé de tentatives Face Unlock atteint."</string>
-    <string name="lockscreen_discharging">Déchargement, <xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
+    <string name="lockscreen_discharging">Sur batterie, <xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
     <string name="lockscreen_plugged_in" msgid="8057762828355572315">"En charge (<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>)"</string>
     <string name="lockscreen_charged" msgid="321635745684060624">"Chargé"</string>
     <string name="lockscreen_battery_short" msgid="4477264849386850266">"<xliff:g id="NUMBER">%d</xliff:g> <xliff:g id="PERCENT">%%</xliff:g>"</string>
@@ -1462,8 +1462,7 @@
     <string name="reboot_recovery">Recovery</string>
     <string name="reboot_download">Download</string>
     <string name="reboot_bootloader">Bootloader</string>
-    <string name="reboot_progress" product="tablet">Votre tablette redémarre...</string> 
-    <string name="reboot_progress" product="default">Votre téléphone redémarre...</string>	
+    <string name="reboot_progress">Redémarrage en cours...</string>	
     <string name="toast_rotation_unlocked">Rotation de l\'écran débloquée</string>
     <string name="toast_rotation_locked">Rotation de l\'écran bloquée</string>
     <string name="global_actions_expanded_desktop_mode_on_status">Activé</string>

@@ -43,10 +43,10 @@
     <string name="status_bar_settings_wifi_button" msgid="1733928151698311923">"Wi-Fi"</string>
     <string name="status_bar_settings_airplane" msgid="4879879698500955300">"Modo avión"</string>
     <string name="status_bar_settings_auto_rotation" msgid="3790482541357798421">"Girar pantalla automáticamente"</string>
-    <string name="status_bar_settings_mute_label" msgid="554682549917429396">"SILENC"</string>
+    <string name="status_bar_settings_mute_label" msgid="554682549917429396">"SILENCIO"</string>
     <string name="status_bar_settings_auto_brightness_label" msgid="511453614962324674">"AUTO"</string>
     <string name="status_bar_settings_notifications" msgid="397146176280905137">"Notificaciones"</string>
-    <string name="bluetooth_tethered" msgid="7094101612161133267">"Bluetooth anclado"</string>
+    <string name="bluetooth_tethered" msgid="7094101612161133267">"Bluetooth compartido"</string>
     <string name="status_bar_input_method_settings_configure_input_methods" msgid="3504292471512317827">"Configurar métodos de entrada"</string>
     <string name="status_bar_use_physical_keyboard" msgid="7551903084416057810">"Teclado físico"</string>
     <string name="usb_device_permission_prompt" msgid="834698001271562057">"¿Permitir que la aplicación <xliff:g id="APPLICATION">%1$s</xliff:g> acceda al dispositivo USB?"</string>
@@ -69,18 +69,18 @@
     <string name="screenshot_saving_title" msgid="8242282144535555697">"Guardando captura..."</string>
     <string name="screenshot_saving_text" msgid="2419718443411738818">"La captura de pantalla se está guardando."</string>
     <string name="screenshot_saved_title" msgid="6461865960961414961">"Captura guardada"</string>
-    <string name="screenshot_saved_text" msgid="1152839647677558815">"Toca para ver la captura de pantalla"</string>
+    <string name="screenshot_saved_text" msgid="1152839647677558815">"Pulsa para ver la captura de pantalla"</string>
     <string name="screenshot_failed_title" msgid="705781116746922771">"No se ha podido guardar la captura de pantalla."</string>
     <string name="screenshot_failed_text" msgid="8134011269572415402">"No se ha podido guardar la captura de pantalla. Puede que el almacenamiento esté en uso."</string>
     <string name="usb_preference_title" msgid="6551050377388882787">"Opciones de transferencia de archivos por USB"</string>
-    <string name="use_mtp_button_title" msgid="4333504413563023626">"Activar como reproductor de medios (MTP)"</string>
+    <string name="use_mtp_button_title" msgid="4333504413563023626">"Activar como reproductor multimedia (MTP)"</string>
     <string name="use_ptp_button_title" msgid="7517127540301625751">"Activar como cámara (PTP)"</string>
     <string name="installer_cd_button_title" msgid="2312667578562201583">"Instalar Android File Transfer para Mac"</string>
     <string name="accessibility_back" msgid="567011538994429120">"Atrás"</string>
     <string name="accessibility_home" msgid="8217216074895377641">"Inicio"</string>
     <string name="accessibility_menu" msgid="316839303324695949">"Menú"</string>
     <string name="accessibility_recent" msgid="8571350598987952883">"Aplicaciones recientes"</string>
-    <string name="accessibility_ime_switch_button" msgid="5032926134740456424">"Botón Cambiar método de entrada"</string>
+    <string name="accessibility_ime_switch_button" msgid="5032926134740456424">"Botón para cambiar método de entrada"</string>
     <string name="accessibility_compatibility_zoom_button" msgid="8461115318742350699">"Botón de zoom de compatibilidad"</string>
     <string name="accessibility_compatibility_zoom_example" msgid="4220687294564945780">"Zoom de pantalla más pequeña a más grande"</string>
     <string name="accessibility_bluetooth_connected" msgid="2707027633242983370">"Bluetooth conectado"</string>
@@ -169,7 +169,7 @@
     <string name="status_bar_notification_inspect_item_title" msgid="1163547729015390250">"Información de la aplicación"</string>
     <string name="close_universe" msgid="3736513750241754348">"Cerrar"</string>
     <string name="notifications_off_title" msgid="8936620513608443224">"Notificaciones desactivadas"</string>
-    <string name="notifications_off_text" msgid="2529001315769385273">"Toca aquí para volver a activar las notificaciones."</string>
+    <string name="notifications_off_text" msgid="2529001315769385273">"Pulsa aquí para volver a activar las notificaciones."</string>
     <string name="accessibility_rotation_lock_off" msgid="4062780228931590069">"La pantalla girará automáticamente."</string>
     <string name="accessibility_rotation_lock_on_landscape" msgid="6731197337665366273">"La pantalla está bloqueada en modo horizontal."</string>
     <string name="accessibility_rotation_lock_on_portrait" msgid="5809367521644012115">"La pantalla está bloqueada en modo vertical."</string>

@@ -196,7 +196,7 @@
     <string name="quick_settings_settings_label" msgid="5326556592578065401">"Paramètres"</string>
     <string name="quick_settings_time_label" msgid="4635969182239736408">"Heure"</string>
     <string name="quick_settings_user_label" msgid="5238995632130897840">"Moi"</string>
-    <string name="quick_settings_wifi_label">"Wi-Fi On"</string>
+    <string name="quick_settings_wifi_label">"Wi-Fi"</string>
     <string name="quick_settings_wifi_not_connected" msgid="7171904845345573431">"Non connecté"</string>
     <string name="quick_settings_wifi_no_network" msgid="2221993077220856376">"Aucun réseau"</string>
     <string name="quick_settings_wifi_off_label">"Wi-Fi Off"</string>
@@ -214,12 +214,12 @@
     <string name="quick_settings_torch_off_label">Torche Off</string>
     <string name="quick_settings_nfc_on_label">NFC On</string>
     <string name="quick_settings_nfc_off_label">NFC Off</string>
-    <string name="quick_settings_wifi_tether_on_label">Partage de connex. On</string>
-    <string name="quick_settings_wifi_tether_off_label">Partage de connex. Off</string>
-    <string name="quick_settings_bt_tether_on_label">Partage de connex. On</string>
-    <string name="quick_settings_bt_tether_off_label">Partage de connex. Off</string>
-    <string name="quick_settings_usb_tether_on_label">Partage de connex. On</string>
-    <string name="quick_settings_usb_tether_off_label">Partage de connex. Off</string>
+    <string name="quick_settings_wifi_tether_on_label">Modem Wi-fi On</string>
+    <string name="quick_settings_wifi_tether_off_label">Modem Wi-Fi Off</string>
+    <string name="quick_settings_bt_tether_on_label">Modem Bluetooth On</string>
+    <string name="quick_settings_bt_tether_off_label">Modem Bluetooth Off</string>
+    <string name="quick_settings_usb_tether_on_label">Modem USB On</string>
+    <string name="quick_settings_usb_tether_off_label">Modem USB Off</string>
     <string name="quick_settings_sync_on_label">Synch. On</string>
     <string name="quick_settings_sync_off_label">Synch. Off</string>
     <string name="quick_settings_twog_on_label">2G On</string>
@@ -281,7 +281,6 @@
     <string name="pie_date_format">ccc dd MMM yyyy</string>
 
     <!-- Recents Ram Bar -->
-    <string name="memory">RAM</string>
     <string name="service_free_mem"><xliff:g id="memory">%1$s</xliff:g> libres</string>
     <string name="service_used_mem"><xliff:g id="memory">%1$s</xliff:g> utilisés</string>
 </resources>
