@@ -48,6 +48,7 @@
     <string name="toggle_QUICKRECORD">Quick Record</string>
     <string name="toggle_QUIETHOURS">Quiet Hours</string>
     <string name="toggle_PIE">Pie</string>
+    <string name="toggle_LOCKSCREEN">Lockscreen</string>
     <string name="toggle_SCREENSHOT">Screenshot</string>
     <string name="toggle_XYLON">Xylon</string>
 </resources>
