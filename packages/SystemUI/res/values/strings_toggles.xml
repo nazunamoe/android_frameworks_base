@@ -51,4 +51,5 @@
     <!--string name="toggle_LOCKSCREEN">Lockscreen</string-->
     <string name="toggle_SCREENSHOT">Screenshot</string>
     <string name="toggle_XYLON">Xylon</string>
+    <string name="toggle_DARK">Dark Xylon</string>
 </resources>

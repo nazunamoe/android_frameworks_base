@@ -95,6 +95,7 @@ public class ToggleManager {
     public static final String PIE_TOGGLE = "PIE";
     // public static final String LOCKSCREEN_TOGGLE = "LOCKSCREEN";
     public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
+    public static final String DARK_TOGGLE = "DARK";
 
     private int mStyle;
     private boolean mShowRebootOnLock = true;
@@ -120,6 +121,7 @@ public class ToggleManager {
             toggleMap.put(BRIGHTNESS_TOGGLE, BrightnessToggle.class);
             toggleMap.put(SETTINGS_TOGGLE, SettingsToggle.class);
             toggleMap.put(XYLON_TOGGLE, XylonToggle.class);
+            toggleMap.put(DARK_TOGGLE, DarkToggle.class);
             toggleMap.put(WIFI_TOGGLE, WifiToggle.class);
             toggleMap.put(SIGNAL_TOGGLE, SignalToggle.class);
             toggleMap.put(ROTATE_TOGGLE, RotateToggle.class);
