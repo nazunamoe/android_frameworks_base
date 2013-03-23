@@ -19,7 +19,10 @@ package com.android.internal.policy.impl.keyguard;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.appwidget.AppWidgetManager;
+import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -54,9 +57,9 @@ import android.widget.RelativeLayout;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
-import android.content.ContentResolver;
 
 import com.android.internal.R;
+import com.android.internal.app.ThemeUtils;
 import com.android.internal.widget.LockPatternUtils;
 
 /**
