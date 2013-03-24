@@ -350,11 +350,11 @@ public class ToggleManager {
             tiles.add(toggle);
         }
 
-        if (mUserToggles.contains(REBOOT_TOGGLE)) {
-            if (!mShowRebootOnLock && mKeyguard.isKeyguardLocked()) {
-                tiles.remove(REBOOT_TOGGLE);
-            }
-        }
+        // if (mUserToggles.contains(REBOOT_TOGGLE)) {
+        //     if (!mShowRebootOnLock && mKeyguard.isKeyguardLocked()) {
+        //         tiles.remove(REBOOT_TOGGLE);
+        //     }
+        // }
         return tiles;
     }
 
