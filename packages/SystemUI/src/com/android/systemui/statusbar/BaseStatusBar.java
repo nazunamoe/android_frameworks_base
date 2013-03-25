@@ -33,6 +33,7 @@ import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import com.android.systemui.statusbar.tablet.StatusBarPanel;
 import com.android.systemui.statusbar.WidgetView;
 import com.android.systemui.statusbar.PopupNavView;
+import com.android.systemui.navbar.AokpSwipeRibbon;
 
 import android.app.ActivityManager;
 import android.app.ActivityManagerNative;
@@ -132,6 +133,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     private WidgetView mWidgetView;
     private PopupNavView mPopupNavView;
+    private AokpSwipeRibbon mAokpSwipeRibbon;
 
     protected static final boolean ENABLE_INTRUDERS = false;
 
@@ -402,7 +404,9 @@ public abstract class BaseStatusBar extends SystemUI implements
         // create WidgetView
         mWidgetView = new WidgetView(mContext,null);
         mPopupNavView = new PopupNavView(mContext,null,this);
-
+        mAokpSwipeRibbon = new AokpSwipeRibbon(mContext,null,"bottom");
+        mAokpSwipeRibbon = new AokpSwipeRibbon(mContext,null,"left");
+        mAokpSwipeRibbon = new AokpSwipeRibbon(mContext,null,"right");
         disable(switches[0]);
         setSystemUiVisibility(switches[1], 0xffffffff);
         topAppWindowChanged(switches[2] != 0);
