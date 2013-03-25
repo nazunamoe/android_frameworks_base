@@ -134,9 +134,7 @@
     <string name="accessibility_no_sim" msgid="8274017118472455155">"无 SIM 卡。"</string>
     <string name="accessibility_bluetooth_tether" msgid="4102784498140271969">"蓝牙共享网络。"</string>
     <string name="accessibility_airplane_mode" msgid="834748999790763092">"飞行模式。"</string>
-    <!-- String.format failed for translation -->
-    <!-- no translation found for accessibility_battery_level (7451474187113371965) -->
-    <skip />
+    <string name="accessibility_battery_level">电量百分比 %d </string> 
     <string name="accessibility_settings_button" msgid="799583911231893380">"系统设置。"</string>
     <string name="accessibility_notifications_button" msgid="4498000369779421892">"通知。"</string>
     <string name="accessibility_remove_notification" msgid="3603099514902182350">"清除通知。"</string>
@@ -203,6 +201,102 @@
     <string name="quick_settings_wifi_display_no_connection_label" msgid="2355298740765736918">"无线显示"</string>
     <string name="quick_settings_brightness_dialog_title" msgid="8599674057673605368">"亮度"</string>
     <string name="quick_settings_brightness_dialog_auto_brightness_label" msgid="5064982743784071218">"自动"</string>
-    <string name="status_bar_help_title" msgid="1199237744086469217">"通知会显示在这里"</string>
-    <string name="status_bar_help_text" msgid="7874607155052076323">"向下滑动可随时查看通知。"\n"再次向下滑动可使用系统控制功能。"</string>
+    <string name="quick_settings_xylon_label">Xylon</string> 
+    <string name="quick_settings_screenshot">提取截图</string> 
+    <string name="quick_settings_sleep">睡眠(锁屏)</string> 
+    <string name="quick_settings_powermenu">电源键菜单</string> 
+    <string name="quick_settings_reboot">重启</string> 
+    <string name="quick_settings_recording">录音中...</string> 
+    <string name="quick_settings_recordingcap">存储中</string> 
+    <string name="quick_settings_playing">播放中...</string> 
+    <string name="quick_settings_quickrecord">快速录音</string> 
+    <string name="quick_settings_nofile">长按录音</string> 
+    <string name="status_bar_help_title">通知会显示在这里</string> 
+    <string name="status_bar_help_text">"向下滑动可随时查看通知。"\n"再次向下滑动可使用系统控制功能。"</string> 
+    <string name="recents_kill_all_button_text">全部结束</string> 
+    <string name="shortcut_label">系统快捷方式</string> 
+    <string name="action_home">主页</string> 
+    <string name="action_back">返回键</string> 
+    <string name="action_recents">近期任务</string> 
+    <string name="action_screenshot">截图</string> 
+    <string name="action_menu">菜单键</string> 
+    <string name="action_ime">打开输入法切换</string> 
+    <string name="action_kill">结束进程</string> 
+    <string name="action_power">电源键</string> 
+    <string name="action_search">搜索键</string> 
+    <string name="action_notifications">通知</string> 
+    <string name="action_lastapp">上一个应用</string> 
+    <string name="action_none">空</string> 
+    <string name="widgets">小部件</string> 
+    <string name="toggle_navbar">导航栏</string> 
+    <string name="toggle_widgets">小部件</string> 
+    <string name="toggle_ring_vib">铃声振动</string> 
+    <string name="toggle_ring_silent">铃声/静音</string> 
+    <string name="toggle_ring_vib_silent">铃声/振动/静音</string> 
+    <string name="app_killed_message">应用程序已结束</string> 
+    <string name="quick_settings_vibrate_on_label">振动已开启</string> 
+    <string name="quick_settings_vibrate_off_label">振动已关闭</string> 
+    <string name="quick_settings_silent_on_label">静音已开启</string> 
+    <string name="quick_settings_silent_off_label">静音已关闭</string> 
+    <string name="quick_settings_fcharge_on_label">快速充电开启</string> 
+    <string name="quick_settings_fcharge_off_label">快速充电关闭</string> 
+    <string name="quick_settings_torch_on_label">手电筒已开启</string> 
+    <string name="quick_settings_torch_off_label">手电筒已关闭</string> 
+    <string name="quick_settings_nfc_on_label">NFC已开启</string> 
+    <string name="quick_settings_nfc_off_label">NFC已关闭</string> 
+    <string name="quick_settings_wifi_tether_on_label">Wi-Fi 热点开启</string> 
+    <string name="quick_settings_wifi_tether_off_label">Wi-Fi 热点关闭</string> 
+    <string name="quick_settings_bt_tether_on_label">蓝牙已开启</string> 
+    <string name="quick_settings_bt_tether_off_label">蓝牙已关闭</string> 
+    <string name="quick_settings_usb_tether_on_label">USB 网络共享开启</string> 
+    <string name="quick_settings_usb_tether_off_label">USB 网络共享关闭</string> 
+    <string name="quick_settings_sync_on_label">数据同步开启</string> 
+    <string name="quick_settings_sync_off_label">数据同步关闭</string> 
+    <string name="quick_settings_twog_on_label">2G 模式已开启</string> 
+    <string name="quick_settings_twog_off_label">2G 模式已关闭</string> 
+    <string name="quick_settings_threeg_on_label">3G 模式已开启</string> 
+    <string name="quick_settings_threeg_off_label">3G 模式已关闭</string> 
+    <string name="quick_settings_lte_on_label">LTE 网络已开启</string> 
+    <string name="quick_settings_lte_off_label">LTE 网络已关闭</string> 
+    <string name="quick_settings_gps_on_label">GPS已开启</string> 
+    <string name="quick_settings_gps_off_label">GPS已关闭</string> 
+    <string name="quick_settings_data_on_label">数据已开启</string> 
+    <string name="quick_settings_data_off_label">数据已关闭</string> 
+    <string name="quick_settings_navbar_hide_on_label">显示导航栏</string> 
+    <string name="quick_settings_navbar_hide_off_label">隐藏导航栏</string> 
+    <string name="quick_settings_quiet_hours_on_label">静音时段开启</string> 
+    <string name="quick_settings_quiet_hours_off_label">静音时段关闭</string> 
+    <string name="quick_settings_sound_on">声音已开启</string> 
+    <string name="quick_settings_pie_on_label">Pie 开启</string> 
+    <string name="quick_settings_pie_off_label">Pie 关闭</string> 
+    <string name="pie_date_format">M 月 d 日 E</string> 
+    <string name="pie_hour_format_12">hh:mm</string> 
+    <string name="pie_hour_format_24">HH:mm</string>
+    <string name="service_free_mem">%1$s 剩余</string> 
+    <string name="service_used_mem">%1$s 已使用</string>
+    <string name="toggle_USER">当前用户</string>
+    <string name="toggle_BRIGHTNESS">亮度</string>
+    <string name="toggle_SETTINGS">设置</string> 
+    <string name="toggle_SIGNAL">信号</string>
+    <string name="toggle_ROTATE">自动旋转</string>
+    <string name="toggle_CLOCK">时钟</string>
+    <string name="toggle_BATTERY">电量</string>
+    <string name="toggle_AIRPLANE_MODE">飞行模式</string>
+    <string name="toggle_BLUETOOTH">蓝牙</string>
+    <string name="toggle_VIBRATE">震动</string>
+    <string name="toggle_SILENT">静音</string>
+    <string name="toggle_FCHARGE">快速充电</string>
+    <string name="toggle_SYNC">同步</string>
+    <string name="toggle_TORCH">手电筒</string>
+    <string name="toggle_WIFITETHER">WiFi 热点共享</string>
+    <string name="toggle_USBTETHER">USB 热点共享</string>
+    <string name="toggle_FAVCONTACT">联系人</string>
+    <string name="toggle_SOUNDSTATE">声音状态</string>
+    <string name="toggle_NAVBARHIDE">导航栏隐藏</string>
+    <string name="toggle_POWERMENU">电源菜单</string>
+    <string name="toggle_REBOOT">重启</string>
+    <string name="toggle_SLEEP">休眠</string>
+    <string name="toggle_QUICKRECORD">快速录音</string>
+    <string name="toggle_QUIETHOURS">静音时段</string>
+    <string name="toggle_SCREENSHOT">截图</string>
 </resources>
