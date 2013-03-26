@@ -130,21 +130,21 @@ public class NavigationBarView extends LinearLayout {
 
     public final static int StockButtonsQty = 3;
     public final static String[] StockClickActions = {
-        AwesomeConstant.ACTION_BACK.toString(),
-        AwesomeConstant.ACTION_HOME.toString(),
-        AwesomeConstant.ACTION_RECENTS.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString() };
+        AwesomeConstant.ACTION_BACK.value(),
+        AwesomeConstant.ACTION_HOME.value(),
+        AwesomeConstant.ACTION_RECENTS.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value() };
     public final static String[] StockLongpress = {
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString(),
-        AwesomeConstant.ACTION_NULL.toString() };
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value(),
+        AwesomeConstant.ACTION_NULL.value() };
 
     FrameLayout rot0;
     FrameLayout rot90;
