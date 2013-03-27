@@ -1,6 +1,7 @@
 
 package com.android.systemui.statusbar.toggles;
 
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -42,17 +43,6 @@ public class PieToggle extends StatefulToggle {
     protected void doDisable() {
         Settings.System.putInt(mContext.getContentResolver(),
                 Settings.System.PIE_CONTROLS, 0);
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        Intent intent = new Intent("android.intent.action.MAIN");
-        intent.setComponent(ComponentName
-                .unflattenFromString("com.xylon.settings/.fragments.Pie"));
-        intent.addCategory("android.intent.category.LAUNCHER");
-
-        startActivity(intent);
-        return super.onLongClick(v);
     }
 
     @Override
