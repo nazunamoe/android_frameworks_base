@@ -1339,7 +1339,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mSystemDpi = ExtendedPropertiesUtils.getActualProperty("android.dpi");
         mSystemUiDpi = ExtendedPropertiesUtils.getActualProperty("com.android.systemui.dpi");
         mSystemUiLayout = ExtendedPropertiesUtils.getActualProperty("com.android.systemui.layout");
-android.util.Log.d("*********************************************", "UPDATE mSystemUiLayout=" + mSystemUiLayout);
+        android.util.Log.d("*********************************************", "UPDATE mSystemUiLayout=" + mSystemUiLayout);
         int mNavigationBarPercent = expDesktop ? 0 : Integer.parseInt(ExtendedPropertiesUtils.getProperty("com.android.systemui.navbar.dpi", "100"));
         mNavBarDpi = mNavigationBarPercent * mSystemUiDpi / 100;
         int mStatusBarPercent = Integer.parseInt(ExtendedPropertiesUtils.getProperty("com.android.systemui.statusbar.dpi", "100"));
@@ -1442,10 +1442,6 @@ android.util.Log.d("*********************************************", "UPDATE mSys
             mHasNavigationBar = showNavBarNow;
             resetScreenHelper();
         }
-        if (mUserUIMode != Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.USER_UI_MODE,mStockUIMode)) {
-            resetScreenHelper();
-        }
         if (NavHide != mNavBarAutoHide) {
         	mNavBarAutoHide = NavHide;
         	resetScreenHelper();
@@ -1496,28 +1492,26 @@ android.util.Log.d("*********************************************", "UPDATE mSys
                 mNavigationBarWidthForRotation[mLandscapeRotation] = mNavigationBarWidthForRotation[mSeascapeRotation] =
                 Math.round(navigationBarWidth);
    
-android.util.Log.d("*********************************************", "mSystemUiLayout=" + mSystemUiLayout);
+        android.util.Log.d("*********************************************", "mSystemUiLayout=" + mSystemUiLayout);
+
         if (mSystemUiLayout < 600) {
             // 0-599dp: "phone" UI with a separate status & navigation bar
             mHasSystemNavBar = false;
             mNavigationBarCanMove = true;
             Settings.System.putInt(mContext.getContentResolver(),
                 Settings.System.CURRENT_UI_MODE, 0);
-            resetScreenHelper();
         } else if (mSystemUiLayout < 720) {
             // 600+dp: "phone" UI with modifications for larger screens
             mHasSystemNavBar = false;
             mNavigationBarCanMove = false;
             Settings.System.putInt(mContext.getContentResolver(),
                 Settings.System.CURRENT_UI_MODE, 2);
-            resetScreenHelper();
         } else if (mSystemUiLayout == 1000) {
             // 1000dp: "tablet" UI with a single combined status & navigation bar
             mHasSystemNavBar = true;
             mNavigationBarCanMove = false;
             Settings.System.putInt(mContext.getContentResolver(),
                 Settings.System.CURRENT_UI_MODE, 1);
-            resetScreenHelper();
         }
    
         mHasNavigationBar = !mHasSystemNavBar;
