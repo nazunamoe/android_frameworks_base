@@ -215,6 +215,13 @@
             android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Clock"
             android:clickable="true"
             />
+
+        <com.android.systemui.statusbar.policy.ClockCenter
+            android:textAppearance="@style/TextAppearance.SystemBar.Expanded.Clock"
+            android:id="@+id/center_clock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true" />
     
         <com.android.systemui.statusbar.policy.DateView
             android:id="@+id/date"
