@@ -68,18 +68,21 @@ public class NavRingHelpers {
         wm.getDefaultDisplay().getMetrics(metrics);
 
         if (TextUtils.isEmpty(action)) {
-            TargetDrawable drawable = new TargetDrawable(res, com.android.internal.R.drawable.ic_action_empty);
+            TargetDrawable drawable = new TargetDrawable(res,
+                    com.android.internal.R.drawable.ic_action_empty);
             drawable.setEnabled(false);
             return drawable;
         }
 
         AwesomeConstant IconEnum = fromString(action);
-       if (IconEnum.equals(AwesomeConstant.ACTION_NULL)) {
-            TargetDrawable drawable = new TargetDrawable(res, com.android.internal.R.drawable.ic_action_empty);
+        if (IconEnum.equals(AwesomeConstant.ACTION_NULL)) {
+            TargetDrawable drawable = new TargetDrawable(res,
+                    com.android.internal.R.drawable.ic_action_empty);
             drawable.setEnabled(false);
             return drawable;
-       } else if (IconEnum.equals(AwesomeConstant.ACTION_ASSIST)) {
-            TargetDrawable drawable = new TargetDrawable(res, com.android.internal.R.drawable.ic_action_assist_generic);
+        } else if (IconEnum.equals(AwesomeConstant.ACTION_ASSIST)) {
+            TargetDrawable drawable = new TargetDrawable(res,
+                    com.android.internal.R.drawable.ic_action_assist_generic);
             return drawable;
         } else if (IconEnum.equals(AwesomeConstant.ACTION_APP)) {
             // no pre-defined action, try to resolve URI
@@ -89,59 +92,67 @@ public class NavRingHelpers {
                 ActivityInfo info = intent.resolveActivityInfo(pm, PackageManager.GET_ACTIVITIES);
 
                 if (info == null) {
-                    TargetDrawable drawable = new TargetDrawable(res, com.android.internal.R.drawable.ic_action_empty);
+                    TargetDrawable drawable = new TargetDrawable(res,
+                            com.android.internal.R.drawable.ic_action_empty);
                     drawable.setEnabled(false);
                     return drawable;
                 }
 
                 activityIcon = info.loadIcon(pm);
 
-                int desiredSize = (int)(48 * metrics.density);
+                int desiredSize = (int) (48 * metrics.density);
                 int width = activityIcon.getIntrinsicWidth();
 
                 if (width > desiredSize)
                 {
                     Bitmap bm = ((BitmapDrawable) activityIcon).getBitmap();
                     if (bm != null) {
-                        Bitmap bitmapOrig = Bitmap.createScaledBitmap(bm, desiredSize, desiredSize, false);
+                        Bitmap bitmapOrig = Bitmap.createScaledBitmap(bm, desiredSize, desiredSize,
+                                false);
                         activityIcon = new BitmapDrawable(res, bitmapOrig);
                     }
                 }
 
             } catch (URISyntaxException e) {
-                TargetDrawable drawable = new TargetDrawable(res, com.android.internal.R.drawable.ic_action_empty);
+                TargetDrawable drawable = new TargetDrawable(res,
+                        com.android.internal.R.drawable.ic_action_empty);
                 drawable.setEnabled(false);
                 return drawable;
             }
-       } else {
+        } else {
             activityIcon = AwesomeConstants.getActionIcon(context, action);
-       }
+        }
 
         Drawable iconBg = res.getDrawable(com.android.internal.R.drawable.ic_navbar_blank);
-        Drawable iconBgActivated = res.getDrawable(com.android.internal.R.drawable.ic_navbar_blank_activated);
-        int margin = (int)(iconBg.getIntrinsicHeight() / 3);
-        LayerDrawable icon = new LayerDrawable (new Drawable[] { iconBg, activityIcon });
-        LayerDrawable iconActivated = new LayerDrawable (new Drawable[] { iconBgActivated, activityIcon });
+        Drawable iconBgActivated = res
+                .getDrawable(com.android.internal.R.drawable.ic_navbar_blank_activated);
+        int margin = (int) (iconBg.getIntrinsicHeight() / 3);
+        LayerDrawable icon = new LayerDrawable(new Drawable[] {
+                iconBg, activityIcon
+        });
+        LayerDrawable iconActivated = new LayerDrawable(new Drawable[] {
+                iconBgActivated, activityIcon
+        });
 
         icon.setLayerInset(1, margin, margin, margin, margin);
         iconActivated.setLayerInset(1, margin, margin, margin, margin);
 
         StateListDrawable selector = new StateListDrawable();
         selector.addState(new int[] {
-            android.R.attr.state_enabled,
-            -android.R.attr.state_active,
-            -android.R.attr.state_focused
-            }, icon);
+                android.R.attr.state_enabled,
+                -android.R.attr.state_active,
+                -android.R.attr.state_focused
+        }, icon);
         selector.addState(new int[] {
-        android.R.attr.state_enabled,
-            android.R.attr.state_active,
-            -android.R.attr.state_focused
-            }, iconActivated);
+                android.R.attr.state_enabled,
+                android.R.attr.state_active,
+                -android.R.attr.state_focused
+        }, iconActivated);
         selector.addState(new int[] {
-            android.R.attr.state_enabled,
-            -android.R.attr.state_active,
-            android.R.attr.state_focused
-            }, iconActivated);
+                android.R.attr.state_enabled,
+                -android.R.attr.state_active,
+                android.R.attr.state_focused
+        }, iconActivated);
         return new TargetDrawable(res, selector);
     }
 
@@ -150,16 +161,20 @@ public class NavRingHelpers {
 
         File f = new File(Uri.parse(action).getPath());
         Drawable activityIcon = new BitmapDrawable(res,
-                         getRoundedCornerBitmap(BitmapFactory.decodeFile(f.getAbsolutePath())));
+                getRoundedCornerBitmap(BitmapFactory.decodeFile(f.getAbsolutePath())));
 
         Drawable iconBg = res.getDrawable(
                 com.android.internal.R.drawable.ic_navbar_blank);
         Drawable iconBgActivated = res.getDrawable(
-                    com.android.internal.R.drawable.ic_navbar_blank_activated);
+                com.android.internal.R.drawable.ic_navbar_blank_activated);
 
-        int margin = (int)(iconBg.getIntrinsicHeight() / 3);
-        LayerDrawable icon = new LayerDrawable (new Drawable[] { iconBg, activityIcon });
-        LayerDrawable iconActivated = new LayerDrawable (new Drawable[] { iconBgActivated, activityIcon });
+        int margin = (int) (iconBg.getIntrinsicHeight() / 3);
+        LayerDrawable icon = new LayerDrawable(new Drawable[] {
+                iconBg, activityIcon
+        });
+        LayerDrawable iconActivated = new LayerDrawable(new Drawable[] {
+                iconBgActivated, activityIcon
+        });
 
         icon.setLayerInset(1, margin, margin, margin, margin);
         iconActivated.setLayerInset(1, margin, margin, margin, margin);
@@ -169,23 +184,23 @@ public class NavRingHelpers {
                 android.R.attr.state_enabled,
                 -android.R.attr.state_active,
                 -android.R.attr.state_focused
-            }, icon);
+        }, icon);
         selector.addState(new int[] {
                 android.R.attr.state_enabled,
                 android.R.attr.state_active,
                 -android.R.attr.state_focused
-            }, iconActivated);
+        }, iconActivated);
         selector.addState(new int[] {
                 android.R.attr.state_enabled,
                 -android.R.attr.state_active,
                 android.R.attr.state_focused
-            }, iconActivated);
+        }, iconActivated);
         return new TargetDrawable(res, selector);
     }
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-            bitmap.getHeight(), Config.ARGB_8888);
+                bitmap.getHeight(), Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 
         final int color = 0xff424242;
