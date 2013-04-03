@@ -62,7 +62,7 @@ public class ThreeGToggle extends StatefulToggle {
 
     @Override
     protected void updateView() {
-        boolean enabled = getCurrentPreferredNetworkMode(mContext) == Phone.NT_MODE_GSM_UMTS;
+        boolean enabled = getCurrentPreferredNetworkMode(mContext) == Phone.NT_MODE_WCDMA_ONLY;
         setLabel(enabled ? R.string.quick_settings_threeg_on_label
                 : R.string.quick_settings_threeg_off_label);
         setIcon(enabled ? R.drawable.ic_qs_3g_on : R.drawable.ic_qs_3g_off);
