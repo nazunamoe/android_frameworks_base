@@ -766,7 +766,7 @@
     <string name="faceunlock_multiple_failures" msgid="754137583022792429">"已超过“人脸解锁”尝试次数上限"</string>
     <string name="lockscreen_plugged_in" msgid="8057762828355572315">"正在充电，<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
     <string name="lockscreen_charged" msgid="321635745684060624">"充电完成"</string>
-    <string name="lockscreen_discharging">正在放点：%d%%</string> 
+    <string name="lockscreen_discharging">正在放电：%d%%</string> 
     <string name="lockscreen_battery_short" msgid="4477264849386850266">"<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
     <string name="lockscreen_low_battery" msgid="1482873981919249740">"连接您的充电器。"</string>
     <string name="lockscreen_missing_sim_message_short" msgid="5099439277819215399">"没有 SIM 卡"</string>
@@ -1468,5 +1468,29 @@
     <string name="reboot_bootloader">引导模式</string> 
     <string name="reboot_progress">正在重启...</string> 
     <string name="toast_rotation_unlocked">屏幕方向已解锁</string> 
-    <string name="toast_rotation_locked">屏幕方向已锁定</string> 
+    <string name="toast_rotation_locked">屏幕方向已锁定</string>
+    <string name="action_home">主页</string>
+    <string name="action_back">返回键</string>
+    <string name="action_recents">近期任务</string>
+    <string name="action_recents_gb">近期任务 (GB 风格)</string>
+    <string name="action_search">搜索</string>
+    <string name="action_screenshot">截图</string>
+    <string name="action_menu">菜单键</string>
+    <string name="action_ime">打开输入法切换</string>
+    <string name="action_kill">结束进程</string>
+    <string name="action_lastapp">上一个应用</string>
+    <string name="action_power">电源键</string>
+    <string name="action_notifications">通知</string>
+    <string name="action_assist">搜索 (Google Now)</string>
+    <string name="action_clockoptions">时钟选项</string>
+    <string name="action_voiceassist">语音搜索</string>
+    <string name="action_torch">手电筒</string>
+    <string name="action_silent">铃声/静音</string>
+    <string name="action_vib">铃声/震动</string>
+    <string name="action_silent_vib">铃声/震动/静音</string>
+    <string name="action_event">事件</string>
+    <string name="action_today">今日</string>
+    <string name="action_alarm">闹钟</string>
+    <string name="action_null">空</string>
+    <string name="action_app">自定义程序/快捷方式</string>
 </resources>
