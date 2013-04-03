@@ -22,7 +22,7 @@ import android.widget.ImageView;
 
 import static com.android.internal.util.aokp.AwesomeConstants.*;
 import com.android.internal.util.aokp.NavBarHelpers;
-import com.android.systemui.aokp.AwesomeAction;
+import com.android.systemui.navbar.SysAction;
 import com.android.systemui.R;
 
 import java.io.File;
@@ -97,7 +97,7 @@ public class CustomToggle extends BaseToggle {
         public void run() {
             mCustomState = 0;
             commitState();
-            AwesomeAction.launchAction(mContext, mClickActions[mCustomState]);
+            SysAction.launchAction(mContext, mClickActions[mCustomState]);
             startMagicTricks();
         }
     };
@@ -125,7 +125,7 @@ public class CustomToggle extends BaseToggle {
                 case STATE_ONE:
                     mCustomState = 0;
                     commitState();
-                    AwesomeAction.launchAction(mContext, mClickActions[mCustomState]);
+                    SysAction.launchAction(mContext, mClickActions[mCustomState]);
                     shouldCollapse();
                     startMagicTricks();
                     break;
@@ -178,7 +178,7 @@ public class CustomToggle extends BaseToggle {
             mCustomState = mNumberOfActions-1;
             commitState();
         }
-        AwesomeAction.launchAction(mContext, mClickActions[mCustomState]);
+        SysAction.launchAction(mContext, mClickActions[mCustomState]);
         shouldCollapse();
         startMagicTricks();
     }
@@ -186,9 +186,9 @@ public class CustomToggle extends BaseToggle {
     private void startActions() {
         if (mAdvancedToggle) {
             if (mMatchAction) {
-                AwesomeAction.launchAction(mContext, mClickActions[mMatchState]);
+                SysAction.launchAction(mContext, mClickActions[mMatchState]);
             } else {
-                AwesomeAction.launchAction(mContext, mClickActions[mCustomState]);
+                SysAction.launchAction(mContext, mClickActions[mCustomState]);
             }
             shouldCollapse();
         }
@@ -247,9 +247,9 @@ public class CustomToggle extends BaseToggle {
     @Override
     public boolean onLongClick(View v) {
         if (mAdvancedToggle) {
-            AwesomeAction.launchAction(mContext, mLongActions[mCustomState]);
+            SysAction.launchAction(mContext, mLongActions[mCustomState]);
         } else {
-            AwesomeAction.launchAction(mContext, mClickActions[mCustomState]);
+            SysAction.launchAction(mContext, mClickActions[mCustomState]);
         }
         switch (mCollapseShade) {
             case NO_COLLAPSE:
