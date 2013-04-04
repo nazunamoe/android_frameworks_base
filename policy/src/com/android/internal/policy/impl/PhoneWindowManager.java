@@ -3577,7 +3577,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 if (topIsFullscreen || (Settings.System.getInt(mContext.getContentResolver(),
                                         Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1 &&
                                         Settings.System.getInt(mContext.getContentResolver(),
-                                        Settings.System.EXPANDED_DESKTOP_STYLE, 0) == 2 &&
+                                        Settings.System.EXPANDED_DESKTOP_STYLE, 0) == 2 ||
                                         Settings.System.getBoolean(mContext.getContentResolver(),
                                         Settings.System.STATUSBAR_HIDDEN, false) == true)) {
                     if (DEBUG_LAYOUT) Log.v(TAG, "** HIDING status bar");
