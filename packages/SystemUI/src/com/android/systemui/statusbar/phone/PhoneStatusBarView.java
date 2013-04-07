@@ -321,7 +321,7 @@ public class PhoneStatusBarView extends PanelBar {
         if (panel.getAlpha() != alpha) {
             panel.setAlpha(alpha);
         }
-        updateBackgroundAlpha(frac);
+        updateBackgroundAlpha();
         mBar.updateCarrierAndWifiLabelVisibility(false);
     }
 
