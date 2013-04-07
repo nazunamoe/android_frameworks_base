@@ -361,7 +361,7 @@ public class KeyguardHostView extends KeyguardViewBase {
             }
         } else {
             try {
-                Context settingsContext = getContext().createPackageContext("com.android.settings", 0);
+                Context settingsContext = getContext().createPackageContext("com.xylon.settings", 0);
                 String wallpaperFile = settingsContext.getFilesDir() + "/lockwallpaper";
                 Bitmap backgroundBitmap = BitmapFactory.decodeFile(wallpaperFile);
                 setBackgroundDrawable(new BitmapDrawable(backgroundBitmap));
