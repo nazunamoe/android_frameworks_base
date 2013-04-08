@@ -112,6 +112,7 @@ import com.android.systemui.statusbar.policy.LocationController;
 import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.NotificationRowLayout;
 import com.android.systemui.statusbar.policy.OnSizeChangedListener;
+import com.android.systemui.statusbar.policy.PieController.Position;
 import com.android.systemui.statusbar.policy.Prefs;
 import com.android.systemui.statusbar.policy.SbBatteryController;
 import com.android.systemui.navbar.SysAction;
@@ -495,6 +496,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
                 mNavigationBarView.setDisabledFlags(mDisabled);
                 mNavigationBarView.setBar(this);
+                addNavigationBarCallback(mNavigationBarView);
                 if (mNavBarAutoHide) {
                     setupAutoHide();
                 }
@@ -1547,13 +1549,19 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     public void showClock(boolean show) {
         if (mStatusBarView == null) return;
+        if (Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.PIE_DISABLE_STATUSBAR_INFO, 0) == 1) {
+            show = false;
+        }
         ContentResolver resolver = mContext.getContentResolver();
         View clock = mStatusBarView.findViewById(R.id.clock);
         View cclock = mStatusBarView.findViewById(R.id.center_clock);
+        mShowClock = (Settings.System.getInt(resolver,
+                Settings.System.STATUS_BAR_CLOCK, 1) == 1);
         boolean rightClock = (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUSBAR_CLOCK_STYLE, 1) == 1);
+                Settings.System.STATUSBAR_CLOCK_STYLE, 0) == 0);
         boolean centerClock = (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUSBAR_CLOCK_STYLE, 1) == 2);
+                Settings.System.STATUSBAR_CLOCK_STYLE, 0) == 1);
         if (rightClock && clock != null) {
             clock.setVisibility(show ? View.VISIBLE : View.GONE);
         }
@@ -1640,9 +1648,9 @@ public class PhoneStatusBar extends BaseStatusBar {
                         | StatusBarManager.DISABLE_RECENT
                         | StatusBarManager.DISABLE_BACK
                         | StatusBarManager.DISABLE_SEARCH)) != 0) {
-            // the nav bar will take care of these
-            if (mNavigationBarView != null) 
-                mNavigationBarView.setDisabledFlags(state);
+
+            // all navigation bar listeners will take care of these
+            propagateDisabledFlags(state);
 
             if ((state & StatusBarManager.DISABLE_RECENT) != 0) {
                 // close recents if it's visible
@@ -2354,9 +2362,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         mNavigationIconHints = hints;
 
-        if (mNavigationBarView != null) {
-            mNavigationBarView.setNavigationIconHints(hints);
-        }
+        propagateNavigationIconHints(hints);
     }
 
     @Override // CommandQueue
@@ -2455,8 +2461,17 @@ public class PhoneStatusBar extends BaseStatusBar {
         if (DEBUG) {
             Slog.d(TAG, (showMenu?"showing":"hiding") + " the MENU button");
         }
-        if (mNavigationBarView != null) {
-            mNavigationBarView.setMenuVisibility(showMenu);
+        propagateMenuVisibility(showMenu);
+
+        // hide pie triggers when keyguard is visible
+        try {
+            if (mWindowManagerService.isKeyguardLocked()) {
+                disablePie(true);
+            } else {
+                disablePie(false);
+            }
+        } catch (RemoteException e) {
+            // nothing else to do ...
         }
 
         // See above re: lights-out policy for legacy apps.
@@ -3094,6 +3109,8 @@ public class PhoneStatusBar extends BaseStatusBar {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ICON_COLOR_STYLE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.PIE_DISABLE_STATUSBAR_INFO), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RIBBON_TARGETS_SHORT[AokpRibbonHelper.NOTIFICATIONS]), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RIBBON_TARGETS_LONG[AokpRibbonHelper.NOTIFICATIONS]), false, this);
@@ -3215,6 +3232,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             disableAutoHide();
         }
         updateRibbonTargets();
+        showClock(true);
     }
 
     static public boolean shouldNotificationShadeDim() {

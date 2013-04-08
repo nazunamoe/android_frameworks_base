@@ -244,6 +244,9 @@ public class SbBatteryController extends LinearLayout {
                     Settings.System.STATUS_ICON_COLOR), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ICON_COLOR_STYLE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.PIE_DISABLE_STATUSBAR_INFO),
+                    false, this);
         }
 
         @Override
@@ -261,6 +264,11 @@ public class SbBatteryController extends LinearLayout {
                 Settings.System.STATUS_ICON_COLOR, 0);
         defColor = Settings.System.getInt(cr,
                 Settings.System.ICON_COLOR_STYLE, 0);
+
+        if (Settings.System.getInt(resolver,
+                Settings.System.PIE_DISABLE_STATUSBAR_INFO, 0) == 1) {
+            mBatteryStyle = STYLE_HIDE;
+        }
 
         switch (mBatteryStyle) {
             case STYLE_ICON_ONLY:
