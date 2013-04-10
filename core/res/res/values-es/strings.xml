@@ -761,6 +761,7 @@
     <string name="lockscreen_pattern_wrong" msgid="4317955014948108794">"Vuelve a intentarlo"</string>
     <string name="lockscreen_password_wrong" msgid="5737815393253165301">"Vuelve a intentarlo"</string>
     <string name="faceunlock_multiple_failures" msgid="754137583022792429">"Se ha superado el número máximo de intentos de desbloqueo facial."</string>
+    <string name="lockscreen_discharging">Descargando, <xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
     <string name="lockscreen_plugged_in" msgid="8057762828355572315">"Cargando (<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>)"</string>
     <string name="lockscreen_charged" msgid="321635745684060624">"Cargado"</string>
     <string name="lockscreen_battery_short" msgid="4477264849386850266">"<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
@@ -1456,4 +1457,10 @@
     <string name="enable_accessibility_canceled" msgid="3833923257966635673">"Accesibilidad cancelada"</string>
     <string name="user_switched" msgid="3768006783166984410">"Usuario actual: <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="owner_name" msgid="2716755460376028154">"Propietario"</string>
+    <string name="global_action_screenshot">Capturar Pantalla</string>
+    <string name="reboot">Reiniciar</string>
+    <string name="reboot_recovery">Recovery</string>
+    <string name="reboot_download">Descargar</string>
+    <string name="reboot_bootloader">Bootloader</string>
+    <string name="reboot_progress">Su dispositivo se está reiniciando</string>
 </resources>
