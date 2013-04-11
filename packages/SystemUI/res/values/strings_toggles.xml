@@ -52,5 +52,6 @@
     <string name="toggle_STATUSBAR">Statusbar</string>
     <string name="toggle_SCREENSHOT">Screenshot</string>
     <string name="toggle_REBOOT">Reboot</string>
+    <string name="toggle_HYBRID">Hybrid</string>
     <string name="toggle_CUSTOM">Custom</string>
 </resources>
