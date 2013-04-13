@@ -42,6 +42,17 @@ public class BackgroundAlphaColorDrawable extends ColorDrawable {
     }
 
     @Override
+    public void setColor(int color) {
+        mComputedDrawColor = mBgColor = color;
+        invalidateSelf();
+    }
+
+    @Override
+    public int getColor() {
+        return mComputedDrawColor;
+    }
+
+    @Override
     public void setAlpha(int alpha) {
         if (alpha > 255) {
             alpha = 255;
@@ -62,10 +73,7 @@ public class BackgroundAlphaColorDrawable extends ColorDrawable {
     }
 
     private void updateColor() {
-        int r = Color.red(mBgColor);
-        int g = Color.green(mBgColor);
-        int b = Color.blue(mBgColor);
-        mComputedDrawColor = Color.argb(mAlpha, r, g, b);
+        mComputedDrawColor = applyAlphaToColor(mBgColor, mAlpha);
         invalidateSelf();
     }
 
@@ -81,5 +89,21 @@ public class BackgroundAlphaColorDrawable extends ColorDrawable {
     @Override
     public int getOpacity() {
         return PixelFormat.TRANSLUCENT;
+    }
+
+    public static int floatAlphaToInt(float alpha) {
+        return Math.round(alpha * 255);
+    }
+
+    public static int applyAlphaToColor(int color, float alpha) {
+        int a = floatAlphaToInt(alpha);
+        return applyAlphaToColor(color, a);
+    }
+
+    public static int applyAlphaToColor(int color, int alpha) {
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
+        return Color.argb(alpha, r, g, b);
     }
 }
