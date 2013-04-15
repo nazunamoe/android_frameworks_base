@@ -103,7 +103,6 @@ public class SearchPanelView extends FrameLayout implements
     private final Context mContext;
     private BaseStatusBar mBar;
     private StatusBarTouchProxy mStatusBarTouchProxy;
-    private SettingsObserver mObserver;
 
     private boolean mShowing;
     private View mSearchTargetsContainer;
@@ -146,23 +145,21 @@ public class SearchPanelView extends FrameLayout implements
         mResources = mContext.getResources();
 
         mContentResolver = mContext.getContentResolver();
-        mObserver = new SettingsObserver(new Handler());
+        mSettingsObserver = new SettingsObserver(new Handler());
         updateSettings();
     }
 
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-
-        mObserver.observe();
+        mSettingsObserver.observe();
         updateSettings();
-        setDrawables();
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        mContentResolver.unregisterContentObserver(mSettingsObserver);
         super.onDetachedFromWindow();
-        mObserver.unobserve();
     }
 
     private void startAssistActivity() {
