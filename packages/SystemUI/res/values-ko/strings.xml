@@ -204,17 +204,17 @@
     <string name="status_bar_help_title" msgid="1199237744086469217">"알림이 여기에 표시됨"</string>
     <string name="status_bar_help_text" msgid="7874607155052076323">"아래로 스와이프하여 언제든 액세스하세요."\n"한 번 더 아래로 스와이프하면 시스템 관리로 이동합니다."</string>
 
-    <string name="recents_kill_all_button_text">모두 종료 하기</string>
 
+    <string name="recents_kill_all_button_text">모두 종료</string>
     <!--  Target/Action Strings -->
-    <string name="shortcut_label">AOKP 행동</string>
+    <string name="shortcut_label">XYE 행동</string>
     <string name="action_home">홈</string>
     <string name="action_back">뒤로</string>
     <string name="action_recents">최근앱</string>
     <string name="action_screenshot">스크린샷</string>
     <string name="action_menu">메뉴</string>
-    <string name="action_ime">IME 스위처 열기</string>
-    <string name="action_kill">앱 종료 하기</string>
+    <string name="action_ime">IME 스위처</string>
+    <string name="action_kill">앱 종료</string>
     <string name="action_power">전원</string>
     <string name="action_search">검색</string>
     <string name="action_notifications">알림</string>
@@ -233,8 +233,8 @@
     <string name="quick_settings_vibrate_off_label">진동 꺼짐</string>
     <string name="quick_settings_silent_on_label">무음 켜짐</string>
     <string name="quick_settings_silent_off_label">무음 꺼짐</string>
-    <string name="quick_settings_fcharge_on_label">빠른충전 켜짐</string>
-    <string name="quick_settings_fcharge_off_label">빠른충전 꺼짐</string>
+    <string name="quick_settings_fcharge_on_label">빠른 충전 켜짐</string>
+    <string name="quick_settings_fcharge_off_label">빠른 충전 꺼짐</string>
     <string name="quick_settings_torch_on_label">플래시 켜짐</string>
     <string name="quick_settings_torch_off_label">플래시 꺼짐</string>
     <string name="quick_settings_nfc_on_label">NFC 켜짐</string>
@@ -255,5 +255,42 @@
     <string name="quick_settings_gps_off_label">GPS 꺼짐</string>
     <string name="quick_settings_data_on_label">데이터 켜짐</string>
     <string name="quick_settings_data_off_label">데이터 꺼짐</string>
+    <string name="quick_settings_navbar_hide_on_label">소프트 키 숨겨짐</string>
+    <string name="quick_settings_navbar_hide_off_label">소프트 키 숨겨지지 않음</string>
+    <string name="quick_settings_quiet_hours_on_label">무음 모드 켜짐</string>
+    <string name="quick_settings_quiet_hours_off_label">무음 모드 꺼짐</string>
+    <string name="quick_settings_sound_on">소리 켜짐</string>
+    <string name="quick_settings_pie_on_label">파이 켜짐</string>
+    <string name="quick_settings_pie_off_label">파이 꺼짐</string>
+    <string name="quick_settings_ls_on_label">잠금화면 켜짐</string>
+    <string name="quick_settings_ls_off_label">잠금화면 꺼짐</string>
+    <string name="quick_settings_dark_on_label">Dark XYE 켜짐</string>
+    <string name="quick_settings_dark_off_label">Dark XYE 꺼짐</string>
+    <string name="quick_settings_statusbar_on_label">상태바 켜짐</string>
+    <string name="quick_settings_statusbar_off_label">상태바 꺼짐</string>
+
+    <string name="quick_settings_screenshot">스크린샷</string>
+    <string name="quick_settings_sleep">잠들기</string>
+    <string name="quick_settings_powermenu">전원 메뉴</string>
+    <string name="quick_settings_reboot">다시 시작</string>
+    <string name="quick_settings_reboot_message">기기가 다시 시작됩니다..</string>
+    <string name="quick_settings_recording">녹음중...</string>
+    <string name="quick_settings_recordingcap">녹음됨</string>
+    <string name="quick_settings_playing">재생중...</string>
+    <string name="quick_settings_quickrecord">빠른 녹음</string>
+    <string name="quick_settings_nofile">길게 눌러 녹음</string>
+    <string name="quick_settings_volume">볼륨</string>
+
+    <string name="pie_date_format">yyyy년 MMM월 dd일 ccc</string>
+    <string name="pie_hour_format_12">hh:mm</string>
+    <string name="pie_hour_format_24">HH:mm</string>
+    <string name="pie_am_pm">a</string>
+
+    <!-- Recents Ram Bar -->
+    <string name="memory">램</string>
+    <!-- [CHAR LIMIT=10] Running services, summary of background processes -->
+    <string name="service_free_mem"><xliff:g id="memory">%1$s</xliff:g> 남음</string>
+    <!-- [CHAR LIMIT=10] Running services, summary of foreground processes -->
+    <string name="service_used_mem"><xliff:g id="memory">%1$s</xliff:g> 사용됨</string>
 
 </resources>
