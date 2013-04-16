@@ -17,12 +17,22 @@
 
 package com.android.systemui.statusbar.tablet;
 
+import android.app.ActivityManager;
+import android.app.KeyguardManager;
+import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.graphics.Color;
-import android.graphics.ColorFilterMaker;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Slog;
@@ -30,7 +40,16 @@ import android.view.View;
 import android.view.MotionEvent;
 import com.android.systemui.statusbar.phone.PanelBar;
 
+import com.android.internal.util.aokp.BackgroundAlphaColorDrawable;
+import com.android.systemui.R;
+
+import java.util.List;
+
 public class TabletStatusBarView extends PanelBar {
+
+    ActivityManager mActivityManager;
+    KeyguardManager mKeyguardManager;
+
     private Handler mHandler;
 
     private final int MAX_PANELS = 5;
@@ -38,8 +57,24 @@ public class TabletStatusBarView extends PanelBar {
     private final View[] mPanels = new View[MAX_PANELS];
     private final int[] mPos = new int[2];
 
+    float mAlpha;
+    int mAlphaMode;
+    int mBarColor;
+
     public TabletStatusBarView(Context context) {
         this(context, null);
+
+    mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+    mKeyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
+    SettingsObserver settingsObserver = new SettingsObserver(new Handler());
+    settingsObserver.observe();
+    Drawable bg = mContext.getResources().getDrawable(R.drawable.system_bar_background);
+        if(bg instanceof ColorDrawable) {
+            BackgroundAlphaColorDrawable bacd = new BackgroundAlphaColorDrawable(
+                    mBarColor != -2 ? mBarColor : ((ColorDrawable) bg).getColor());
+            setBackground(bacd);
+        }
+        updateSettings();
     }
 
     public TabletStatusBarView(Context context, AttributeSet attrs) {
@@ -125,5 +160,78 @@ public class TabletStatusBarView extends PanelBar {
     public void setIgnoreChildren(int index, View ignore, View panel) {
         mIgnoreChildren[index] = ignore;
         mPanels[index] = panel;
+    }
+
+    private boolean isKeyguardEnabled() {
+        if(mKeyguardManager == null) return false;
+        return mKeyguardManager.isKeyguardLocked();
+    }
+
+    /*
+     * ]0 < alpha < 1[
+     */
+    protected void setBackgroundAlpha(float alpha) {
+        Drawable bg = getBackground();
+        if (bg == null)
+            return;
+
+        if(bg instanceof BackgroundAlphaColorDrawable) {
+            ((BackgroundAlphaColorDrawable) bg).setBgColor(mBarColor);
+        }
+        int a = Math.round(alpha * 255);
+        bg.setAlpha(a);
+    }
+
+    public void updateBackgroundAlpha() {
+        if((isKeyguardEnabled() && mAlphaMode == 0)) {
+            setBackgroundAlpha(1);
+        } else if (isKeyguardEnabled() || mAlphaMode == 2) {
+            setBackgroundAlpha(mAlpha);
+        }
+    }
+
+    private boolean isCurrentHomeActivity(ComponentName component, ActivityInfo homeInfo) {
+        if (homeInfo == null) {
+            final PackageManager pm = mContext.getPackageManager();
+            homeInfo = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+                .resolveActivityInfo(pm, 0);
+        }
+        return homeInfo != null
+            && homeInfo.packageName.equals(component.getPackageName())
+            && homeInfo.name.equals(component.getClassName());
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_ALPHA), false, this);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.STATUS_NAV_BAR_ALPHA_MODE), false, this);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_COLOR), false, this);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    protected void updateSettings() {
+        mAlpha = 1.0f - Settings.System.getFloat(mContext.getContentResolver(),
+                       Settings.System.NAVIGATION_BAR_ALPHA,
+                       0.0f);
+        mAlphaMode = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.STATUS_NAV_BAR_ALPHA_MODE, 1);
+        mBarColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_COLOR, -2);
+
+        updateBackgroundAlpha();
     }
 }
