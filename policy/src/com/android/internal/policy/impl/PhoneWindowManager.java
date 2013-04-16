@@ -680,6 +680,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_WIDTH), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HIDE_STATUSBAR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.TOGGLE_NOTIFICATION_SHADE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.USER_UI_MODE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     "fancy_rotation_anim"), false, this,
@@ -3589,8 +3593,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 // case though.
                 mHideStatusBar = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.HIDE_STATUSBAR, 0) == 1;
-                if (topIsFullscreen || (mExpandedState == 1 &&
-                        (mExpandedMode == 2 || mExpandedMode == 3)) || mHideStatusBar) {
+                boolean toggleNotificationShade = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.TOGGLE_NOTIFICATION_SHADE, 0) == 1;
+                if ((topIsFullscreen && !toggleNotificationShade)
+                        || (mExpandedState == 1 &&
+                        (mExpandedMode == 2 || mExpandedMode == 3) && !toggleNotificationShade)
+                        || (mHideStatusBar && !toggleNotificationShade)) {
                     if (DEBUG_LAYOUT) Log.v(TAG, "** HIDING status bar");
                     if (mStatusBar.hideLw(true)) {
                         changes |= FINISH_LAYOUT_REDO_LAYOUT;
