@@ -1523,7 +1523,6 @@ public class PhoneStatusBar extends BaseStatusBar {
                 haltTicker();
             }
         }
-        mStatusBarView.updateBackgroundAlpha();
     }
 
     @Override
@@ -2198,7 +2197,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         if (mPieControlPanel != null)
             mPieControlPanel.setMenu(showMenu);
 
-        mStatusBarView.updateBackgroundAlpha();
         if (DEBUG) {
             Slog.d(TAG, (showMenu?"showing":"hiding") + " the MENU button");
         }

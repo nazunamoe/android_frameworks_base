@@ -2224,43 +2224,6 @@ public final class Settings {
         public static final String NAVIGATION_BAR_BUTTON_ALPHA = "navigation_bar_button_alpha";
 
         /**
-         * Navigation bar color
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_COLOR = "navigation_bar_color";
-
-        /**
-         * Navigation bar alpha
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_ALPHA = "navigation_bar_alpha";
-
-        /**
-         * Is current activity launcher or not
-         * @hide
-         */
-        public static final String IS_HOME = "is_home";
-
-        /**
-         * Sets transparency of statusbar
-         * @hide
-         */
-        public static final String STATUS_BAR_ALPHA = "status_bar_alpha";
-
-        /**
-         * Sets transparency mode of status and navigation bar
-         * 0 = only home, 1 = keyguard and home (default), 2 = always
-         * @hide
-         */
-        public static final String STATUS_NAV_BAR_ALPHA_MODE = "status_nav_bar_alpha_mode";
-
-        /**
-         * Sets color of statusbar
-         * @hide
-         */
-        public static final String STATUS_BAR_COLOR = "status_bar_color";
-
-        /**
          * Show the pending notification counts as overlays on the status bar
          * @hide
          */
