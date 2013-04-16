@@ -55,9 +55,6 @@ public class PhoneStatusBarView extends PanelBar {
     private static final String TAG = "PhoneStatusBarView";
     private static final boolean DEBUG = PhoneStatusBar.DEBUG;
 
-    ActivityManager mActivityManager;
-    KeyguardManager mKeyguardManager;
-
     PhoneStatusBar mBar;
     int mScrimColor;
     float mSettingsPanelDragzoneFrac;
@@ -82,6 +79,10 @@ public class PhoneStatusBarView extends PanelBar {
             mSettingsPanelDragzoneFrac = 0f;
         }
         mFullWidthNotifications = mSettingsPanelDragzoneFrac <= 0f;
+        Drawable bg = mContext.getResources().getDrawable(R.drawable.status_bar_background);
+        if(bg instanceof ColorDrawable) {
+            setBackground(new BackgroundAlphaColorDrawable(((ColorDrawable) bg).getColor()));
+        }
 
         // no need for observer, sysui gets killed when the style is changed.
         mToggleStyle = Settings.System.getInt(mContext.getContentResolver(),
@@ -118,7 +119,6 @@ public class PhoneStatusBarView extends PanelBar {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mBar.onBarViewDetached();
-        mContext.unregisterReceiver(mBroadcastReceiver);
     }
  
     @Override
@@ -261,5 +261,14 @@ public class PhoneStatusBarView extends PanelBar {
             panel.setAlpha(alpha);
         }
         mBar.updateCarrierAndWifiLabelVisibility(false);
+    }
+
+    private void updateBackgroundAlpha() {
+        if(mFadingPanel != null) {
+            mBar.mTransparencyManager.setTempStatusbarState(true);
+        } else {
+            mBar.mTransparencyManager.setTempStatusbarState(false);
+        }
+        mBar.mTransparencyManager.update();
     }
 }

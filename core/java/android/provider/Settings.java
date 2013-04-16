@@ -2224,6 +2224,37 @@ public final class Settings {
         public static final String NAVIGATION_BAR_BUTTON_ALPHA = "navigation_bar_button_alpha";
 
         /**
+         * Navigation bar alpha while in homescreen and lockscreen.
+         *
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_ALPHA = "navigation_bar_alpha";
+
+        /**
+         * Navigation bar color.
+         *
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_COLOR = "navigation_bar_color";
+
+        /**
+         * Status bar color.
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_COLOR = "status_bar_color";
+
+        /**
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_ALPHA_CONFIG = "navigation_bar_alpha_config";
+
+        /**
+         * @hide
+         */
+        public static final String STATUS_BAR_ALPHA_CONFIG = "status_bar_alpha_config";
+
+        /**
          * Show the pending notification counts as overlays on the status bar
          * @hide
          */

@@ -63,6 +63,7 @@ import com.android.systemui.navbar.SysAction;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.DelegateViewHelper;
+import com.android.systemui.TransparencyManager;
 import com.android.systemui.statusbar.policy.KeyButtonView;
 import com.android.systemui.statusbar.policy.key.ExtensibleKeyButtonView;
 import com.android.systemui.statusbar.policy.key.RecentsKeyButtonView;
@@ -118,7 +119,9 @@ public class NavigationBarView extends LinearLayout {
      */
     int mCurrentUIMode = 0;
 
-    public static final float KEYGUARD_ALPHA = 0.44f;
+    int mNavigationBarColor = -1;
+
+    private TransparencyManager mTransparencyManager;
 
     public String[] mClickActions = new String[7];
     public String[] mLongpressActions = new String[7];
@@ -273,6 +276,10 @@ public class NavigationBarView extends LinearLayout {
         mBackAltIcon = ((KeyButtonView)generateKey(false, KEY_BACK_ALT)).getDrawable();
     }
 
+    public void setTransparencyManager(TransparencyManager tm) {
+        mTransparencyManager = tm;
+    }
+
     private void makeBar() {
 
         ((LinearLayout) rot0.findViewById(R.id.nav_buttons)).removeAllViews();
@@ -342,6 +349,15 @@ public class NavigationBarView extends LinearLayout {
                     addButton(navButtonLayout, generateKey(landscape, KEY_ARROW_LEFT), !landscape);
                     addButton(navButtonLayout, generateKey(landscape, KEY_ARROW_RIGHT), landscape);
             }
+        }
+        Drawable bg = mContext.getResources().getDrawable(R.drawable.nav_bar_bg);
+        if(bg instanceof ColorDrawable) {
+            BackgroundAlphaColorDrawable bacd = new BackgroundAlphaColorDrawable(
+                    mNavigationBarColor > 0 ? mNavigationBarColor : ((ColorDrawable) bg).getColor());
+            setBackground(bacd);
+        }
+        if(mTransparencyManager != null) {
+            mTransparencyManager.update();
         }
     }
 
@@ -970,17 +986,12 @@ public class NavigationBarView extends LinearLayout {
             ContentResolver resolver = mContext.getContentResolver();
 
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE), false,
-                    this);
-
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_COLOR), false, this);
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR), false,
-                    this);
-          
+                    Settings.System.getUriFor(Settings.System.MENU_LOCATION), false, this);
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.MENU_LOCATION), false,
                     this);
-
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.MENU_VISIBILITY), false,
                     this);
@@ -1020,22 +1031,18 @@ public class NavigationBarView extends LinearLayout {
         }
     }
 
-    protected void updateNavigationBarBackground() {
-        try {
-            boolean showNav = mWindowManagerService.hasNavigationBar();
-            if (showNav) {
-                // NavigationBar background color
-                int defaultBg = Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.NAVIGATION_BAR_BACKGROUND_STYLE, 2);
-                int navbarBackgroundColor = Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.NAVIGATION_BAR_BACKGROUND_COLOR, 0xFF000000);
+    /*
+     * ]0 < alpha < 1[
+     */
+    public void setBackgroundAlpha(float alpha) {
+        Drawable bg = getBackground();
+        if(bg == null) return;
 
-                if (defaultBg == 0) {
-                    this.setBackgroundColor(navbarBackgroundColor);
-                } else if (defaultBg == 1) {
-                    this.setBackgroundResource(R.drawable.nav_bar_bg);
-                    this.getBackground().setColorFilter(ColorFilterMaker.
-                            changeColorAlpha(navbarBackgroundColor, .32f, 0f));
+        if(bg instanceof BackgroundAlphaColorDrawable) {
+         // if there's a custom color while the lockscreen is on, clear it momentarily, otherwise it won't match.
+            if(mNavigationBarColor > 0) {
+                if(isKeyguardEnabled()) {
+                    ((BackgroundAlphaColorDrawable) bg).setBgColor(-1);
                 } else {
                     this.setBackground(mContext.getResources().getDrawable(
                             R.drawable.nav_bar_bg));
@@ -1051,6 +1058,8 @@ public class NavigationBarView extends LinearLayout {
         
         mMenuLocation = Settings.System.getInt(resolver,
                 Settings.System.MENU_LOCATION, SHOW_RIGHT_MENU);
+        mNavigationBarColor = Settings.System.getInt(resolver,
+                Settings.System.NAVIGATION_BAR_COLOR, -1);
         mColorAllIcons = Settings.System.getBoolean(resolver,
                 Settings.System.NAVIGATION_BAR_ALLCOLOR, false);
         mMenuVisbility = Settings.System.getInt(resolver,
