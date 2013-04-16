@@ -1481,7 +1481,7 @@
     <string name="action_search">Recherche</string>
     <string name="action_screenshot">Capture d\'écran</string>
     <string name="action_menu">Menu</string>
-    <string name="action_ime">Ouvrir le sélecteur d'IME</string>
+    <string name="action_ime">Ouvrir le sélecteur d\'IME</string>
     <string name="action_kill">Fermer l\'application</string>
     <string name="action_lastapp">Dernière App</string>
     <string name="action_power">Power</string>
