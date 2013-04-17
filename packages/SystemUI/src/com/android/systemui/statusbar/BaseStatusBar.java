@@ -117,6 +117,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected static final boolean ENABLE_INTRUDERS = false;
 
     private boolean mPieShowTrigger = false;
+    private boolean mDisableTriggers = false;
     private float mPieTriggerSize;
 
     private boolean mPieImeIsShowing = false;
@@ -1443,7 +1444,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     private void attachPie() {
         if (isPieEnabled()) {
-            setupTriggers(false, false);
+            setupTriggers(false);
             // Create our container, if it does not exist already
             if (mPieContainer == null) {
                 mPieContainer = new PieLayout(mContext);
@@ -1486,8 +1487,13 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     }
 
-    public void setupTriggers(boolean forceDisableBottomAndTopTrigger, boolean disableTriggers) {
-            if (disableTriggers) {
+    public void disableTriggers( boolean disableTriggers) {
+        mDisableTriggers = disableTriggers;
+        setupTriggers(false);
+    }
+
+    public void setupTriggers(boolean forceDisableBottomAndTopTrigger) {
+            if (mDisableTriggers) {
                 updatePieTriggerMask(0);
                 return;
             }
