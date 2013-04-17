@@ -1477,7 +1477,7 @@
     <!-- Reboot recovery option -->
     <string name="reboot_bootloader">부트로더</string>
     <!-- Rebooting message -->
-    <string name="reboot_progress">기기가 재시작 됩니다</string>
+    <string name="reboot_progress">기기가 다시 시작 됩니다..</string>
 
     <!-- Hardware Rotation lock string -->
     <string name="toast_rotation_unlocked">화면 회전 가능</string>
@@ -1486,12 +1486,13 @@
     <!-- Awesome Action Stuff-->
     <string name="action_home">홈 가기</string>
     <string name="action_back">뒤로가기</string>
-    <string name="action_recents">최근앱 창</string>
+    <string name="action_recents">최근 앱 보기</string>
+    <string name="action_recents_gb">최근 앱 보기 (GB 스타일)</string>
     <string name="action_search">검색하기</string>
     <string name="action_screenshot">스크린샷 찍기</string>
     <string name="action_menu">메뉴</string>
     <string name="action_ime">IME 변경기 열기</string>
-    <string name="action_kill">어플 종료하기</string>
+    <string name="action_kill">앱 종료</string>
     <string name="action_lastapp">최근 실행 앱</string>
     <string name="action_power">전원</string>
     <string name="action_notifications">알림창</string>
@@ -1507,4 +1508,5 @@
     <string name="action_alarm">알람</string>
     <string name="action_null">없음</string>
     <string name="action_app">사용자 앱/바로가기</string>
+    <string name="global_actions_toggle_navbar_hide">소프트 키 및 상태바 컨트롤</string>
 </resources>
