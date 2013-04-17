@@ -37,11 +37,11 @@
     <string name="toggle_FAVCONTACT">Contact favoris</string>
     <string name="toggle_SOUNDSTATE">Mode de son</string>
     <string name="toggle_VOLUME">Volume</string>
-    <string name="toggle_NAVBARHIDE">Masquer barre de nav.</string>
+    <string name="toggle_NAVBARHIDE">Masquer auto. la barre de nav.</string>
     <string name="toggle_POWERMENU">Menu Power</string>
     <string name="toggle_SLEEP">Verrouiller</string>
     <string name="toggle_QUICKRECORD">Enregistreur</string>
-    <string name="toggle_QUIETHOURS">Heures Silencieuses</string>
+    <string name="toggle_QUIETHOURS">Période silencieuse</string>
     <string name="toggle_STATUSBAR">Barre d\'état</string>
     <string name="toggle_SCREENSHOT">Capture d\'écran</string>
     <string name="toggle_REBOOT">Redémarrer</string>
