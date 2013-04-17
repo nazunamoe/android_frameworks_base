@@ -65,7 +65,7 @@ public class PhoneStatusBarView extends PanelBar {
     private boolean mShouldFade;
     private int mToggleStyle;
 
-    int mStatusBarColor;
+    int mStatusBarColor = -1;
 
     public PhoneStatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -79,12 +79,6 @@ public class PhoneStatusBarView extends PanelBar {
             mSettingsPanelDragzoneFrac = 0f;
         }
         mFullWidthNotifications = mSettingsPanelDragzoneFrac <= 0f;
-        Drawable bg = mContext.getResources().getDrawable(R.drawable.status_bar_background);
-        if(bg instanceof ColorDrawable) {
-            BackgroundAlphaColorDrawable bacd = new BackgroundAlphaColorDrawable(
-                    mStatusBarColor > -1 ? mStatusBarColor : ((ColorDrawable) bg).getColor());
-            setBackground(bacd);
-        }
 
         // no need for observer, sysui gets killed when the style is changed.
         mToggleStyle = Settings.System.getInt(mContext.getContentResolver(),
@@ -273,31 +267,5 @@ public class PhoneStatusBarView extends PanelBar {
             mBar.mTransparencyManager.setTempDisableStatusbarState(false);
         }
         mBar.mTransparencyManager.update();
-    }
-
-    class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUS_BAR_COLOR), false, this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    }
-
-    protected void updateSettings() {
-        mStatusBarColor = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_COLOR, -1);
-
-        updateBackgroundAlpha();
-
     }
 }

@@ -807,8 +807,6 @@ public class NavigationBarView extends LinearLayout {
          }
          mCurrentView = mRotatedViews[Surface.ROTATION_0];
 
-         updateNavigationBarBackground();
-
          // this takes care of making the buttons
          mSettingsObserver = new SettingsObserver(new Handler());
          updateSettings();
@@ -1021,13 +1019,11 @@ public class NavigationBarView extends LinearLayout {
                         this);
             }
             updateSettings();
-            updateNavigationBarBackground();
         }
 
         @Override
         public void onChange(boolean selfChange) {
             updateSettings();
-            updateNavigationBarBackground();
         }
     }
 
@@ -1044,13 +1040,12 @@ public class NavigationBarView extends LinearLayout {
                 if(isKeyguardEnabled()) {
                     ((BackgroundAlphaColorDrawable) bg).setBgColor(-1);
                 } else {
-                    this.setBackground(mContext.getResources().getDrawable(
-                            R.drawable.nav_bar_bg));
+                    ((BackgroundAlphaColorDrawable) bg).setBgColor(mNavigationBarColor);
                 }
             }
-        } catch (RemoteException ex) {
-            // no window manager? good luck with that
         }
+        int a = Math.round(alpha * 255);
+        bg.setAlpha(a);
     }
 
     protected void updateSettings() {
@@ -1059,7 +1054,7 @@ public class NavigationBarView extends LinearLayout {
         mMenuLocation = Settings.System.getInt(resolver,
                 Settings.System.MENU_LOCATION, SHOW_RIGHT_MENU);
         mNavigationBarColor = Settings.System.getInt(resolver,
-                Settings.System.NAVIGATION_BAR_COLOR, -1);
+                Settings.System.NAVIGATION_BAR_COLOR, -2);
         mColorAllIcons = Settings.System.getBoolean(resolver,
                 Settings.System.NAVIGATION_BAR_ALLCOLOR, false);
         mMenuVisbility = Settings.System.getInt(resolver,
