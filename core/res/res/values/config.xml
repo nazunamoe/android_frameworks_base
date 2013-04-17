@@ -1120,4 +1120,7 @@
     <!-- Integer to configure panel auto brightness mode when changed -->
     <integer name="config_panelAutoBrightnessValue">-1</integer>
 
+    <!-- Boolean to enable/disable SlimPIE default is enabled -->
+    <bool name="config_slimPie">true</bool>
+
 </resources>
