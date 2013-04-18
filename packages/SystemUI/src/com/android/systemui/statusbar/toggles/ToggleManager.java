@@ -96,7 +96,6 @@ public class ToggleManager {
     public static final String QUIETHOURS_TOGGLE = "QUIETHOURS";
     public static final String PIE_TOGGLE = "PIE";
     public static final String DARK_TOGGLE = "DARK";
-    public static final String STATUSBAR_TOGGLE = "STATUSBAR";
     public static final String SCREENSHOT_TOGGLE = "SCREENSHOT";
     public static final String REBOOT_TOGGLE = "REBOOT";
     public static final String CUSTOM_TOGGLE = "CUSTOM";
@@ -155,9 +154,7 @@ public class ToggleManager {
             toggleMap.put(SLEEP_TOGGLE, SleepToggle.class);
             toggleMap.put(POWER_MENU_TOGGLE, PowerMenuToggle.class);
             toggleMap.put(QUIETHOURS_TOGGLE, QuietHoursToggle.class);
-            // toggleMap.put(LOCKSCREEN_TOGGLE, null);
             toggleMap.put(PIE_TOGGLE, PieToggle.class);
-            toggleMap.put(STATUSBAR_TOGGLE, StatusbarToggle.class);
             toggleMap.put(SCREENSHOT_TOGGLE, ScreenshotToggle.class);
             toggleMap.put(REBOOT_TOGGLE, RebootToggle.class);
             toggleMap.put(CUSTOM_TOGGLE, CustomToggle.class);

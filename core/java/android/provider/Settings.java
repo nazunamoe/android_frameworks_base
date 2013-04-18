@@ -3352,24 +3352,12 @@ public final class Settings {
         public static final String NAVIGATION_BAR_SHOW_NOW = "navigation_bar_show_now";
 
         /**
-         * Used as a flag to determine if we have statusbar hidden
-         * @hide
-         */
-        public static final String STATUSBAR_HIDDEN = "statusbar_hidden";
-        
-        /**
-         * Statusbar toggle for quick settings
-         * @hide
-         */
-        public static final String STATUSBAR_QUICK_TOGGLE = "statusbar_quick_toggle";
-
-        /**
          * Screenshot toggle delay
          * @hide
          */
         public static final String SCREENSHOT_TOGGLE_DELAY = "screenshot_toggle_delay";
 
-    	  /**
+        /**
          * Show the NavBar dialog in Power menu
          * @hide
          */

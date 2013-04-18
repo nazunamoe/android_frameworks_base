@@ -49,7 +49,6 @@
     <string name="toggle_PIE">PIE</string>
     <string name="toggle_XYLON">Xylon</string>
     <string name="toggle_DARK">Dark Xylon</string>
-    <string name="toggle_STATUSBAR">Statusbar</string>
     <string name="toggle_SCREENSHOT">Screenshot</string>
     <string name="toggle_REBOOT">Reboot</string>
     <string name="toggle_CUSTOM">Custom</string>
