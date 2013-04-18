@@ -549,12 +549,7 @@
     <string name="action_none">Empty</string>
 
     <string name="widgets">Widgets</string>
-<<<<<<< HEAD
     <string name="toggle_navbar">Navbar - Toggle</string>
-    <string name="toggle_statusbar">Statusbar - Toggle</string>
-=======
-    <string name="toggle_navbar">NavBar - Toggle</string>
->>>>>>> parent of d46cf8c... FW: Status Bar Hide toggle (1/3)
     <string name="toggle_widgets">Widgets - Toggle</string>
     <string name="toggle_ring_vib">Ring/Vib - Toggle</string>
     <string name="toggle_ring_silent">Ring/Silent - Togle</string>

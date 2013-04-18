@@ -2079,7 +2079,7 @@ public final class Settings {
          * Expanded desktop style (with status bar or without status bar)
          * @hide
          */
-        public static final String EXPANDED_DESKTOP_STYLE = "expanded_desktop_style";
+        public static final String EXPANDED_DESKTOP_MODE = "expanded_desktop_mode";
 
         /**
          * @hide

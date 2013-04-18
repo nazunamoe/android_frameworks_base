@@ -2927,9 +2927,9 @@ public class PhoneStatusBar extends BaseStatusBar {
             mNotificationShadeDim = Settings.System.getInt(
                 resolver, Settings.System.NOTIFICATION_SHADE_DIM,
                     ActivityManager.isHighEndGfx() ? 1 : 0) == 1;
-            if (mCarrierLabel != null) {
-                toggleCarrierAndWifiLabelVisibility();
-            }
+//            if (mCarrierLabel != null) {
+//                toggleCarrierAndWifiLabelVisibility();
+//            }
             updateStatusBarVisibility();
         }
     }
