@@ -189,7 +189,7 @@ public class RibbonTarget {
     private void sendIt(String action) {
         mContext.sendBroadcastAsUser(u, UserHandle.ALL);
         Intent i = new Intent();
-        i.setAction("com.android.systemui.aokp.LAUNCH_ACTION");
+        i.setAction("com.android.systemui.navbar.LAUNCH_ACTION");
         i.putExtra("action", action);
         mContext.sendBroadcastAsUser(i, UserHandle.ALL);
         mContext.sendBroadcastAsUser(b, UserHandle.ALL);
