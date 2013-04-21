@@ -17,6 +17,7 @@
 package com.android.internal.policy.impl.keyguard;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -27,6 +28,7 @@ import android.media.AudioManager;
 import android.media.IAudioService;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -45,10 +47,12 @@ import android.widget.FrameLayout;
  */
 public abstract class KeyguardViewBase extends FrameLayout {
 
-    private static final int BACKGROUND_COLOR = 0x70000000;
     private AudioManager mAudioManager;
     private TelephonyManager mTelephonyManager = null;
     protected KeyguardViewMediator.ViewMediatorCallback mViewMediatorCallback;
+
+    private int defaultBgColor = 0x70000000;
+    private int bgColor;
 
     // Whether the volume keys should be handled by keyguard. If true, then
     // they will be handled here for specific media types such as music, otherwise
@@ -56,10 +60,11 @@ public abstract class KeyguardViewBase extends FrameLayout {
     private static final boolean KEYGUARD_MANAGES_VOLUME = true;
 
     // This is a faster way to draw the background on devices without hardware acceleration
-    private static final Drawable mBackgroundDrawable = new Drawable() {
+    Drawable mBackgroundDrawable = new Drawable() {
+
         @Override
         public void draw(Canvas canvas) {
-            canvas.drawColor(BACKGROUND_COLOR, PorterDuff.Mode.SRC);
+            canvas.drawColor(bgColor, PorterDuff.Mode.SRC);
         }
 
         @Override
@@ -82,6 +87,10 @@ public abstract class KeyguardViewBase extends FrameLayout {
 
     public KeyguardViewBase(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        bgColor = Settings.System.getInt(context.getContentResolver(),
+                Settings.System.LOCKSCREEN_COLOR_ALPHA, defaultBgColor);
+
         resetBackground();
     }
 
