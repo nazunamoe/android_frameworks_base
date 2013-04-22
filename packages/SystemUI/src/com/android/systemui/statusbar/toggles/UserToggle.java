@@ -61,7 +61,7 @@ public class UserToggle extends BaseToggle {
             }
         } else {
             Intent intent = new Intent(Intent.ACTION_VIEW, ContactsContract.Profile.CONTENT_URI);
-            startSettingsActivity(intent);
+            startActivity(intent);
         }
     }
 
