@@ -1,4 +1,4 @@
-package com.android.systemui.aokp;
+package com.android.systemui.navbar;
 
 import com.android.systemui.R;
 import com.android.systemui.navbar.AokpSwipeRibbon;

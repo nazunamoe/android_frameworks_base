@@ -1877,6 +1877,7 @@
   <java-symbol type="string" name="config_deviceKeyHandlerLib" />
   <java-symbol type="string" name="config_deviceKeyHandlerClass" />
   <java-symbol type="string" name="config_legacyUmsLunFile" />
+  <java-symbol type="drawable" name="ic_empty" />
 
   <!-- Hide Navbar -->
   <java-symbol type="layout" name="global_actions_navbar_mode" />
