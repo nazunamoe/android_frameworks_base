@@ -75,10 +75,10 @@
     <string name="status_bar_latest_events_title">Notifications</string>
 
     <!-- When the battery is low, this is displayed to the user in a dialog.  The title of the low battery alert.  [CHAR LIMIT=NONE]-->
-    <string name="battery_low_title">Connect charger</string>
+    <string name="battery_low_title">Connect to your charger</string>
 
     <!-- When the battery is low, this is displayed to the user in a dialog. The subtitle of the low battery alert. [CHAR LIMIT=NONE] -->
-    <string name="battery_low_subtitle">The battery is getting low.</string>
+    <string name="battery_low_subtitle">Your battery is dying</string>
 
     <!-- A message that appears when the battery level is getting low in a dialog.  This is
         appened to the subtitle of the low battery alert.  "number" is the percentage of battery
@@ -554,7 +554,7 @@
     <string name="toggle_ring_vib">Ring/Vib - Toggle</string>
     <string name="toggle_ring_silent">Ring/Silent - Togle</string>
     <string name="toggle_ring_vib_silent">Ring/Vib/Silent - Toggle</string>
-    <string name="app_killed_message">App Killed</string>
+    <string name="app_killed_message">Deuces.</string>
     <string name="screenshot_toast">Screenshot in %1$d seconds</string>
 
     <!--  Quick Settings -->
