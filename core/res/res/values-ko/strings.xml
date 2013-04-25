@@ -1462,7 +1462,7 @@
     <string name="global_action_screenshot">스크린샷</string>
     
     <!-- label for item that toggles expand desktop mode -->
-    <string name="global_actions_toggle_expanded_desktop_mode">데스크톱 확장</string>
+    <string name="global_actions_toggle_expanded_desktop_mode">확장 데스크톱</string>
     <!-- status message in phone options dialog for when expand desktop mode is on -->
     <string name="global_actions_expanded_desktop_mode_on_status">켜짐</string>
     <!-- status message in phone options dialog for when expand desktop mode is off -->
@@ -1477,7 +1477,7 @@
     <!-- Reboot recovery option -->
     <string name="reboot_bootloader">부트로더</string>
     <!-- Rebooting message -->
-    <string name="reboot_progress">기기가 다시 시작 됩니다..</string>
+    <string name="reboot_progress">기기를 다시 시작하는 중입니다.</string>
 
     <!-- Hardware Rotation lock string -->
     <string name="toast_rotation_unlocked">화면 회전 가능</string>
@@ -1508,5 +1508,5 @@
     <string name="action_alarm">알람</string>
     <string name="action_null">없음</string>
     <string name="action_app">사용자 앱/바로가기</string>
-    <string name="global_actions_toggle_navbar_hide">소프트 키 및 상태바 컨트롤</string>
+    <string name="global_actions_toggle_navbar_hide">소프트 키 컨트롤</string>
 </resources>
