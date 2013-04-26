@@ -37,6 +37,7 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.provider.Settings;
 import android.util.AttributeSet;
+import android.util.ExtendedPropertiesUtils;
 import android.util.Slog;
 import android.util.TypedValue;
 import android.view.animation.AccelerateInterpolator;
@@ -112,11 +113,9 @@ public class NavigationBarView extends LinearLayout {
     // Will determine if NavBar goes to the left side in Landscape Mode
     private boolean mLeftyMode;
 
-    /* 0 = Phone UI
-     * 1 = Tablet UI
-     * 2 = Phablet UI
-     */
-    int mCurrentUIMode = 0;
+    // heuheuheuehueheuheuheuheu sysui layout
+    public int mSystemUiLayout = ExtendedPropertiesUtils.getActualProperty("com.android.systemui.layout");
+    int mCurrentUIMode;
 
     int mNavigationBarColor = -1;
 
