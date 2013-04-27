@@ -2394,12 +2394,8 @@ public class Activity extends ContextThemeWrapper
         return onKeyShortcut(event.getKeyCode(), event);
     }
 
-    private boolean mEnableBar;
     boolean mightBeMyGesture = false;
     float tStatus;
-
-    mEnableBar = (Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.AUTO_HIDE_STATUSBAR, 0) == 1);
     
     /**
      * Called to process touch screen events.  You can override this to
@@ -2412,7 +2408,6 @@ public class Activity extends ContextThemeWrapper
      * @return boolean Return true if this event was consumed.
      */
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (mEnableBar) {
             switch (ev.getAction())
             {
                 case MotionEvent.ACTION_DOWN:
@@ -2448,7 +2443,6 @@ public class Activity extends ContextThemeWrapper
                     mightBeMyGesture = false;
                     break;
               }
-        }
               
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             onUserInteraction();
