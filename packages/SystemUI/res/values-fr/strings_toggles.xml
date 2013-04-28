@@ -18,7 +18,7 @@
     <string name="toggle_USER">Utilisateur actuel</string>
     <string name="toggle_BRIGHTNESS">Luminosité</string>
     <string name="toggle_SETTINGS">Paramètres</string>
-    <string name="toggle_WIFI">WiFi</string>
+    <string name="toggle_WIFI">Wi-Fi</string>
     <string name="toggle_SIGNAL">Réseau</string>
     <string name="toggle_ROTATE">Rotation Automatique</string>
     <string name="toggle_CLOCK">Horloge</string>
@@ -45,5 +45,6 @@
     <string name="toggle_STATUSBAR">Barre d\'état</string>
     <string name="toggle_SCREENSHOT">Capture d\'écran</string>
     <string name="toggle_REBOOT">Redémarrer</string>
+    <string name="toggle_STAYAWAKE">Rester écran allumé</string>
     <string name="toggle_CUSTOM">Toggle personnalisé</string>
 </resources>
