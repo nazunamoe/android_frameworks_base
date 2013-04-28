@@ -3606,6 +3606,12 @@ public final class Settings {
         public static final String AUTO_HIDE_STATUSBAR = "auto_hide_statusbar";
 
         /**
+         * Whether or not hidden Statusbar can be pulled down
+         * @hide
+         */
+        public static final String HIDDEN_STATUSBAR_PULLDOWN = "hidden_statusbar_pulldown";
+
+        /**
          * Whether Status Bar is currently hidden or not
          * @hide
          */
