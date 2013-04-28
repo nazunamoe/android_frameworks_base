@@ -1473,7 +1473,7 @@
     <string name="permlab_preventpower">Prévenir la touche power</string>
     <string name="permdesc_preventpower">Permettre à une application de remplacer la touche power</string>
     
-        <!-- Awesome Action Stuff-->
+    <!-- Awesome Action Stuff-->
     <string name="action_home">Accueil</string>
     <string name="action_back">Retour</string>
     <string name="action_recents">Appli. Récentes</string>
@@ -1497,5 +1497,8 @@
     <string name="action_today">Aujourd\'hui</string>
     <string name="action_alarm">Alarmes</string>
     <string name="action_null">Vide</string>
-    <string name="action_app">Appli. perso/Raccourci</string>
+    <string name="action_app">Appli. perso / Raccourci</string>
+    
+    <!-- In WiFi notification -->
+    <string name="notify_turn_wifi_off_title">Éteindre le Wi-Fi</string>
 </resources>
