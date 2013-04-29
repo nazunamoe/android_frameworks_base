@@ -55,7 +55,7 @@
     <string name="status_bar_accessibility_dismiss_recents">Dismiss recent apps</string>
     
     <!-- Restart the app -->
-    <string name="restart_app_recents">Restart this app?</string>
+    <string name="status_bar_restart_app_recents">Restart this app?</string>
 
     <!-- Message that is read when you enter recent apps in TalkBack -->
     <plurals name="status_bar_accessibility_recent_apps">
