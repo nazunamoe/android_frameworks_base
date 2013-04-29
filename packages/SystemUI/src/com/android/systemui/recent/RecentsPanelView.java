@@ -16,6 +16,9 @@
 
 package com.android.systemui.recent;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.IActivityManager;
 import android.animation.Animator;
 import android.animation.LayoutTransition;
 import android.animation.TimeInterpolator;
@@ -26,6 +29,11 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -37,6 +45,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.provider.Settings;
@@ -61,12 +70,15 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.phone.PhoneStatusBar;
 import com.android.systemui.statusbar.tablet.StatusBarPanel;
 import com.android.systemui.statusbar.tablet.TabletStatusBar;
+
+import com.android.systemui.navbar.SysAction;
 
 import com.android.internal.util.MemInfoReader;
 
@@ -106,6 +118,8 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
     private ImageView mClearRecents;
     private LinearColorBar mRamUsageBar;
     private int mAndroidDpi = DisplayMetrics.DENSITY_DEVICE;
+
+    private Context mContext;
 
     private long mFreeMemory;
     private long mTotalMemory;
@@ -832,6 +846,26 @@ public class RecentsPanelView extends FrameLayout implements OnItemClickListener
                         show(false);
                     } else {
                         throw new IllegalStateException("Oops, no tag on view " + selectedView);
+                    }
+                } else if (item.getItemId() == R.id.recent_kill_item) {
+                    ViewHolder viewHolder = (ViewHolder) selectedView.getTag();
+                    if (viewHolder != null) {
+                        final TaskDescription ad = viewHolder.taskDescription;
+                        ApplicationInfo appInfo = ExtendedPropertiesUtils.getAppInfoFromPackageName(ad.packageName);
+                        if (appInfo != null) {
+                            Intent intent = new Intent("android.intent.action.MAIN");
+                            intent.putExtra("package", ad.packageName);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            getContext().startActivity(intent);
+                            dismiss();
+                            try {
+                                IActivityManager am = ActivityManagerNative.getDefault();
+                                am.forceStopPackage(ad.packageName, UserHandle.myUserId());
+                            } catch (android.os.RemoteException ex) {
+                                // ignore
+                            }
+                        }
                     }
                 } else {
                     return false;
