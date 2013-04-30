@@ -373,9 +373,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int mExpandedMode;
 
 
-    // Auto-Hide Statusbar
-    boolean mHideStatusBar;
-
     private PowerMenuReceiver mPowerMenuReceiver;
 
     // PowerMenu Tile
@@ -3602,6 +3599,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                         || (mExpandedState == 1 &&
                         (mExpandedMode == 2 || mExpandedMode == 3) && !toggleNotificationShade)
                         || (mHideStatusBar && !toggleNotificationShade)) {
+                    if (DEBUG_LAYOUT) Log.v(TAG, "** HIDING status bar");
                     if (mStatusBar.hideLw(true)) {
                         changes |= FINISH_LAYOUT_REDO_LAYOUT;
 
