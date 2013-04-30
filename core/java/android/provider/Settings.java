@@ -3591,14 +3591,6 @@ public final class Settings {
         public static final String RECENTS_RAM_BAR = "recents_ram_bar";
 
         /**
-         * Whether Status Bar is currently hidden or not for notification
-         * toggle notification shade
-         *
-         * @hide
-         */
-        public static final String TOGGLE_NOTIFICATION_SHADE = "toggle_notification_shade";
-
-        /**
          * Whether or not hidden Statusbar can be pulled down
          * @hide
          */
