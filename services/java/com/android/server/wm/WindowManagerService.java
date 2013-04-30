@@ -6928,16 +6928,16 @@ public class WindowManagerService extends IWindowManager.Stub
         int dw;
     }
 
-        private ApplicationDisplayMetrics calculateDisplayMetrics(DisplayContent displayContent) {
-			ApplicationDisplayMetrics dm = new ApplicationDisplayMetrics();
+    private ApplicationDisplayMetrics calculateDisplayMetrics(DisplayContent displayContent) {
+        ApplicationDisplayMetrics dm = new ApplicationDisplayMetrics();
 
         // Use the effective "visual" dimensions based on current rotation
-        dm.rotated = (mRotation == Surface.ROTATION_90
-                || mRotation == Surface.ROTATION_270);
+        dm.rotated = (mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270);
         final int realdw = dm.rotated ?
                 displayContent.mBaseDisplayHeight : displayContent.mBaseDisplayWidth;
         final int realdh = dm.rotated ?
                 displayContent.mBaseDisplayWidth : displayContent.mBaseDisplayHeight;
+
         dm.dw = realdw;
         dm.dh = realdh;
 
@@ -10498,7 +10498,7 @@ public class WindowManagerService extends IWindowManager.Stub
             updateApplicationDisplayMetricsLocked(displayContent);
         }
 
-    Binder.restoreCallingIdentity(origId);
+        Binder.restoreCallingIdentity(origId);
     }
 
     void dumpPolicyLocked(PrintWriter pw, String[] args, boolean dumpAll) {
