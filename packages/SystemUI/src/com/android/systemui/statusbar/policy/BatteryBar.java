@@ -51,6 +51,7 @@ public class BatteryBar extends RelativeLayout implements Animatable {
     private boolean isAnimating = false;
 
     private Handler mHandler = new Handler();
+    private SettingsObserver mSettingsObserver;
 
     LinearLayout mBatteryBarLayout;
     View mBatteryBar;
@@ -151,8 +152,8 @@ public class BatteryBar extends RelativeLayout implements Animatable {
             filter.addAction(Intent.ACTION_SCREEN_ON);
             getContext().registerReceiver(mIntentReceiver, filter, null, getHandler());
 
-            SettingsObserver observer = new SettingsObserver(mHandler);
-            observer.observer();
+            mSettingsObserver = new SettingsObserver(mHandler);
+            mSettingsObserver.observer();
             updateSettings();
         }
     }
@@ -163,6 +164,7 @@ public class BatteryBar extends RelativeLayout implements Animatable {
         if (mAttached) {
             mAttached = false;
             getContext().unregisterReceiver(mIntentReceiver);
+            getContext().getContentResolver().unregisterContentObserver(mSettingsObserver);
         }
     }
 
