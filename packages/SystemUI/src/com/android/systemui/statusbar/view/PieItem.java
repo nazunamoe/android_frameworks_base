@@ -20,7 +20,7 @@ package com.android.systemui.statusbar.view;
 import android.database.ContentObserver;
 import android.content.Context;
 import android.graphics.Canvas;
-//import android.graphics.ColorFilterMaker;
+import android.graphics.ColorFilterMaker;
 import android.graphics.drawable.Drawable;
 import android.graphics.Path;
 import android.graphics.PorterDuff;

@@ -45,6 +45,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.View.OnTouchListener;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -102,6 +103,7 @@ public class PieStatusPanel {
         mNotificationData = mPanel.getBar().getNotificationData();
         mClearButton = (ImageView) mPanel.getBar().mContainer.findViewById(R.id.clear_all_button);
         mClearButton.setOnClickListener(mClearButtonListener);
+
 
         mPanel.getBar().mContainer.setVisibility(View.GONE);
     }

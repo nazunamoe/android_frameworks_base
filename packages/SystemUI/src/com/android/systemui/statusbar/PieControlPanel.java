@@ -17,6 +17,7 @@
 package com.android.systemui.statusbar;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.app.KeyguardManager;
 import android.app.SearchManager;
@@ -24,6 +25,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.pm.ResolveInfo;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -50,6 +52,8 @@ import com.android.systemui.statusbar.phone.PanelBar;
 import com.android.systemui.statusbar.tablet.StatusBarPanel;
 import com.android.systemui.statusbar.PieControl.OnNavButtonPressedListener;
 
+import java.util.List;
+
 public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNavButtonPressedListener {
 
     private Handler mHandler;
@@ -65,7 +69,7 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
     private View mTrigger;
     private WindowManager mWindowManager;
     private Display mDisplay;
-    private KeyguardManager mKeyguardManger; 
+    private KeyguardManager mKeyguardManger;
     
     ViewGroup mContentFrame;
     Rect mContentArea = new Rect();
@@ -134,7 +138,7 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
     }
 
     static private int[] gravityArray = {Gravity.BOTTOM, Gravity.LEFT, Gravity.TOP, Gravity.RIGHT, Gravity.BOTTOM, Gravity.LEFT};
-    static public int findGravityOffset(int gravity) {
+    static public int findGravityOffset(int gravity) {    
         for (int gravityIndex = 1; gravityIndex < gravityArray.length - 2; gravityIndex++) {
             if (gravity == gravityArray[gravityIndex])
                 return gravityIndex;
@@ -150,7 +154,7 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
             int gravityIndex = findGravityOffset(convertPieGravitytoGravity(
                     Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.PIE_GRAVITY, 3)));
-
+            
             // Orient Pie to that place
             reorient(gravityArray[gravityIndex], false);
 
@@ -164,6 +168,7 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
                     break;
             }
         }
+
         show(false);
         if (mPieControl != null) mPieControl.onConfigurationChanged();
     }
@@ -267,7 +272,7 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
             case Gravity.RIGHT:
                 mPieControl.setCenter(mWidth, (verticalPos != -1 ? verticalPos : mHeight / 2));
                 break;
-            case Gravity.BOTTOM:
+            case Gravity.BOTTOM: 
                 mPieControl.setCenter((verticalPos != -1 ? verticalPos : mWidth / 2), mHeight);
                 break;
         }
@@ -294,6 +299,8 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
             mStatusBar.toggleRecentApps();
         } else if (buttonName.equals(PieControl.SEARCH_BUTTON)) {
             launchAssistAction();
+        } else if (buttonName.equals(PieControl.LAST_APP_BUTTON)) {
+            toggleLastApp();
         }
     }
 
@@ -317,15 +324,43 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
         }
     }
 
+    private void toggleLastApp() {
+        int lastAppId = 0;
+        int looper = 1;
+        String packageName;
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
+        final ActivityManager am = (ActivityManager) mContext
+                .getSystemService(Activity.ACTIVITY_SERVICE);
+        String defaultHomePackage = "com.android.launcher";
+        intent.addCategory(Intent.CATEGORY_HOME);
+        final ResolveInfo res = mContext.getPackageManager().resolveActivity(intent, 0);
+        if (res.activityInfo != null && !res.activityInfo.packageName.equals("android")) {
+            defaultHomePackage = res.activityInfo.packageName;
+        }
+        List <ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(5);
+        // lets get enough tasks to find something to switch to
+        // Note, we'll only get as many as the system currently has - up to 5
+        while ((lastAppId == 0) && (looper < tasks.size())) {
+            packageName = tasks.get(looper).topActivity.getPackageName();
+            if (!packageName.equals(defaultHomePackage) && !packageName.equals("com.android.systemui")) {
+                lastAppId = tasks.get(looper).id;
+            }
+            looper++;
+        }
+        if (lastAppId != 0) {
+            am.moveTaskToFront(lastAppId, am.MOVE_TASK_NO_USER_ACTION);
+        }
+    }
+
     public void injectKeyDelayed(int keycode){
-        mInjectKeycode = keycode;
+    	mInjectKeycode = keycode;
         mDownTime = SystemClock.uptimeMillis();
-        mHandler.removeCallbacks(onInjectKeyDelayed);
-        mHandler.postDelayed(onInjectKeyDelayed, 100);
+    	mHandler.removeCallbacks(onInjectKeyDelayed);
+      	mHandler.postDelayed(onInjectKeyDelayed, 100);
     }
 
     final Runnable onInjectKeyDelayed = new Runnable() {
-        public void run() {
+    	public void run() {
             final long eventTime = SystemClock.uptimeMillis();
             InputManager.getInstance().injectInputEvent(
                     new KeyEvent(mDownTime, eventTime - 100, KeyEvent.ACTION_DOWN, mInjectKeycode, 0),
@@ -333,10 +368,10 @@ public class PieControlPanel extends FrameLayout implements StatusBarPanel, OnNa
             InputManager.getInstance().injectInputEvent(
                     new KeyEvent(mDownTime, eventTime - 50, KeyEvent.ACTION_UP, mInjectKeycode, 0),
                     InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
-        }
+    	}
     };
 
     public boolean getKeyguardStatus() {
-        return mKeyguardManger.isKeyguardLocked();
-    } 
+        return mKeyguardManger.isKeyguardLocked() && mKeyguardManger.isKeyguardSecure();
+    }
 }
