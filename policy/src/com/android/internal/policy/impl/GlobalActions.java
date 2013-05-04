@@ -132,6 +132,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     private boolean mHasVibrator;
     private boolean mEnableScreenshotToggle = false;
     private boolean mEnableAirplaneToggle = true;
+    private boolean mEnableTorchToggle = false;
     private boolean mEnableVolumeStateToggle = true;
     private boolean mEnableNavBarHideToggle = true;
 
@@ -238,6 +239,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
         mEnableScreenshotToggle = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.POWER_DIALOG_SHOW_SCREENSHOT, 0) == 1;
+
+        mEnableTorchToggle = Settings.System.getBoolean(mContext.getContentResolver(),
+                Settings.System.POWER_DIALOG_SHOW_TORCH_TOGGLE, false);
 
         mExpandDesktopModeOn = new ToggleAction(
                 R.drawable.ic_lock_expanded_desktop,
@@ -399,6 +403,31 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             });
         } else {
             Slog.e(TAG, "Not adding screenshot");
+        }
+
+        // next: Torch
+        if (mEnableTorchToggle) {
+            Slog.e(TAG, "Adding torch");
+            mItems.add(new SinglePressAction(com.android.internal.R.drawable.ic_lock_torch,
+                    R.string.global_action_torch) {
+                public void onPress() {
+                    Intent intent = new Intent("android.intent.action.MAIN");
+                    intent.setComponent(ComponentName.unflattenFromString("com.aokp.Torch/.TorchActivity"));
+                    intent.addCategory("android.intent.category.LAUNCHER");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+
+                public boolean showDuringKeyguard() {
+                    return true;
+                }
+
+                public boolean showBeforeProvisioning() {
+                    return true;
+                }
+            });
+        } else {
+            Slog.e(TAG, "Not adding torch");
         }
 
         // Next NavBar Hide
