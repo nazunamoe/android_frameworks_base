@@ -48,6 +48,7 @@ public class ExtendedPropertiesUtils {
     public static final String BEERBONG_DPI_SUFFIX = ".dpi";
     public static final String BEERBONG_LAYOUT_SUFFIX = ".layout";
     public static final String BEERBONG_FORCE_SUFFIX = ".force";
+    public static final String BEERBONG_EXPAND_SUFFIX = ".expand";
     public static final String BEERBONG_DENSITY_SUFFIX = ".den";
     public static final String BEERBONG_SCALEDDENSITY_SUFFIX = ".sden";
 
@@ -81,6 +82,7 @@ public class ExtendedPropertiesUtils {
         public int dpi;
         public int layout;
         public int force;
+        public int expand;
         public int firstRun;
         public float scaledDensity;
         public float density;
@@ -120,6 +122,9 @@ public class ExtendedPropertiesUtils {
             // Layout fetching.
             info.layout = Integer.parseInt(getProperty(info.name + BEERBONG_LAYOUT_SUFFIX,
                     String.valueOf(defaultLayout)));
+
+            // Expand fetching
+            info.expand = Integer.parseInt(getProperty(info.name + BEERBONG_EXPAND_SUFFIX));
 
             // DPI fetching.
             info.dpi = Integer.parseInt(getProperty(info.name + BEERBONG_DPI_SUFFIX,
@@ -178,6 +183,7 @@ public class ExtendedPropertiesUtils {
                         mLocalHook.dpi = tempProps.mLocalHook.dpi;
                         mLocalHook.layout = tempProps.mLocalHook.layout;
                         mLocalHook.force = tempProps.mLocalHook.force;
+                        mLocalHook.expand = tempProps.mLocalHook.expand;
                         mLocalHook.scaledDensity = tempProps.mLocalHook.scaledDensity;
                         mLocalHook.density = tempProps.mLocalHook.density;
                     }
@@ -193,6 +199,11 @@ public class ExtendedPropertiesUtils {
                     if (tempInfo != null
                             && (!isHooked() || getProperty(
                                     tempInfo.packageName + BEERBONG_FORCE_SUFFIX).equals("1"))) {
+                        mLocalHook.info = tempInfo;
+                    }
+                    if (tempInfo != null
+                            && (!isHooked() || getProperty(
+                                    tempInfo.packageName + BEERBONG_EXPAND_SUFFIX).equals("1"))) {
                         mLocalHook.info = tempInfo;
                     }
                     break;
@@ -262,6 +273,10 @@ public class ExtendedPropertiesUtils {
 
     public boolean getForce() {
         return (mLocalHook.active ? mLocalHook.force : mGlobalHook.force) == 1;
+    }
+
+    public boolean getExpand() {
+        return (mLocalHook.active ? mLocalHook.expand : mGlobalHook.expand) == 1;
     }
 
     /**
