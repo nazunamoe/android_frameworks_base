@@ -475,6 +475,7 @@ public class TabletStatusBar extends BaseStatusBar implements
         if (newTheme != null &&
                 (mCurrentTheme == null || !mCurrentTheme.equals(newTheme))) {
             mCurrentTheme = (CustomTheme)newTheme.clone();
+            recreateStatusBar();
             // restart systemui
             try {
                 Runtime.getRuntime().exec("pkill -TERM -f com.android.systemui");
