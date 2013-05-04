@@ -406,15 +406,6 @@ public class TabletStatusBar extends BaseStatusBar implements
         super.start(); // will add the main bar view
     }
 
-    private static void copyNotifications(ArrayList<Pair<IBinder, StatusBarNotification>> dest,
-            NotificationData source) {
-        int N = source.size();
-        for (int i = 0; i < N; i++) {
-            NotificationData.Entry entry = source.get(i);
-            dest.add(Pair.create(entry.key, entry.notification));
-        }
-    }
-
     public void UpdateWeights(boolean landscape) {
         float nav = landscape ? NAVBAR_MIN_LAND : NAVBAR_MIN_PORTRAIT;
         if (landscape) {
@@ -493,10 +484,7 @@ public class TabletStatusBar extends BaseStatusBar implements
             reloadAllNotificationIcons(); // reload the tray
         }
 
-        int numOriginalIcons = res.getInteger(R.integer.config_maxNotificationIcons);
-        final int numIcons = numOriginalIcons == 2 ? Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.MAX_NOTIFICATION_ICONS, 2) : numOriginalIcons;
-        
+        final int numIcons = res.getInteger(R.integer.config_maxNotificationIcons);
         if (numIcons != mMaxNotificationIcons) {
             mMaxNotificationIcons = numIcons;
             if (DEBUG) Slog.d(TAG, "max notification icons: " + mMaxNotificationIcons);
@@ -1823,8 +1811,6 @@ public class TabletStatusBar extends BaseStatusBar implements
                     Settings.System.NAVIGATION_BAR_HEIGHT), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.MAX_NOTIFICATION_ICONS), false, this);
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_BUTTONS_QTY), false,
                     this);
