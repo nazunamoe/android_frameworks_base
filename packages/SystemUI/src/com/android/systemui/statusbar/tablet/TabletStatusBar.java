@@ -415,6 +415,31 @@ public class TabletStatusBar extends BaseStatusBar implements
         }
     }
 
+    private void recreateStatusBar() {
+        mRecreating = true;
+        mStatusBarContainer.removeAllViews();
+
+        // extract notifications.
+        int nNotifs = mNotificationData.size();
+        ArrayList<Pair<IBinder, StatusBarNotification>> notifications =
+                new ArrayList<Pair<IBinder, StatusBarNotification>>(nNotifs);
+        copyNotifications(notifications, mNotificationData);
+        mNotificationData.clear();
+
+        mStatusBarContainer.addView(makeStatusBarView());
+        addPanelWindows();
+
+        // recreate notifications.
+        for (int i = 0; i < nNotifs; i++) {
+            Pair<IBinder, StatusBarNotification> notifData = notifications.get(i);
+            addNotificationViews(notifData.first, notifData.second);
+        }
+
+        setAreThereNotifications();
+
+        mRecreating = false;
+    }
+
     public void UpdateWeights(boolean landscape) {
         float nav = landscape ? NAVBAR_MIN_LAND : NAVBAR_MIN_PORTRAIT;
         if (landscape) {
@@ -1838,6 +1863,7 @@ public class TabletStatusBar extends BaseStatusBar implements
          @Override
         public void onChange(boolean selfChange) {
             updateSettings();
+            recreateStatusBar();
         }
     }
 
