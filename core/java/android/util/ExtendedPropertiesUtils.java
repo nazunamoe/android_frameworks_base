@@ -82,6 +82,7 @@ public class ExtendedPropertiesUtils {
         public int dpi;
         public int layout;
         public int force;
+        public int expand;
         public int firstRun;
         public float scaledDensity;
         public float density;
