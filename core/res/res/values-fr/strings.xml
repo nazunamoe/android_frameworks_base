@@ -1458,6 +1458,7 @@
     <string name="user_switched" msgid="3768006783166984410">"Utilisateur actuel : <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="owner_name" msgid="2716755460376028154">"Propriétaire"</string>
     <string name="global_action_screenshot">Capture d\'écran</string>
+    <string name="global_action_torch">Torche</string>
     <string name="reboot">Redémarrer</string>
     <string name="reboot_recovery">Recovery</string>
     <string name="reboot_download">Download</string>
@@ -1497,6 +1498,8 @@
     <string name="action_today">Aujourd\'hui</string>
     <string name="action_alarm">Alarmes</string>
     <string name="action_null">Vide</string>
+    <string name="action_app_window">Fenêtre d\'appli.</string>
+    <string name="action_ribbon">Ruban AOKP</string>
     <string name="action_app">Appli. perso / Raccourci</string>
     
     <!-- In WiFi notification -->
