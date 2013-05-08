@@ -14,7 +14,7 @@ public class VibrateToggle extends StatefulToggle {
     private static final String ACTION_VIB = "**ring_vib**";
 
     @Override
-    protected void init(Context c, int style) {
+    public void init(Context c, int style) {
         super.init(c, style);
     }
 

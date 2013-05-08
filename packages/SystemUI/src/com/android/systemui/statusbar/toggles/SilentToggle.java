@@ -13,7 +13,7 @@ public class SilentToggle extends StatefulToggle {
     private static final String ACTION_SILENT = "**ring_silent**";
 
     @Override
-    protected void init(Context c, int style) {
+    public void init(Context c, int style) {
         super.init(c, style);
     }
 
