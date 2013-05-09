@@ -679,7 +679,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     "fancy_rotation_anim"), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.TOGGLE_NOTIFICATION_SHADE), false, this);
+                    Settings.System.TOGGLE_NOTIFICATION_AND_QS_SHADE), false, this);
             updateSettings();
         }
 
@@ -3617,9 +3617,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 // case though.
                 mHideStatusBar = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.STATUSBAR_HIDDEN, 0) == 1;
-                boolean toggleNotificationShade = Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.TOGGLE_NOTIFICATION_SHADE, 0) == 1;
-                if (topIsFullscreen && !toggleNotificationShade || mHideStatusBar && !toggleNotificationShade) {
+                boolean toggleNotificationAndQSShade = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.TOGGLE_NOTIFICATION_AND_QS_SHADE, 0) == 1;
+                if (topIsFullscreen && !toggleNotificationAndQSShade || mHideStatusBar && !toggleNotificationAndQSShade) {
                     if (DEBUG_LAYOUT) Log.v(TAG, "** HIDING status bar");
                     if (mStatusBar.hideLw(true)) {
                         changes |= FINISH_LAYOUT_REDO_LAYOUT;
