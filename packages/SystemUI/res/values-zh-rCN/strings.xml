@@ -174,6 +174,8 @@
     <string name="accessibility_rotation_lock_on_landscape" msgid="6731197337665366273">"屏幕锁定为横向模式。"</string>
     <string name="accessibility_rotation_lock_on_portrait" msgid="5809367521644012115">"屏幕锁定为纵向模式。"</string>
     <string name="jelly_bean_dream_name" msgid="5992026543636816792">"果冻豆大乱舞"</string>
+    <string name="bean_dream_settings_xy_title">XY dreams</string>
+    <string name="bean_dream_settings_xy_summary">使用XY dreams代替jellybean dream</string>
     <string name="start_dreams" msgid="7219575858348719790">"互动屏保"</string>
     <string name="ethernet_label" msgid="7967563676324087464">"以太网"</string>
     <string name="quick_settings_airplane_mode_label" msgid="5510520633448831350">"飞行模式"</string>
@@ -202,6 +204,8 @@
     <string name="quick_settings_brightness_dialog_title" msgid="8599674057673605368">"亮度"</string>
     <string name="quick_settings_brightness_dialog_auto_brightness_label" msgid="5064982743784071218">"自动"</string>
     <string name="quick_settings_xylon_label">Xylon</string> 
+    <string name="quick_settings_expanded_desktop">扩展</string>
+    <string name="quick_settings_expanded_desktop_off">正常</string>
     <string name="quick_settings_screenshot">提取截图</string> 
     <string name="quick_settings_sleep">睡眠(锁屏)</string> 
     <string name="quick_settings_powermenu">电源键菜单</string> 
@@ -213,7 +217,9 @@
     <string name="quick_settings_nofile">长按录音</string> 
     <string name="status_bar_help_title">通知会显示在这里</string> 
     <string name="status_bar_help_text">"向下滑动可随时查看通知。"\n"再次向下滑动可使用系统控制功能。"</string> 
-    <string name="recents_kill_all_button_text">全部结束</string> 
+    <string name="recents_kill_all_button_text">全部结束</string>
+    <string name="close">关闭</string>
+    <string name="app_window">应用</string>
     <string name="shortcut_label">系统快捷方式</string> 
     <string name="action_home">主页</string> 
     <string name="action_back">返回键</string> 
@@ -234,7 +240,8 @@
     <string name="toggle_ring_vib">铃声振动</string> 
     <string name="toggle_ring_silent">铃声/静音</string> 
     <string name="toggle_ring_vib_silent">铃声/振动/静音</string> 
-    <string name="app_killed_message">应用程序已结束</string> 
+    <string name="app_killed_message">应用程序已结束</string>
+    <string name="screenshot_toast">在 %1$d 秒后截图</string>
     <string name="quick_settings_vibrate_on_label">振动已开启</string> 
     <string name="quick_settings_vibrate_off_label">振动已关闭</string> 
     <string name="quick_settings_silent_on_label">静音已开启</string> 
@@ -274,11 +281,68 @@
     <string name="quick_settings_ls_off_label">关闭截屏</string>
     <string name="quick_settings_dark_on_label">Dark XY 开启</string>
     <string name="quick_settings_dark_off_label">Dark XY 关闭</string>
+    <string name="quick_settings_stayawake_on">保持唤醒开启</string>
+    <string name="quick_settings_stayawake_off">保持唤醒关闭</string>
+    <string name="quick_settings_screenshot">提取截图</string>
+    <string name="quick_settings_sleep">睡眠(锁屏)</string>
+    <string name="quick_settings_powermenu">电源键菜单</string>
+    <string name="quick_settings_reboot">重启</string>
+    <string name="quick_settings_reboot_message">正在重启...</string>
+    <string name="quick_settings_recording">录音中...</string>
+    <string name="quick_settings_recordingcap">存储中</string>
+    <string name="quick_settings_playing">播放中...</string>
+    <string name="quick_settings_quickrecord">快速录音</string>
+    <string name="quick_settings_nofile">长按录音</string>
+    <string name="quick_settings_volume">音量</string>
+    <string name="pie_date_format">M 月 d 日 E</string>
+    <string name="pie_hour_format_12">hh:mm</string>
+    <string name="pie_hour_format_24">HH:mm</string>
+    <string name="pie_am_pm">a</string>
+    <string name="powerwidget_screen_timeout_toast">截图延迟: %1$d %2$s</string>
+    <string name="brightness_label">亮度</string>
+    <string name="memory">RAM</string>
+    <string name="service_free_mem">%1$s 剩余</string>
+    <string name="service_used_mem">%1$s 已使用</string>
+    <string name="toggle_USER">当前用户</string>
+    <string name="toggle_BRIGHTNESS">亮度</string>
+    <string name="toggle_SETTINGS">设置</string>
+    <string name="toggle_WIFI">WiFi</string>
+    <string name="toggle_SIGNAL">信号</string>
+    <string name="toggle_ROTATE">自动旋转</string>
+    <string name="toggle_CLOCK">时钟</string>
+    <string name="toggle_GPS">GPS</string>
+    <string name="toggle_IME">输入法</string>
+    <string name="toggle_BATTERY">电量</string>
+    <string name="toggle_AIRPLANE_MODE">飞行模式</string>
+    <string name="toggle_BLUETOOTH">蓝牙</string>
+    <string name="toggle_VIBRATE">震动</string>
+    <string name="toggle_SILENT">静音</string>
+    <string name="toggle_FCHARGE">快速充电</string>
+    <string name="toggle_SYNC">同步</string>
+    <string name="toggle_NFC">NFC</string>
+    <string name="toggle_TORCH">手电筒</string>
+    <string name="toggle_WIFITETHER">WiFi 热点共享</string>
+    <string name="toggle_USBTETHER">USB 热点共享</string>
+    <string name="toggle_2G">2G</string>
+    <string name="toggle_3G">3G</string>
+    <string name="toggle_LTE">LTE</string>
+    <string name="toggle_FAVCONTACT">联系人</string>
+    <string name="toggle_SOUNDSTATE">声音状态</string>
+    <string name="toggle_VOLUME">音量</string>
+    <string name="toggle_NAVBARHIDE">导航栏隐藏</string>
+    <string name="toggle_POWERMENU">电源菜单</string>
+    <string name="toggle_SLEEP">休眠</string>
+    <string name="toggle_QUICKRECORD">快速录音</string>
+    <string name="toggle_QUIETHOURS">静音时段</string>
+    <string name="toggle_PIE">Pie</string>
+    <string name="toggle_XYLON">Xylon</string>
+    <string name="toggle_DARK">Dark Xylon</string>
+    <string name="toggle_SCREENSHOT">截图</string>
+    <string name="toggle_REBOOT">重启</string>
+    <string name="toggle_CUSTOM">自定义</string>
+    <string name="toggle_STAYAWAKE">保持唤醒</string>
+    <string name="toggle_EXPANDEDDESKTOP">扩展桌面</string>
+    <string name="toggle_statusbar">状态栏</string>
     <string name="quick_settings_statusbar_on_label">显示状态栏</string>
     <string name="quick_settings_statusbar_off_label">隐藏状态栏</string>
-    <string name="pie_date_format">M 月 d 日 E</string> 
-    <string name="pie_hour_format_12">hh:mm</string> 
-    <string name="pie_hour_format_24">HH:mm</string>
-    <string name="service_free_mem">%1$s 剩余</string> 
-    <string name="service_used_mem">%1$s 已使用</string>
 </resources>
