@@ -166,6 +166,7 @@
     <string name="global_actions_toggle_airplane_mode" msgid="5884330306926307456">"飞行模式"</string>
     <string name="global_actions_airplane_mode_on_status" msgid="2719557982608919750">"已开启飞行模式"</string>
     <string name="global_actions_airplane_mode_off_status" msgid="5075070442854490296">"已关闭飞行模式"</string>
+    <string name="global_actions_toggle_navbar_hide">导航栏菜单</string>
     <string name="status_bar_notification_info_overflow" msgid="5301981741705354993">"999+"</string>
     <string name="safeMode" msgid="2788228061547930246">"安全模式"</string>
     <string name="android_system_label" msgid="6577375335728551336">"Android 系统"</string>
@@ -377,6 +378,8 @@
     <string name="permdesc_clearAppCache" product="default" msgid="2459441021956436779">"允许该应用删除其他应用的缓存目录中的文件，从而释放手机存储空间。此权限可能会导致其他应用的启动速度变慢，因为应用必须重新检索数据。"</string>
     <string name="permlab_movePackage" msgid="3289890271645921411">"移动应用资源"</string>
     <string name="permdesc_movePackage" msgid="319562217778244524">"允许应用在内部与外部媒体之间移动应用资源。"</string>
+    <string name="permlab_preventpower">阻止电源键</string>
+    <string name="permdesc_preventpower">允许应用程序完全掌控电源键。</string>
     <string name="permlab_readLogs" msgid="6615778543198967614">"查阅敏感日志数据"</string>
     <string name="permdesc_readLogs" product="tablet" msgid="82061313293455151">"允许应用从系统的各种日志文件中读取信息。这样，应用就可以发现关于您平板电脑使用情况的一般信息，其中可能包含个人信息或隐私信息。"</string>
     <string name="permdesc_readLogs" product="default" msgid="2063438140241560443">"允许应用从系统的各个日志文件中读取信息。这样，应用就可以发现关于您手机使用情况的一般信息，其中可能包含个人信息或隐私信息。"</string>
@@ -479,6 +482,10 @@
     <string name="permdesc_asec_rename" msgid="1794757588472127675">"允许应用重命名内存设备。"</string>
     <string name="permlab_vibrate" msgid="7696427026057705834">"控制振动"</string>
     <string name="permdesc_vibrate" msgid="6284989245902300945">"允许应用控制振动器。"</string>
+    <string name="permlab_fm_radio_receiver">控制FM接收器</string>
+    <string name="permdesc_fm_radio_receiver">允许程序控制FM接收器</string>
+    <string name="permlab_fm_radio_transmitter">控制FM发射器</string>
+    <string name="permdesc_fm_radio_transmitter">允许程序控制FM发射器</string>
     <string name="permlab_flashlight" msgid="2155920810121984215">"控制闪光灯"</string>
     <string name="permdesc_flashlight" msgid="6522284794568368310">"允许应用控制闪光灯。"</string>
     <string name="permlab_manageUsb" msgid="1113453430645402723">"管理 USB 设备的偏好设置和权限"</string>
@@ -764,7 +771,7 @@
     <string name="lockscreen_pattern_wrong" msgid="4317955014948108794">"重试"</string>
     <string name="lockscreen_password_wrong" msgid="5737815393253165301">"重试"</string>
     <string name="faceunlock_multiple_failures" msgid="754137583022792429">"已超过“人脸解锁”尝试次数上限"</string>
-    <string name="lockscreen_plugged_in" msgid="8057762828355572315">"正在充电，<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
+    <string name="lockscreen_plugged_in" msgid="8057762828355572315">"正在充电:<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
     <string name="lockscreen_charged" msgid="321635745684060624">"充电完成"</string>
     <string name="lockscreen_discharging">正在放电：%d%%</string> 
     <string name="lockscreen_battery_short" msgid="4477264849386850266">"<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>"</string>
@@ -1115,6 +1122,7 @@
     <skip />
     <string name="wifi_watchdog_network_disabled" msgid="7904214231651546347">"无法连接到 Wi-Fi"</string>
     <string name="wifi_watchdog_network_disabled_detailed" msgid="5548780776418332675">" 互联网连接状况不佳。"</string>
+    <string name="wifi_tether_configure_ssid_default">安卓热点</string>
     <string name="wifi_p2p_dialog_title" msgid="97611782659324517">"Wi-Fi Direct"</string>
     <string name="wifi_p2p_turnon_message" msgid="2909250942299627244">"启动 Wi-Fi Direct。此操作将会关闭 Wi-Fi 客户端/热点。"</string>
     <string name="wifi_p2p_failed_message" msgid="3763669677935623084">"无法启动 Wi-Fi Direct。"</string>
@@ -1462,25 +1470,27 @@
     <string name="user_switched" msgid="3768006783166984410">"当前用户是<xliff:g id="NAME">%1$s</xliff:g>。"</string>
     <string name="owner_name" msgid="2716755460376028154">"机主"</string>
     <string name="global_action_screenshot">屏幕截图</string> 
-    <string name="reboot">重启手机</string> 
-    <string name="reboot_recovery">恢复模式</string> 
-    <string name="reboot_download">下载模式</string> 
-    <string name="reboot_bootloader">引导模式</string> 
-    <string name="reboot_progress">正在重启...</string> 
-    <string name="toast_rotation_unlocked">屏幕方向已解锁</string> 
+    <string name="global_action_torch">手电筒</string>
+    <string name="reboot">重启手机</string>
+    <string name="reboot_recovery">恢复模式</string>
+    <string name="reboot_download">下载模式</string>
+    <string name="reboot_bootloader">引导模式</string>
+    <string name="reboot_progress">正在重启...</string>
+    <string name="notify_turn_wifi_ap_off_title">关闭 Wi-Fi AP</string>
+    <string name="toast_rotation_unlocked">屏幕方向已解锁</string>
     <string name="toast_rotation_locked">屏幕方向已锁定</string>
     <string name="action_home">主页</string>
-    <string name="action_back">返回键</string>
+    <string name="action_back">返回</string>
     <string name="action_recents">近期任务</string>
     <string name="action_recents_gb">近期任务 (GB 风格)</string>
     <string name="action_search">搜索</string>
     <string name="action_screenshot">截图</string>
-    <string name="action_menu">菜单键</string>
-    <string name="action_ime">打开输入法切换</string>
-    <string name="action_kill">结束进程</string>
+    <string name="action_menu">菜单</string>
+    <string name="action_ime">打开输入法菜单</string>
+    <string name="action_kill">结束任务</string>
     <string name="action_lastapp">上一个应用</string>
-    <string name="action_power">电源键</string>
-    <string name="action_notifications">通知</string>
+    <string name="action_power">电源</string>
+    <string name="action_notifications">通知栏</string>
     <string name="action_assist">搜索 (Google Now)</string>
     <string name="action_clockoptions">时钟选项</string>
     <string name="action_voiceassist">语音搜索</string>
@@ -1491,6 +1501,12 @@
     <string name="action_event">事件</string>
     <string name="action_today">今日</string>
     <string name="action_alarm">闹钟</string>
+    <string name="action_unlock">解锁</string>
+    <string name="action_camera">相机</string>
     <string name="action_null">空</string>
+    <string name="action_widgets">导航小部件</string>
+    <string name="action_app_window">应用窗口</string>
+    <string name="action_ribbon">AOKP 操作区</string>
     <string name="action_app">自定义程序/快捷方式</string>
+    <string name="notify_turn_wifi_off_title">关闭 Wi-Fi</string>
 </resources>
