@@ -206,15 +206,6 @@
     <string name="quick_settings_xylon_label">Xylon</string> 
     <string name="quick_settings_expanded_desktop">扩展</string>
     <string name="quick_settings_expanded_desktop_off">正常</string>
-    <string name="quick_settings_screenshot">提取截图</string> 
-    <string name="quick_settings_sleep">睡眠(锁屏)</string> 
-    <string name="quick_settings_powermenu">电源键菜单</string> 
-    <string name="quick_settings_reboot">重启</string> 
-    <string name="quick_settings_recording">录音中...</string> 
-    <string name="quick_settings_recordingcap">存储中</string> 
-    <string name="quick_settings_playing">播放中...</string> 
-    <string name="quick_settings_quickrecord">快速录音</string> 
-    <string name="quick_settings_nofile">长按录音</string> 
     <string name="status_bar_help_title">通知会显示在这里</string> 
     <string name="status_bar_help_text">"向下滑动可随时查看通知。"\n"再次向下滑动可使用系统控制功能。"</string> 
     <string name="recents_kill_all_button_text">全部结束</string>
@@ -235,7 +226,6 @@
     <string name="action_none">空</string> 
     <string name="widgets">小部件</string> 
     <string name="toggle_navbar">导航栏</string>
-    <string name="toggle_statusbar">状态栏</string>
     <string name="toggle_widgets">小部件</string> 
     <string name="toggle_ring_vib">铃声振动</string> 
     <string name="toggle_ring_silent">铃声/静音</string> 
