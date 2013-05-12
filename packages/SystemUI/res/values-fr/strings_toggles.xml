@@ -47,4 +47,6 @@
     <string name="toggle_REBOOT">Redémarrer</string>
     <string name="toggle_STAYAWAKE">Rester écran allumé</string>
     <string name="toggle_CUSTOM">Toggle personnalisé</string>
+    <string name="toggle_EXPANDEDDESKTOP">Bureau étendu</string>
+    <string name="toggle_WIRELESSADB">ADB Sans-fil</string>
 </resources>
