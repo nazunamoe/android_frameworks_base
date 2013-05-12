@@ -250,6 +250,9 @@
     <string name="quick_settings_playing">Lecture...</string>
     <string name="quick_settings_quickrecord">Quick Record</string>
     <string name="quick_settings_nofile">Appui long pour enregistrer</string>
+    <string name="quick_settings_expanded_desktop">Étendu</string>
+    <string name="quick_settings_expanded_desktop_off">Normal</string>
+    <string name="quick_settings_adb_off">ADB Sans-fil Off</string>
 
     <string name="status_bar_help_title">"Les notifications s’affichent ici"</string>
     <string name="status_bar_help_text">"Accédez-y à tout moment en faisant glisser le doigt vers le bas."\n"Répétez l\'opération pour accéder aux commandes du système."</string>
@@ -259,6 +262,8 @@
     <!--  App window Strings -->
     <string name="close">Fermer</string>
     <string name="app_window">Applications</string>
+    <string name="toggles">Toggles</string>
+    <string name="ribbon">Ruban</string>
 
     <!--  Target/Action Strings -->
     <string name="shortcut_label">Actions Système</string>
