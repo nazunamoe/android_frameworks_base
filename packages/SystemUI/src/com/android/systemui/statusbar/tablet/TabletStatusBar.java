@@ -167,10 +167,6 @@ public class TabletStatusBar extends BaseStatusBar implements
     ViewGroup mNavigationArea;
     ViewGroup mNotificationHolder;
 
-    private AokpSwipeRibbon mAokpSwipeRibbonLeft;
-    private AokpSwipeRibbon mAokpSwipeRibbonRight;
-    private AokpSwipeRibbon mAokpSwipeRibbonBottom;
-
     boolean mNotificationDNDMode;
     NotificationData.Entry mNotificationDNDDummyEntry;
 
