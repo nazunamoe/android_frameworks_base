@@ -1,5 +1,7 @@
+// TODO : Make Lockscreen Toggle work.
 
-package com.android.systemui.statusbar.toggles;
+
+/**package com.android.systemui.statusbar.toggles;
 
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
@@ -18,7 +20,7 @@ public class LockscreenToggle extends StatefulToggle {
     private boolean mLockState = false;
 
     @Override
-    protected void init(Context c, int style) {
+    publi void init(Context c, int style) {
         super.init(c, style);
 
         KeyguardManager keyguardManager = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
@@ -50,4 +52,4 @@ public class LockscreenToggle extends StatefulToggle {
     protected void doDisable() {
         mLock.disableKeyguard();
     }
-}
+}**/
