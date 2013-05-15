@@ -136,9 +136,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     private boolean mEnableVolumeStateToggle = true;
     private boolean mEnableNavBarHideToggle = true;
 
+    private boolean mShowRebootOnLock = true;
+    private boolean mShowPowerOnLock = true;
+
     private IWindowManager mIWindowManager;
 
-    private boolean mShowRebootOnLock = true;
     private static int rebootIndex = 0;
 
     /**
@@ -274,6 +276,9 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
         mShowRebootOnLock = Settings.System.getBoolean(mContext.getContentResolver(),
                 Settings.System.POWER_DIALOG_SHOW_REBOOT_KEYGUARD, true);
 
+        mShowPowerOnLock = Settings.System.getBoolean(mContext.getContentResolver(),
+                Settings.System.POWER_DIALOG_SHOW_POWER_KEYGUARD, true);
+
         mAirplaneModeOn = new ToggleAction(
                 R.drawable.ic_lock_airplane_mode,
                 R.drawable.ic_lock_airplane_mode_off,
@@ -336,7 +341,11 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
                 }
 
                 public boolean showDuringKeyguard() {
-                    return true;
+                    if (mShowPowerOnLock) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
 
                 public boolean showBeforeProvisioning() {

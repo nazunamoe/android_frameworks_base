@@ -2296,11 +2296,17 @@ public final class Settings {
          */
         public static final String POWER_DIALOG_SHOW_VOLUME_STATE_TOGGLE = "power_dialog_show_volume_state_toggle";
 
-         /**
+        /**
          * Show the Reboot on lockscreen dialog in Power menu
          * @hide
          */
         public static final String POWER_DIALOG_SHOW_REBOOT_KEYGUARD = "power_dialog_show_reboot_keyguard";
+
+        /**
+         * Show the power on lockscreen dialog in Power menu
+         * @hide
+         */
+        public static final String POWER_DIALOG_SHOW_POWER_KEYGUARD = "power_dialog_show_power_keyguard";
 
         /**
          * Ability to hide Screenshot away from Reboot Menu
