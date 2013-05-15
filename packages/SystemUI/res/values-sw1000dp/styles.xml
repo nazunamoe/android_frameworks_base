@@ -52,13 +52,13 @@
     </style>
 
     <style name="TextAppearance.StatusBar.Clock" parent="@*android:style/TextAppearance.StatusBar.Icon">
-        <item name="android:textSize">26dp</item>
+        <item name="android:textSize">30dp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@android:color/holo_blue_light</item>
     </style>
 
     <style name="TextAppearance.SystemBar.Expanded.Clock" parent="@style/TextAppearance.StatusBar.Expanded.Clock">
-        <item name="android:textSize">80dp</item>
+        <item name="android:textSize">82dp</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">#ffffff</item>
