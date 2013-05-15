@@ -47,8 +47,8 @@
     <string name="toggle_QUICKRECORD">Quick Record</string>
     <string name="toggle_QUIETHOURS">Quiet Hours</string>
     <string name="toggle_PIE">PIE</string>
-    <string name="toggle_XYLON">Xylon</string>
-    <string name="toggle_DARK">Dark Xylon</string>
+    <string name="toggle_CUSTOMIZE">Customize</string>
+    <string name="toggle_DARK">Dark UI</string>
     <string name="toggle_SCREENSHOT">Screenshot</string>
     <string name="toggle_REBOOT">Reboot</string>
     <string name="toggle_CUSTOM">Custom</string>

@@ -521,8 +521,8 @@
     <string name="quick_settings_brightness_dialog_title">Brightness</string>
     <!-- QuickSettings: Brightness dialog auto brightness button [CHAR LIMIT=NONE] -->
     <string name="quick_settings_brightness_dialog_auto_brightness_label">AUTO</string>
-    <!-- QuickSettings: Xylon meh [CHAR LIMIT=NONE] -->
-    <string name="quick_settings_xylon_label">Xylon</string>
+    <!-- QuickSettings: LOLO meh [CHAR LIMIT=NONE] -->
+    <string name="quick_settings_customize_label">Customize</string>
 
     <!-- Expanded desktop strings break the rules a bit - the icon identifies the feature, the string indicates current state -->
     <string name="quick_settings_expanded_desktop">Expanded</string>

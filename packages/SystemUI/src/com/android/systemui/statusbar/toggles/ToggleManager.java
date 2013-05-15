@@ -60,11 +60,10 @@ public class ToggleManager {
 
     private static final String TOGGLE_PIPE = "|";
 
-    public static final String XYLON_TOGGLE = "XYLON";
-
     public static final String USER_TOGGLE = "USER";
     public static final String BRIGHTNESS_TOGGLE = "BRIGHTNESS";
     public static final String SETTINGS_TOGGLE = "SETTINGS";
+    public static final String CUSTOMIZE_TOGGLE = "CUSTOMIZE";
     public static final String WIFI_TOGGLE = "WIFI";
     public static final String SIGNAL_TOGGLE = "SIGNAL";
     public static final String ROTATE_TOGGLE = "ROTATE";
@@ -127,7 +126,7 @@ public class ToggleManager {
             toggleMap.put(USER_TOGGLE, UserToggle.class);
             toggleMap.put(BRIGHTNESS_TOGGLE, BrightnessToggle.class);
             toggleMap.put(SETTINGS_TOGGLE, SettingsToggle.class);
-            toggleMap.put(XYLON_TOGGLE, XylonToggle.class);
+            toggleMap.put(CUSTOMIZE_TOGGLE, CustomizeToggle.class);
             toggleMap.put(DARK_TOGGLE, DarkToggle.class);
             toggleMap.put(WIFI_TOGGLE, WifiToggle.class);
             toggleMap.put(SIGNAL_TOGGLE, SignalToggle.class);
