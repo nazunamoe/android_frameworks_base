@@ -324,7 +324,7 @@ public class NavigationBarView extends LinearLayout {
                 if (v.getId() == R.id.back){
                     mBackIcon = v.getDrawable();
                 }
-                if (mNumberOfButtons == 3 && j != (mNumberOfButtons - 1)) {
+                if (mNumberOfButtons == 3 && j != (mNumberOfButtons - 1) && mSystemUiLayout >= 600) {
                     // add separator view here
                     View separator = new View(mContext);
                     separator.setLayoutParams(getSeparatorLayoutParams(landscape));
@@ -836,7 +836,7 @@ public class NavigationBarView extends LinearLayout {
         for (int i=0; i<4; i++) {
             mRotatedViews[i].setVisibility(View.GONE);
         }
-        if (mCurrentUIMode !=0) { // this is either a tablet of Phablet.  Need to stay at Rot_0
+        if (mSystemUiLayout >= 360) { // this is either a tablet of Phablet.  Need to stay at Rot_0
             mCurrentView = mRotatedViews[Surface.ROTATION_0];
         } else {
             mCurrentView = mRotatedViews[rot];
