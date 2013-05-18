@@ -5234,6 +5234,8 @@ public class Activity extends ContextThemeWrapper
                 if (ExtendedPropertiesUtils.mGlobalHook.expand == 1) {
                     Settings.System.putInt(this.getContentResolver(),
                         Settings.System.EXPANDED_DESKTOP_STATE, 1);
+                    Settings.System.putInt(this.getContentResolver(),
+                        Settings.System.PIE_CONTROLS, 1);
                 }
             } catch (Exception e) {
                     // Current application is null, or hook is not set
@@ -5277,6 +5279,8 @@ public class Activity extends ContextThemeWrapper
             try {
                 Settings.System.putInt(this.getContentResolver(),
                     Settings.System.EXPANDED_DESKTOP_STATE, 0);
+                Settings.System.putInt(this.getContentResolver(),
+                    Settings.System.PIE_CONTROLS, 0);
             } catch (Exception e) {
                     // Current application is null, or hook is not set
             }
