@@ -3652,6 +3652,12 @@ public final class Settings {
         public static final String HIDE_STATUSBAR = "hide_statusbar";
 
         /**
+         * Hide the god-damn statusbar
+         * @hide
+         */
+        public static final String STATUSBAR_HIDDEN = "statusbar_hidden";
+
+        /**
          * Whether or not hidden Statusbar can be pulled down
          * @hide
          */

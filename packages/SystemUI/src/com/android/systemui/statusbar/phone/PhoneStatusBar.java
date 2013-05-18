@@ -150,6 +150,13 @@ public class PhoneStatusBar extends BaseStatusBar {
     private static final int MSG_STATUSBAR_BRIGHTNESS = 1003;
     // 1020-1030 reserved for BaseStatusBar
 
+    private static int mBarBehaviour;
+    private static final int BAR_VISIBLE = 0;
+    private static final int BAR_HIDE = 1;
+    private static final int BAR_NOTIFICATIONS = 2;
+    private static final int BAR_PULLDOWN = 3;
+    private static final int BAR_PULLDOWN_NOTIFICATIONS = 4;
+
     // will likely move to a resource or other tunable param at some point
     private static final int INTRUDER_ALERT_DECAY_MS = 0; // disabled, was 10000;
 
@@ -1263,15 +1270,50 @@ public class PhoneStatusBar extends BaseStatusBar {
         setAreThereNotifications();
     }
 
-    private void updateStatusBarVisibility() {
-        if (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.AUTO_HIDE_STATUSBAR, 0) == 1) {
+    private void updateStatusBar() {
+        ContentResolver cr = mContext.getContentResolver();
+        mBarBehaviour = Settings.System.getInt(cr,
+                Settings.System.HIDE_STATUSBAR, 0);
+
+        switch (mBarBehaviour) {
+            case BAR_VISIBLE:
             Settings.System.putInt(mContext.getContentResolver(),
-                    Settings.System.HIDE_STATUSBAR,
+                    Settings.System.STATUSBAR_HIDDEN, 0);
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.HIDDEN_STATUSBAR_PULLDOWN, 0);
+                 break;
+            case BAR_HIDE:
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_HIDDEN, 1);
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.HIDDEN_STATUSBAR_PULLDOWN, 0);
+                 break;
+            case BAR_NOTIFICATIONS:
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_HIDDEN,
                     (mNotificationData.size() == 0) ? 1 : 0);
-        } else {
             Settings.System.putInt(mContext.getContentResolver(),
-                    Settings.System.HIDE_STATUSBAR, 0);
+                    Settings.System.HIDDEN_STATUSBAR_PULLDOWN, 0);
+                 break;
+            case BAR_PULLDOWN:
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_HIDDEN, 1);
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.HIDDEN_STATUSBAR_PULLDOWN, 1);
+                 break;
+            case BAR_PULLDOWN_NOTIFICATIONS:
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_HIDDEN,
+                    (mNotificationData.size() == 0) ? 1 : 0);
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.HIDDEN_STATUSBAR_PULLDOWN, 1);
+                 break;
+            default:
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_HIDDEN, 0);
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.HIDDEN_STATUSBAR_PULLDOWN, 0);
+                 break;
         }
     }
 
@@ -1467,7 +1509,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                 .start();
         }
 
-        if (mNotificationData.size() < 2) updateStatusBarVisibility();
+        if (mNotificationData.size() < 2) updateStatusBar();
 
         updateCarrierAndWifiLabelVisibility(false);
     }
@@ -2747,6 +2789,7 @@ public class PhoneStatusBar extends BaseStatusBar {
                 mDisplay.getSize(mCurrentDisplaySize);
 
                 updateResources();
+                updateStatusBar();
                 repositionNavigationBar();
                 updateExpandedViewPos(EXPANDED_LEAVE_ALONE);
                 if (mNavigationBarView != null && mNavigationBarView.mDelegateHelper != null) {
@@ -3004,6 +3047,8 @@ public class PhoneStatusBar extends BaseStatusBar {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.Secure.UI_MODE_IS_TOGGLED), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HIDE_STATUSBAR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RIBBON_TARGETS_SHORT[AokpRibbonHelper.NOTIFICATIONS]), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.RIBBON_TARGETS_LONG[AokpRibbonHelper.NOTIFICATIONS]), false, this);
@@ -3058,7 +3103,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 //            if (mCarrierLabel != null) {
 //                toggleCarrierAndWifiLabelVisibility();
 //            }
-              updateStatusBarVisibility();
+              updateStatusBar();
         }
     }
 
