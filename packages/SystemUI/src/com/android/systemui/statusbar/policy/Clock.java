@@ -264,7 +264,7 @@ public class Clock extends TextView {
                     .getUriFor(Settings.System.STATUSBAR_CLOCK_STYLE), false,
                     this);
             resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.STATUSBAR_CLOCK_COLOR), false,
+                    .getUriFor(Settings.System.STATUS_ICON_COLOR), false,
                     this);
             resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.STATUSBAR_CLOCK_DATE_DISPLAY), false,
@@ -313,25 +313,26 @@ public class Clock extends TextView {
     protected void updateColor() {
         int defaultColor = getResources().getColor(
                 com.android.internal.R.color.holo_blue_light);
-        int defaultStyle = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.CLOCK_COLOR_STYLE, 1);
+        int defColor = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.ICON_COLOR_STYLE, 0);
         int newColor = -1;
 
-        if (defaultStyle == 0) {
-            mClockColor = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.STATUSBAR_CLOCK_COLOR, defaultColor);
-            if (mClockColor == Integer.MIN_VALUE) {
-                // flag to reset the color
-                mClockColor = defaultColor;
-            }
-            setTextColor(mClockColor);
-        } else {
+        if (defColor == 0) {
             newColor = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.STATUSBAR_CLOCK_COLOR, mClockColor);
             if (newColor > -1 && newColor != mClockColor) {
                 mClockColor = newColor;
                 setTextColor(mClockColor);
             }
+        } else if (defColor == 1) {
+            mClockColor = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUS_ICON_COLOR, defaultColor);
+            if (mClockColor == Integer.MIN_VALUE) {
+                // flag to reset the color
+                mClockColor = defaultColor;
+            }
+            setTextColor(mClockColor);
         }
     }
+
 }

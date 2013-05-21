@@ -19,6 +19,8 @@ package com.android.systemui.statusbar;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
+import android.graphics.drawable.Drawable;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.AttributeSet;
@@ -59,6 +61,9 @@ public class SignalClusterView
     private boolean showingSignalText = false;
     private boolean showingWiFiText = false;
     private boolean showingAltCluster = false;
+
+    int defColor = 0;
+    int color = 0;
 
     ViewGroup mWifiGroup, mMobileGroup;
     ImageView mWifi, mMobile, mWifiActivity, mMobileActivity, mMobileType, mAirplane;
@@ -178,7 +183,13 @@ public class SignalClusterView
 
         if (mWifiVisible) {
             mWifiGroup.setVisibility(View.VISIBLE);
-            mWifi.setImageResource(mWifiStrengthId);
+            Drawable wifiBitmap = mContext.getResources().getDrawable(mWifiStrengthId);
+            if (defColor == 0) {
+                wifiBitmap.clearColorFilter();
+            } else if (defColor == 1) {
+                wifiBitmap.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+            }
+            mWifi.setImageDrawable(wifiBitmap);
             mWifiActivity.setImageResource(mWifiActivityId);
             mWifiGroup.setContentDescription(mWifiDescription);
             if (showingWiFiText){
@@ -201,6 +212,15 @@ public class SignalClusterView
 
         if (mMobileVisible && !mIsAirplaneMode) {
             mMobileGroup.setVisibility(View.VISIBLE);
+            if(mMobileStrengthId != 0) {
+                Drawable mobileBitmap = mContext.getResources().getDrawable(mMobileStrengthId);
+                if (defColor == 0) {
+                    mobileBitmap.clearColorFilter();
+                } else if (defColor == 1) {
+                    mobileBitmap.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                }
+                mMobile.setImageDrawable(mobileBitmap);
+            }
             mMobile.setImageResource(mMobileStrengthId);
             mMobileActivity.setImageResource(mMobileActivityId);
             mMobileType.setImageResource(mMobileTypeId);
@@ -218,6 +238,15 @@ public class SignalClusterView
 
         if (mIsAirplaneMode) {
             mAirplane.setVisibility(View.VISIBLE);
+            if(mAirplaneIconId != 0) {
+                Drawable AirplaneBitmap = mContext.getResources().getDrawable(mAirplaneIconId);
+                if (defColor == 0) {
+                    mAirplane.clearColorFilter();
+                } else if (defColor == 1) {
+                    mAirplane.setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                }
+                mAirplane.setImageDrawable(AirplaneBitmap);
+            }
             mAirplane.setImageResource(mAirplaneIconId);
         } else {
             mAirplane.setVisibility(View.GONE);
@@ -251,14 +280,15 @@ public class SignalClusterView
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_TEXT), false,
-                    this);
+                    Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_TEXT), false, this);
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUSBAR_WIFI_SIGNAL_TEXT), false,
-                    this);
+                    Settings.System.getUriFor(Settings.System.STATUSBAR_WIFI_SIGNAL_TEXT), false, this);
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_CLUSTER_ALT), false,
-                    this);
+                    Settings.System.getUriFor(Settings.System.STATUSBAR_SIGNAL_CLUSTER_ALT), false, this);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.STATUS_ICON_COLOR), false, this);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.ICON_COLOR_STYLE), false, this);
             updateSettings();
         }
 
@@ -278,7 +308,10 @@ public class SignalClusterView
                 Settings.System.STATUSBAR_WIFI_SIGNAL_TEXT, 0) != 0;
         showingAltCluster = Settings.System.getBoolean(resolver,
                 Settings.System.STATUSBAR_SIGNAL_CLUSTER_ALT, clustdefault);
+        color = Settings.System.getInt(resolver,
+                Settings.System.STATUS_ICON_COLOR, 0);
+        defColor = Settings.System.getInt(resolver,
+                Settings.System.ICON_COLOR_STYLE, 0);
         apply();
     }
 }
-
