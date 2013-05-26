@@ -155,8 +155,6 @@ public class SbBatteryController extends LinearLayout {
         if (mBatteryStyle == STYLE_ICON_CIRCLEMOD) {
             icon = plugged ? R.drawable.stat_sys_battery_charge_circle
                     : R.drawable.stat_sys_battery_circle;
-        } else if (mBatteryStyle == STYLE_ICON_CIRCLE || mBatteryStyle == STYLE_ICON_CIRCLE_PERCENT) {
-            icon = 0;
         } else if (mBatteryStyle == STYLE_ICON_CM) {
             icon = plugged ? R.drawable.stat_sys_battery_charge_min
                     : R.drawable.stat_sys_battery_min;
@@ -297,14 +295,14 @@ public class SbBatteryController extends LinearLayout {
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryTextCM.setVisibility(View.GONE);
                 mBatteryCenterText.setVisibility(View.GONE);
-                mBatteryIcon.setVisibility(View.VISIBLE);
+                mBatteryIcon.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
             case STYLE_ICON_CIRCLE_PERCENT:
                 mBatteryText.setVisibility(View.GONE);
                 mBatteryTextCM.setVisibility(View.GONE);
                 mBatteryCenterText.setVisibility(View.GONE);
-                mBatteryIcon.setVisibility(View.VISIBLE);
+                mBatteryIcon.setVisibility(View.GONE);
                 setVisibility(View.VISIBLE);
                 break;
             case STYLE_ICON_DOTTED_CIRCLE_PERCENT:

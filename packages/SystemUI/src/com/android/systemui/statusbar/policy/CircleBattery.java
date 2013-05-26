@@ -89,6 +89,9 @@ public class CircleBattery extends ImageView {
     private int mCircleAnimSpeed;
     private int mCircleReset;
 
+    int defColor = 0;
+    int color = 0;
+
     // runnable to invalidate view via mHandler.postDelayed() call
     private final Runnable mInvalidate = new Runnable() {
         public void run() {
@@ -116,6 +119,8 @@ public class CircleBattery extends ImageView {
                     Settings.System.STATUS_BAR_CIRCLE_BATTERY_ANIMATIONSPEED), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CIRCLE_BATTERY_RESET), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_ICON_COLOR), false, this);
             onChange(true);
         }
 
@@ -132,6 +137,11 @@ public class CircleBattery extends ImageView {
                     Settings.System.STATUS_BAR_CIRCLE_BATTERY_TEXT_COLOR, res.getColor(R.color.holo_blue_dark)));
             mCircleAnimSpeed = (Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_CIRCLE_BATTERY_ANIMATIONSPEED, 3));
+
+            color = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUS_ICON_COLOR, 0);
+            defColor = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.ICON_COLOR_STYLE, 0);
 
             if (Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.STATUS_BAR_CIRCLE_BATTERY_RESET, 0) == 1) {
@@ -305,8 +315,12 @@ public class CircleBattery extends ImageView {
         if (level < 100 && mPercentage) {
             if (level <= 14) {
                 mPaintFont.setColor(mPaintRed.getColor());
-            }else {
-                mPaintFont.setColor(mCircleTextColor);
+            } else {
+                if (defColor == 0) {
+                    mPaintFont.setColor(mCircleTextColor);
+                } else if (defColor == 1) {
+                    mPaintFont.setColor(color);
+                }
             }
             canvas.drawText(Integer.toString(level), textX, mTextY, mPaintFont);
         }
@@ -347,10 +361,15 @@ public class CircleBattery extends ImageView {
         mPaintSystem = new Paint(mPaintFont);
         mPaintRed = new Paint(mPaintFont);
 
-        mPaintSystem.setColor(mCircleColor);
+        if (defColor == 0) {
+            mPaintSystem.setColor(mCircleColor);
+            mPaintGray.setColor(res.getColor(R.color.darker_gray));
+        } else if (defColor == 1) {
+            mPaintSystem.setColor(color);
+            mPaintGray.setColor(color);
+        }
         // could not find the darker definition anywhere in resources
         // do not want to use static 0x404040 color value. would break theming.
-        mPaintGray.setColor(res.getColor(R.color.darker_gray));
         mPaintRed.setColor(res.getColor(R.color.holo_red_light));
 
         // font needs some extra settings
