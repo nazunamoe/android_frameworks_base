@@ -18,9 +18,9 @@
     <string name="toggle_USER">Utilisateur actuel</string>
     <string name="toggle_BRIGHTNESS">Luminosité</string>
     <string name="toggle_SETTINGS">Paramètres</string>
-    <string name="toggle_WIFI">Wi-Fi</string>
+    <string name="toggle_WIFI">Wi-fi</string>
     <string name="toggle_SIGNAL">Réseau</string>
-    <string name="toggle_ROTATE">Rotation Automatique</string>
+    <string name="toggle_ROTATE">Rotation automatique</string>
     <string name="toggle_CLOCK">Horloge</string>
     <string name="toggle_GPS">Statut GPS</string>
     <string name="toggle_IME">Sélecteur d\'IME</string>
@@ -46,7 +46,9 @@
     <string name="toggle_SCREENSHOT">Capture d\'écran</string>
     <string name="toggle_REBOOT">Redémarrer</string>
     <string name="toggle_STAYAWAKE">Rester écran allumé</string>
-    <string name="toggle_CUSTOM">Toggle personnalisé</string>
+    <string name="toggle_CUSTOM">Interrupteur personnalisé</string>
+    <string name="toggle_CUSTOMIZE">Outils UKG</string>
+    <string name="toggle_DARK">Mode sombre</string>
     <string name="toggle_EXPANDEDDESKTOP">Bureau étendu</string>
-    <string name="toggle_WIRELESSADB">ADB Sans-fil</string>
+    <string name="toggle_WIRELESSADB">ADB sans-fil</string>
 </resources>

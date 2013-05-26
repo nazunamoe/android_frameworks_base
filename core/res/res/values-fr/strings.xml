@@ -1477,8 +1477,8 @@
     <!-- Awesome Action Stuff-->
     <string name="action_home">Accueil</string>
     <string name="action_back">Retour</string>
-    <string name="action_recents">Appli. Récentes</string>
-    <string name="action_recents_gb">Appli. Récentes (Style GB)</string>
+    <string name="action_recents">Appli. récentes</string>
+    <string name="action_recents_gb">Appli. récentes (Style GB)</string>
     <string name="action_search">Recherche</string>
     <string name="action_screenshot">Capture d\'écran</string>
     <string name="action_menu">Menu</string>
@@ -1488,13 +1488,13 @@
     <string name="action_power">Power</string>
     <string name="action_notifications">Notifications</string>
     <string name="action_assist">Recherche (Google Now)</string>
-    <string name="action_clockoptions">Options Heure</string>
+    <string name="action_clockoptions">Options Horloge</string>
     <string name="action_voiceassist">Recherche vocale</string>
     <string name="action_torch">Torche</string>
     <string name="action_silent">Sonnerie/Silencieux</string>
     <string name="action_vib">Sonnerie/Vibreur</string>
     <string name="action_silent_vib">Sonnerie/Silencieux/Vibreur</string>
-    <string name="action_event">Événement</string>
+    <string name="action_event">Évènement</string>
     <string name="action_today">Aujourd\'hui</string>
     <string name="action_alarm">Alarmes</string>
     <string name="action_null">Vide</string>
