@@ -433,6 +433,7 @@ public class NotificationPanel extends RelativeLayout implements StatusBarPanel,
                 }
 
                 updateClearButton();
+                updatePanelModeButtons();
             }
         });
         a.start();
