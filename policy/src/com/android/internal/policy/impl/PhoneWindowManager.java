@@ -56,7 +56,6 @@ import android.os.IRemoteCallback;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.Parcel;
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.RemoteException;
@@ -361,9 +360,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // Behavior of volume wake
     boolean mVolumeWakeScreen;
-
-    // HW overlays state
-    int mDisableOverlays = 0;
 
     // Behavior of volbtn music controls
     boolean mVolBtnMusicControls;
@@ -1127,25 +1123,22 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 updateHybridLayout();
                 update(false);
 
-                if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.EXPANDED_DESKTOP_RESTART_LAUNCHER, 1) == 1) {
-                    // Restart default launcher activity
-                    final PackageManager mPm = mContext.getPackageManager();
-                    final ActivityManager am = (ActivityManager)mContext
-                            .getSystemService(Context.ACTIVITY_SERVICE);
-                    final Intent intent = new Intent(Intent.ACTION_MAIN); 
-                    intent.addCategory(Intent.CATEGORY_HOME); 
-                    final ResolveInfo res = mPm.resolveActivity(intent, 0);
+                // Restart default launcher activity
+                final PackageManager mPm = mContext.getPackageManager();
+                final ActivityManager am = (ActivityManager)mContext
+                        .getSystemService(Context.ACTIVITY_SERVICE);
+                final Intent intent = new Intent(Intent.ACTION_MAIN); 
+                intent.addCategory(Intent.CATEGORY_HOME); 
+                final ResolveInfo res = mPm.resolveActivity(intent, 0);
 
-                    // Launcher is running task #1
-                    List<ActivityManager.RunningTaskInfo> runningTasks = am.getRunningTasks(1);
-                    if (runningTasks != null) {
-                        for (ActivityManager.RunningTaskInfo task : runningTasks) {
-                            String packageName = task.baseActivity.getPackageName();
-                            if (packageName.equals(res.activityInfo.packageName)) {
-                                closeApplication(packageName);
-                                break;
-                            }
+                // Launcher is running task #1
+                List<ActivityManager.RunningTaskInfo> runningTasks = am.getRunningTasks(1);
+                if (runningTasks != null) {
+                    for (ActivityManager.RunningTaskInfo task : runningTasks) {
+                        String packageName = task.baseActivity.getPackageName();
+                        if (packageName.equals(res.activityInfo.packageName)) {
+                            closeApplication(packageName);
+                            break;
                         }
                     }
                 }
