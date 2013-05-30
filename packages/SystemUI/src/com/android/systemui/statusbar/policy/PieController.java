@@ -81,6 +81,7 @@ import java.util.List;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
+import com.android.systemui.statusbar.WidgetView;
 import com.android.systemui.statusbar.pie.PieItem;
 import com.android.systemui.statusbar.pie.PieLayout;
 import com.android.systemui.statusbar.pie.PieLayout.PieDrawable;
@@ -1025,10 +1026,9 @@ public class PieController implements BaseStatusBar.NavigationBarCallback,
             mHandler.post(mKillTask);
             return;
         } else if (type.equals(ACTION_WIDGETS)) {
-            try {
-                mBarService.toggleWidgets();
-            } catch (RemoteException e) {
-            }
+            Intent toggleWidgets = new Intent(
+                WidgetView.WidgetReceiver.ACTION_TOGGLE_WIDGETS);
+            mContext.sendBroadcast(toggleWidgets);
             return;
         } else if (type.equals(ACTION_LAST_APP)) {
             toggleLastApp();

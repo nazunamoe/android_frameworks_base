@@ -243,8 +243,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     // settings
     ToggleManager mToggleManager;
     int mToggleStyle;
-    QuickSettingsController mQS;
-    boolean mHasSettingsPanel, mHideSettingsPanel, mHasFlipSettings;
+    boolean mHasSettingsPanel, mHasFlipSettings;
     SettingsPanelView mSettingsPanel;
     View mFlipSettingsView;
     QuickSettingsContainerView mSettingsContainer;
@@ -457,7 +456,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         mStatusBarView = (PhoneStatusBarView) mStatusBarWindow.findViewById(R.id.status_bar);
         mStatusBarView.setBar(this);
-        mBarView = (ViewGroup) mStatusBarView;
 
         PanelHolder holder = (PanelHolder) mStatusBarWindow.findViewById(R.id.panel_holder);
         mStatusBarView.setPanelHolder(holder);
@@ -535,14 +533,7 @@ public class PhoneStatusBar extends BaseStatusBar {
         mClearButton.setEnabled(false);
         mDateView = (DateView)mStatusBarWindow.findViewById(R.id.date);
 
-        if (mStatusBarView.hasFullWidthNotifications()) {
-            mHideSettingsPanel = Settings.System.getInt(mContext.getContentResolver(),
-                                    Settings.System.QS_DISABLE_PANEL, 0) == 1;
-            mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel) && !mHideSettingsPanel;
-        } else {
-            mHideSettingsPanel = false;
-            mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel);
-        }
+        mHasSettingsPanel = res.getBoolean(R.bool.config_hasSettingsPanel);
         mHasFlipSettings = res.getBoolean(R.bool.config_hasFlipSettingsPanel);
 
         mDateTimeView = mNotificationPanelHeader.findViewById(R.id.datetime);
@@ -1553,13 +1544,13 @@ public class PhoneStatusBar extends BaseStatusBar {
     public void showClock(boolean show) {
         if (mStatusBarView == null) return;
         ContentResolver resolver = mContext.getContentResolver();
-        boolean disableStatusBarInfo = Settings.System.getInt(resolver,
+        boolean disableStatusBarInfo = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PIE_DISABLE_STATUSBAR_INFO, 0) == 1;
         if (disableStatusBarInfo) {
             // call only the settings if statusbar info is really hidden
-            int pieMode = Settings.System.getInt(resolver,
+            int pieMode = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.PIE_CONTROLS, 0);
-            boolean expandedDesktopState = Settings.System.getInt(resolver,
+            boolean expandedDesktopState = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
 
             if (pieMode == 2
@@ -1569,8 +1560,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         }
         View clock = mStatusBarView.findViewById(R.id.clock);
         View cclock = mStatusBarView.findViewById(R.id.center_clock);
-        mShowClock = (Settings.System.getInt(resolver,
-                Settings.System.STATUS_BAR_CLOCK, 1) == 1);
         boolean rightClock = (Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.STATUSBAR_CLOCK_STYLE, 0) == 0);
         boolean centerClock = (Settings.System.getInt(mContext.getContentResolver(),
@@ -2939,7 +2928,11 @@ public class PhoneStatusBar extends BaseStatusBar {
             } else {
                 mCurrentTheme = (CustomTheme) newTheme.clone();
             }
-            recreateStatusBar();
+            try {
+                Runtime.getRuntime().exec("pkill -TERM -f com.android.systemui");
+            } catch (IOException e) {
+                // we're screwed here fellas
+            }
         } else {
 
             if (mClearButton instanceof TextView) {
@@ -3114,8 +3107,6 @@ public class PhoneStatusBar extends BaseStatusBar {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NOTIFICATION_SHADE_DIM), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.Secure.UI_MODE_IS_TOGGLED), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HIDE_STATUSBAR), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_ICON_COLOR), false, this);
@@ -3170,22 +3161,6 @@ public class PhoneStatusBar extends BaseStatusBar {
         public void onChange(boolean selfChange) {
             updateSettings();
             update();
-            boolean hideSettingsPanel = Settings.System.getInt(mContext.getContentResolver(),
-                                    Settings.System.QS_DISABLE_PANEL, 0) == 1;
-
-            if (hideSettingsPanel != mHideSettingsPanel) {
-                recreateStatusBar();
-            }
-
-            setNotificationWallpaperHelper();
-            setNotificationAlphaHelper();
-
-            if (mSettingsContainer != null) {
-                // Refresh the container
-                mSettingsContainer.removeAllViews();
-                mQS.setupQuickSettings();
-                mSettingsContainer.updateResources();
-            }
         }
 
         public void update() {
@@ -3223,10 +3198,6 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         defColor = Settings.System.getInt(cr,
                 Settings.System.ICON_COLOR_STYLE, 0);
-
-            cr.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.NOTIF_WALLPAPER_ALPHA),
-                    false, this);
 
         if (mClockActions[shortClick]  == null ||mClockActions[shortClick].equals("")) {
             mClockActions[shortClick] = "**clockoptions**";

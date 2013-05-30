@@ -137,18 +137,18 @@ public class CircleBattery extends ImageView {
             batteryStyle = (Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.STATUSBAR_BATTERY_ICON, 0));
 
-            boolean disableStatusBarInfo = Settings.System.getInt(resolver,
+            boolean disableStatusBarInfo = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.PIE_DISABLE_STATUSBAR_INFO, 0) == 1;
             if (disableStatusBarInfo) {
                 // call only the settings if statusbar info is really hidden
-                int pieMode = Settings.System.getInt(resolver,
+                int pieMode = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.PIE_CONTROLS, 0);
-                boolean expandedDesktopState = Settings.System.getInt(resolver,
+                boolean expandedDesktopState = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
 
                 if (pieMode == 2
                     || pieMode == 1 && expandedDesktopState) {
-                    mBatteryStyle = SbBatteryController.STYLE_HIDE;
+                    batteryStyle = SbBatteryController.STYLE_HIDE;
                 }
             }
 

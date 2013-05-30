@@ -239,18 +239,6 @@ public class WidgetView extends LinearLayout {
                 false,
                 this);
             updateSettings();
-            resolver.registerContentObserver(
-                Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_WIDGETS_BG_COLOR),
-                false,
-                this);
-            resolver.registerContentObserver(
-                Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_WIDGETS_TEXT_COLOR),
-                false,
-                this);
-            resolver.registerContentObserver(
-                Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_WIDGETS_ALPHA),
-                false,
-                this);
             createWidgetView();
         }
 

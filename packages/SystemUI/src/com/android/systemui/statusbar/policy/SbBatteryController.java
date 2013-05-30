@@ -268,19 +268,20 @@ public class SbBatteryController extends LinearLayout {
         defColor = Settings.System.getInt(cr,
                 Settings.System.ICON_COLOR_STYLE, 0);
 
-        boolean disableStatusBarInfo = Settings.System.getInt(resolver,
+        boolean disableStatusBarInfo = Settings.System.getInt(cr,
                 Settings.System.PIE_DISABLE_STATUSBAR_INFO, 0) == 1;
         if (disableStatusBarInfo) {
             // call only the settings if statusbar info is really hidden
-            int pieMode = Settings.System.getInt(resolver,
+            int pieMode = Settings.System.getInt(cr,
                     Settings.System.PIE_CONTROLS, 0);
-            boolean expandedDesktopState = Settings.System.getInt(resolver,
+            boolean expandedDesktopState = Settings.System.getInt(cr,
                     Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
 
             if (pieMode == 2
                 || pieMode == 1 && expandedDesktopState) {
                 mBatteryStyle = STYLE_HIDE;
             }
+        }
 
         switch (mBatteryStyle) {
             case STYLE_ICON_ONLY:
@@ -363,6 +364,5 @@ public class SbBatteryController extends LinearLayout {
         }
 
         setBatteryIcon(mLevel, mPlugged);
-
     }
 }

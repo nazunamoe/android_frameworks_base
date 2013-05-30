@@ -354,9 +354,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         mBarService = IStatusBarService.Stub.asInterface(
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
 
-        mCurrentUIMode = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.CURRENT_UI_MODE,0);
-
         // Connect in to the status bar manager service
         StatusBarIconList iconList = new StatusBarIconList();
         ArrayList<IBinder> notificationKeys = new ArrayList<IBinder>();
@@ -630,6 +627,16 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     protected H createHandler() {
          return new H();
+    }
+
+    static int screenLayout() {
+        final int screenSize = Resources.getSystem().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
+        return screenSize;
+    }
+
+    protected boolean isScreenPortrait() {
+        return mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     static void sendCloseSystemWindows(Context context, String reason) {
@@ -1410,11 +1417,9 @@ public abstract class BaseStatusBar extends SystemUI implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.EXPANDED_DESKTOP_STATE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.EXPANDED_DESKTOP_MODE), false, this);
+                    Settings.System.EXPANDED_DESKTOP_STYLE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_SHOW), false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NAVIGATION_BAR_CAN_MOVE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_HEIGHT), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -1533,7 +1538,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
             // get expanded desktop values
             int expandedMode = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.EXPANDED_DESKTOP_MODE, 0);
+                    Settings.System.EXPANDED_DESKTOP_STYLE, 0);
             boolean expanded = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
 
@@ -1546,9 +1551,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                     com.android.internal.R.bool.config_showNavigationBar) ? 1 : 0;
             boolean hasNavigationBar = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.NAVIGATION_BAR_SHOW, showByDefault) == 1;
-            boolean navBarCanMove = Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.NAVIGATION_BAR_CAN_MOVE, 1) == 1
-                        && screenLayout() != Configuration.SCREENLAYOUT_SIZE_LARGE;
             boolean navigationBarHeight = Settings.System.getInt(mContext.getContentResolver(),
                                 Settings.System.NAVIGATION_BAR_HEIGHT,
                                 mContext.getResources().getDimensionPixelSize(
@@ -1567,13 +1569,11 @@ public abstract class BaseStatusBar extends SystemUI implements
                     !isScreenPortrait()
                     && hasNavigationBar
                     && ((expandedMode == 2 && expanded) || !expanded)
-                    && navBarCanMove
                     && navigationBarWidth;
 
             // take in account the navbar dimensions
             hasNavigationBar = (hasNavigationBar && isScreenPortrait() && navigationBarHeight)
-                                || (hasNavigationBar && !isScreenPortrait() && !navBarCanMove
-                                    && navigationBarHeightLandscape);
+                                || (hasNavigationBar && !isScreenPortrait() && navigationBarHeightLandscape);
 
             // let's set the triggers
             if ((!expanded && hasNavigationBar && !autoHideStatusBar)
