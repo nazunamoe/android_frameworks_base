@@ -4616,6 +4616,11 @@ public final class Settings {
             POINTER_SPEED,
             LOCKSCREEN_VIBRATE_ENABLED,
             LOCKSCREEN_ALWAYS_SHOW_BATTERY,
+            NOTIFICATION_LIGHT_COLOR,
+            NOTIFICATION_LIGHT_ON,
+            NOTIFICATION_LIGHT_OFF,
+            LED_BRIGHTNESS,
+            LED_CUSTOM_VALUES,
         };
 
         // Settings moved to Settings.Secure
