@@ -1454,12 +1454,14 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     private boolean isPieEnabled() {
-        boolean expanded = Settings.System.getInt(mContext.getContentResolver(),
+        boolean expandedSb = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
+        boolean expandedFull = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.EXPANDED_DESKTOP_STATE, 0) == 2;
         int pie = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PIE_CONTROLS, 0);
 
-        return (pie == 1 && expanded) || pie == 2;
+        return (pie == 1 && expandedSb) || (pie == 2 && expandedFull) || pie == 3;
     }
 
     private void attachPie() {
