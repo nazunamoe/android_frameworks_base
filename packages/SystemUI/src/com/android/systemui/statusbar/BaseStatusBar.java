@@ -1415,6 +1415,8 @@ public abstract class BaseStatusBar extends SystemUI implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.PIE_SOFTKEYBOARD_IS_SHOWING), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.CURRENT_UI_MODE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.EXPANDED_DESKTOP_STATE), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.EXPANDED_DESKTOP_STYLE), false, this);
@@ -1454,14 +1456,12 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     private boolean isPieEnabled() {
-        boolean expandedSb = Settings.System.getInt(mContext.getContentResolver(),
+        boolean expanded = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
-        boolean expandedFull = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.EXPANDED_DESKTOP_STATE, 0) == 2;
         int pie = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PIE_CONTROLS, 0);
 
-        return (pie == 1 && expandedSb) || (pie == 2 && expandedFull) || pie == 3;
+        return (pie == 1 && expanded) || pie == 2;
     }
 
     private void attachPie() {
@@ -1544,6 +1544,10 @@ public abstract class BaseStatusBar extends SystemUI implements
             boolean expanded = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
 
+            // get current ui mode value
+            int currentUiMode = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.CURRENT_UI_MODE, 0);
+
             // get statusbar auto hide value
             boolean autoHideStatusBar = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.HIDE_STATUSBAR, 0) == 1;
@@ -1551,8 +1555,8 @@ public abstract class BaseStatusBar extends SystemUI implements
             // get navigation bar values
             final int showByDefault = mContext.getResources().getBoolean(
                     com.android.internal.R.bool.config_showNavigationBar) ? 1 : 0;
-            boolean hasNavigationBar = Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.NAVIGATION_BAR_SHOW, showByDefault) == 1;
+            boolean navbarEnable = Integer.parseInt(ExtendedPropertiesUtils.getProperty(
+                    "com.android.systemui.navbar.dpi", "100")) >= 0;
             boolean navigationBarHeight = Settings.System.getInt(mContext.getContentResolver(),
                                 Settings.System.NAVIGATION_BAR_HEIGHT,
                                 mContext.getResources().getDimensionPixelSize(
@@ -1569,24 +1573,40 @@ public abstract class BaseStatusBar extends SystemUI implements
             // disable on phones in landscape right trigger for navbar
             boolean disableRightTriggerForNavbar =
                     !isScreenPortrait()
-                    && hasNavigationBar
-                    && ((expandedMode == 2 && expanded) || !expanded)
-                    && navigationBarWidth;
+                    && navbarEnable;
 
             // take in account the navbar dimensions
-            hasNavigationBar = (hasNavigationBar && isScreenPortrait() && navigationBarHeight)
-                                || (hasNavigationBar && !isScreenPortrait() && navigationBarHeightLandscape);
+            navbarEnable = (navbarEnable && isScreenPortrait() && navigationBarHeight)
+                                || (navbarEnable && !isScreenPortrait() && navigationBarHeightLandscape);
 
             // let's set the triggers
-            if ((!expanded && hasNavigationBar && !autoHideStatusBar)
+            if ((!expanded && navbarEnable && !autoHideStatusBar)
                 || mForceDisableBottomAndTopTrigger) {
-                if (disableRightTriggerForNavbar) {
-                    updatePieTriggerMask(Position.LEFT.FLAG);
-                } else {
-                    updatePieTriggerMask(Position.LEFT.FLAG
-                                    | Position.RIGHT.FLAG);
+                if (currentUiMode == 0) {
+                    if (disableRightTriggerForNavbar) {
+                        updatePieTriggerMask(Position.LEFT.FLAG);
+                    } else {
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG);
+                    }
+                } else if (currentUiMode == 2) {
+                    if (disableRightTriggerForNavbar) {
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG);
+                    } else {
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG);
+                    }
+                } else if (currentUiMode == 1) {
+                    if (disableRightTriggerForNavbar) {
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG);
+                    } else {
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG);
+                    }
                 }
-            } else if ((!expanded && !hasNavigationBar && !autoHideStatusBar)
+            } else if ((!expanded && !navbarEnable && !autoHideStatusBar)
                 || (expandedMode == 1 && expanded && !autoHideStatusBar)) {
                 if (!mPieImeIsShowing) {
                     if (disableRightTriggerForNavbar) {
@@ -1597,6 +1617,24 @@ public abstract class BaseStatusBar extends SystemUI implements
                                         | Position.BOTTOM.FLAG
                                         | Position.RIGHT.FLAG);
                     }
+                    if (currentUiMode == 0) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG);
+                        }
+                    } else if (currentUiMode == 2) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG);
+                    } else if (currentUiMode == 1) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG);
+                    }
                 } else {
                     if (disableRightTriggerForNavbar) {
                         updatePieTriggerMask(Position.LEFT.FLAG);
@@ -1605,36 +1643,74 @@ public abstract class BaseStatusBar extends SystemUI implements
                                         | Position.RIGHT.FLAG);
                     }
                 }
-            } else if (expandedMode == 2 && expanded && hasNavigationBar
-                        || !expanded && hasNavigationBar && autoHideStatusBar) {
-                if (disableRightTriggerForNavbar) {
-                    updatePieTriggerMask(Position.LEFT.FLAG
-                                    | Position.TOP.FLAG);
-                } else {
-                    updatePieTriggerMask(Position.LEFT.FLAG
-                                    | Position.RIGHT.FLAG
-                                    | Position.TOP.FLAG);
-                }
             } else {
                 if (!mPieImeIsShowing) {
-                    if (disableRightTriggerForNavbar) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.BOTTOM.FLAG
-                                        | Position.TOP.FLAG);
-                    } else {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.BOTTOM.FLAG
-                                        | Position.RIGHT.FLAG
-                                        | Position.TOP.FLAG);
+                    if (currentUiMode == 0) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.TOP.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        }
+                    } else if (currentUiMode == 2) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        }
+                    } else if (currentUiMode == 1) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.BOTTOM.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        }
                     }
                 } else {
-                    if (disableRightTriggerForNavbar) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.TOP.FLAG);
-                    } else {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG
-                                        | Position.TOP.FLAG);
+                    if (currentUiMode == 0) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.TOP.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        }
+                    } else if (currentUiMode == 2) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        }
+                    } else if (currentUiMode == 1) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.RIGHT.FLAG
+                                            | Position.TOP.FLAG);
+                        }
                     }
                 }
             }
