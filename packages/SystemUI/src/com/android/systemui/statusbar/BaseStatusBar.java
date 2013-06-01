@@ -1590,33 +1590,15 @@ public abstract class BaseStatusBar extends SystemUI implements
                                         | Position.RIGHT.FLAG);
                     }
                 } else if (currentUiMode == 2) {
-                    if (disableRightTriggerForNavbar) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG);
-                    } else {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG);
-                    }
+                    updatePieTriggerMask(Position.LEFT.FLAG
+                                    | Position.RIGHT.FLAG);
                 } else if (currentUiMode == 1) {
-                    if (disableRightTriggerForNavbar) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG);
-                    } else {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG);
-                    }
+                    updatePieTriggerMask(Position.LEFT.FLAG
+                                    | Position.RIGHT.FLAG);
                 }
             } else if ((!expanded && !navbarEnable && !autoHideStatusBar)
                 || (expandedMode == 1 && expanded && !autoHideStatusBar)) {
                 if (!mPieImeIsShowing) {
-                    if (disableRightTriggerForNavbar) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.BOTTOM.FLAG);
-                    } else {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.BOTTOM.FLAG
-                                        | Position.RIGHT.FLAG);
-                    }
                     if (currentUiMode == 0) {
                         if (disableRightTriggerForNavbar) {
                             updatePieTriggerMask(Position.LEFT.FLAG
@@ -1627,18 +1609,26 @@ public abstract class BaseStatusBar extends SystemUI implements
                                             | Position.RIGHT.FLAG);
                         }
                     } else if (currentUiMode == 2) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG);
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.BOTTOM.FLAG
+                                        | Position.RIGHT.FLAG);
                     } else if (currentUiMode == 1) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG);
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.BOTTOM.FLAG
+                                        | Position.RIGHT.FLAG);
                     }
                 } else {
-                    if (disableRightTriggerForNavbar) {
-                        updatePieTriggerMask(Position.LEFT.FLAG);
-                    } else {
+                    if (currentUiMode == 0) {
+                        if (disableRightTriggerForNavbar) {
+                            updatePieTriggerMask(Position.LEFT.FLAG);
+                        } else {
+                            updatePieTriggerMask(Position.LEFT.FLAG
+                                            | Position.RIGHT.FLAG);
+                        }
+                    } else if (currentUiMode == 2) {
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG);
+                    } else if (currentUiMode == 1) {
                         updatePieTriggerMask(Position.LEFT.FLAG
                                         | Position.RIGHT.FLAG);
                     }
@@ -1657,29 +1647,15 @@ public abstract class BaseStatusBar extends SystemUI implements
                                             | Position.TOP.FLAG);
                         }
                     } else if (currentUiMode == 2) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        }
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.BOTTOM.FLAG
+                                        | Position.RIGHT.FLAG
+                                        | Position.TOP.FLAG);
                     } else if (currentUiMode == 1) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        }
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.BOTTOM.FLAG
+                                        | Position.RIGHT.FLAG
+                                        | Position.TOP.FLAG);
                     }
                 } else {
                     if (currentUiMode == 0) {
@@ -1692,25 +1668,13 @@ public abstract class BaseStatusBar extends SystemUI implements
                                             | Position.TOP.FLAG);
                         }
                     } else if (currentUiMode == 2) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        }
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG
+                                        | Position.TOP.FLAG);
                     } else if (currentUiMode == 1) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        }
+                        updatePieTriggerMask(Position.LEFT.FLAG
+                                        | Position.RIGHT.FLAG
+                                        | Position.TOP.FLAG);
                     }
                 }
             }
