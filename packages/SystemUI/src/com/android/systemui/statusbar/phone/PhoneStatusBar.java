@@ -778,7 +778,9 @@ public class PhoneStatusBar extends BaseStatusBar {
         resetUserSetupObserver();
 
         mPowerWidget.setupWidget();
-        mPowerWidget.updateVisibility();
+        if (mPowerWidget.powerWidgetEnabled())
+             mPowerWidget.setVisibility(View.VISIBLE);
+
         mTransparencyManager.setStatusbar(mStatusBarView);
         mIsAutoBrightNess = checkAutoBrightNess();
         updatePropFactorValue();
@@ -855,16 +857,13 @@ public class PhoneStatusBar extends BaseStatusBar {
     public void toggleQSShade() {
         int msg = 0;
         if (mHasFlipSettings) {
-            if (Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.QS_DISABLE_PANEL, 0) == 0) {
-                Settings.System.putInt(mContext.getContentResolver(),
-                        Settings.System.TOGGLE_NOTIFICATION_AND_QS_SHADE,
-                        (mExpandedVisible && !mNotificationPanelIsOpen) ? 0 : 1);
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.TOGGLE_NOTIFICATION_AND_QS_SHADE,
+                    (mExpandedVisible && !mNotificationPanelIsOpen) ? 0 : 1);
 
-                msg = (mExpandedVisible)
-                    ? ((mNotificationPanelIsOpen) ? MSG_FLIP_TO_QS_PANEL
-                    : MSG_CLOSE_PANELS) : MSG_OPEN_QS_PANEL;
-            }
+            msg = (mExpandedVisible)
+                ? ((mNotificationPanelIsOpen) ? MSG_FLIP_TO_QS_PANEL
+                : MSG_CLOSE_PANELS) : MSG_OPEN_QS_PANEL;
         } else {
             Settings.System.putInt(mContext.getContentResolver(),
                     Settings.System.TOGGLE_NOTIFICATION_AND_QS_SHADE,
@@ -1869,6 +1868,18 @@ public class PhoneStatusBar extends BaseStatusBar {
         return a;
     }
 
+    public Animator setVisibilityWhenDone(
+            final Animator a, final View v, final int vis, final View v2, final int vis2) {
+        a.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                v.setVisibility(vis);
+                v2.setVisibility(vis2);
+            }
+        });
+        return a;
+    }
+
     public Animator interpolator(TimeInterpolator ti, Animator a) {
         a.setInterpolator(ti);
         return a;
@@ -1890,7 +1901,7 @@ public class PhoneStatusBar extends BaseStatusBar {
     final int FLIP_DURATION_IN = 225;
     final int FLIP_DURATION = (FLIP_DURATION_IN + FLIP_DURATION_OUT);
 
-    Animator mScrollViewAnim, mFlipSettingsViewAnim, mNotificationButtonAnim,
+    Animator mScrollViewAnim, mFlipSettingsViewAnim, mPowerWidgetAnim, mNotificationButtonAnim,
         mSettingsButtonAnim, mClearButtonAnim;
 
     @Override
@@ -2116,6 +2127,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     public void partialFlip(float progress) {
         if (mFlipSettingsViewAnim != null) mFlipSettingsViewAnim.cancel();
+        if (mPowerWidgetAnim != null) mPowerWidgetAnim.cancel();
         if (mScrollViewAnim != null) mScrollViewAnim.cancel();
         if (mSettingsButtonAnim != null) mSettingsButtonAnim.cancel();
         if (mNotificationButtonAnim != null) mNotificationButtonAnim.cancel();
@@ -2129,8 +2141,14 @@ public class PhoneStatusBar extends BaseStatusBar {
             mSettingsButton.setAlpha(-progress);
             mScrollView.setVisibility(View.VISIBLE);
             mScrollView.setScaleX(-progress);
-            mPowerWidget.updateVisibility();
             mNotificationButton.setVisibility(View.GONE);
+
+            if (mPowerWidget.powerWidgetEnabled()) {
+                 mPowerWidget.setVisibility(View.VISIBLE);
+                 mPowerWidget.setScaleX(-progress);
+            } else {
+                 mPowerWidget.setVisibility(View.GONE);
+            }
         } else { // settings side
             mFlipSettingsView.setScaleX(progress);
             mFlipSettingsView.setVisibility(View.VISIBLE);
@@ -2257,8 +2275,7 @@ public class PhoneStatusBar extends BaseStatusBar {
             mSettingsButton.setAlpha(1f);
             mSettingsButton.setVisibility(View.VISIBLE);
             mNotificationPanel.setVisibility(View.GONE);
-            if (!mHideSettingsPanel)
-                mFlipSettingsView.setVisibility(View.GONE);
+            mFlipSettingsView.setVisibility(View.GONE);
             mNotificationButton.setVisibility(View.GONE);
             setAreThereNotifications(); // show the clear button
 
