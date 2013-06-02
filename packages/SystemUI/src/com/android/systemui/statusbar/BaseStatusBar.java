@@ -1565,17 +1565,15 @@ public abstract class BaseStatusBar extends SystemUI implements
                     com.android.internal.R.bool.config_showNavigationBar) ? 1 : 0;
             boolean navbarEnable = Integer.parseInt(ExtendedPropertiesUtils.getProperty(
                     "com.android.systemui.navbar.dpi", "100")) >= 0;
-            boolean navbarAtZero = Integer.parseInt(ExtendedPropertiesUtils.getProperty(
-                    "com.android.systemui.navbar.dpi", "100")) == 0;
-            boolean navigationBarHeight = Settings.System.getInt(mContext.getContentResolver(),
+            boolean navigationBarHeight = Settings.System.getInt(cr,
                                 Settings.System.NAVIGATION_BAR_HEIGHT,
                                 mContext.getResources().getDimensionPixelSize(
                                                 com.android.internal.R.dimen.navigation_bar_height)) != 0;
-            boolean navigationBarHeightLandscape = Settings.System.getInt(mContext.getContentResolver(),
+            boolean navigationBarHeightLandscape = Settings.System.getInt(cr,
                                 Settings.System.NAVIGATION_BAR_HEIGHT_LANDSCAPE,
                                 mContext.getResources().getDimensionPixelSize(
                                                 com.android.internal.R.dimen.navigation_bar_height_landscape)) != 0;
-            boolean navigationBarWidth = Settings.System.getInt(mContext.getContentResolver(),
+            boolean navigationBarWidth = Settings.System.getInt(cr,
                                 Settings.System.NAVIGATION_BAR_WIDTH,
                                 mContext.getResources().getDimensionPixelSize(
                                                 com.android.internal.R.dimen.navigation_bar_width)) != 0;
