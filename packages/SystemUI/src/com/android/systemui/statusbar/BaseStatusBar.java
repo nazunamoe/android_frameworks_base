@@ -1430,6 +1430,8 @@ public abstract class BaseStatusBar extends SystemUI implements
                     Settings.System.NAVIGATION_BAR_WIDTH), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HIDE_STATUSBAR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NAV_HIDE_ENABLE), false, this);
         }
 
         @Override
@@ -1538,25 +1540,33 @@ public abstract class BaseStatusBar extends SystemUI implements
             }
             mForceDisableBottomAndTopTrigger = forceDisableBottomAndTopTrigger;
 
+            ContentResolver cr = mContext.getContentResolver();
+
             // get expanded desktop values
-            int expandedMode = Settings.System.getInt(mContext.getContentResolver(),
+            int expandedMode = Settings.System.getInt(cr,
                     Settings.System.EXPANDED_DESKTOP_STYLE, 0);
-            boolean expanded = Settings.System.getInt(mContext.getContentResolver(),
+            boolean expanded = Settings.System.getInt(cr,
                     Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
 
             // get current ui mode value
-            int currentUiMode = Settings.System.getInt(mContext.getContentResolver(),
+            int currentUiMode = Settings.System.getInt(cr,
                     Settings.System.CURRENT_UI_MODE, 0);
 
             // get statusbar auto hide value
-            boolean autoHideStatusBar = Settings.System.getInt(mContext.getContentResolver(),
+            boolean autoHideStatusBar = Settings.System.getInt(cr,
                     Settings.System.HIDE_STATUSBAR, 0) == 1;
+
+            // get tacos of hiding
+            boolean navbarHide = Settings.System.getBoolean(cr,
+                     Settings.System.NAV_HIDE_ENABLE, false);
 
             // get navigation bar values
             final int showByDefault = mContext.getResources().getBoolean(
                     com.android.internal.R.bool.config_showNavigationBar) ? 1 : 0;
             boolean navbarEnable = Integer.parseInt(ExtendedPropertiesUtils.getProperty(
                     "com.android.systemui.navbar.dpi", "100")) >= 0;
+            boolean navbarAtZero = Integer.parseInt(ExtendedPropertiesUtils.getProperty(
+                    "com.android.systemui.navbar.dpi", "100")) == 0;
             boolean navigationBarHeight = Settings.System.getInt(mContext.getContentResolver(),
                                 Settings.System.NAVIGATION_BAR_HEIGHT,
                                 mContext.getResources().getDimensionPixelSize(
@@ -1579,24 +1589,7 @@ public abstract class BaseStatusBar extends SystemUI implements
             navbarEnable = (navbarEnable && isScreenPortrait() && navigationBarHeight)
                                 || (navbarEnable && !isScreenPortrait() && navigationBarHeightLandscape);
 
-            // let's set the triggers
-            if ((!expanded && navbarEnable && !autoHideStatusBar)
-                || mForceDisableBottomAndTopTrigger) {
-                if (currentUiMode == 0) {
-                    if (disableRightTriggerForNavbar) {
-                        updatePieTriggerMask(Position.LEFT.FLAG);
-                    } else {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG);
-                    }
-                } else if (currentUiMode == 2) {
-                    updatePieTriggerMask(Position.LEFT.FLAG
-                                    | Position.RIGHT.FLAG);
-                } else if (currentUiMode == 1) {
-                    updatePieTriggerMask(Position.LEFT.FLAG
-                                    | Position.RIGHT.FLAG);
-                }
-            } else if ((!expanded && !navbarEnable && !autoHideStatusBar)
+            if ((!expanded && !navbarEnable && !autoHideStatusBar)
                 || (expandedMode == 1 && expanded && !autoHideStatusBar)) {
                 if (!mPieImeIsShowing) {
                     if (currentUiMode == 0) {
