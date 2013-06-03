@@ -75,7 +75,25 @@ public class BatteryBarController extends LinearLayout {
 
         @Override
         public void onChange(boolean selfChange) {
-            updateSettings();
+            this.updateSettings();
+        }
+
+        void updateSettings() {
+            mStyle = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_BATTERY_BAR_STYLE, 0);
+            mLocation = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.STATUSBAR_BATTERY_BAR, 0);
+
+            for (BatteryBarController bbc : mBatteryBarControllers) {
+                if (bbc.mLocationToLookFor == mLocation) {
+                    bbc.removeBars();
+                    bbc.addBars();
+                    bbc.setVisibility(View.VISIBLE);
+                } else {
+                    bbc.removeBars();
+                    bbc.setVisibility(View.GONE);
+                }
+            }
         }
     }
 
