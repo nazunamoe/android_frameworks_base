@@ -68,7 +68,7 @@ public class PhoneStatusBarView extends PanelBar {
     private boolean mShouldFade;
     private int mToggleStyle;
 
-    int mStatusBarColor;
+    int mStatusBarColor = -1;
 
     public PhoneStatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -82,19 +82,10 @@ public class PhoneStatusBarView extends PanelBar {
             mSettingsPanelDragzoneFrac = 0f;
         }
         mFullWidthNotifications = mSettingsPanelDragzoneFrac <= 0f;
-        SettingsObserver settingsObserver = new SettingsObserver(new Handler());
-        settingsObserver.observe();
 
         // no need for observer, sysui gets killed when the style is changed.
         mToggleStyle = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.TOGGLES_STYLE, 0);
-
-        Drawable bg = mContext.getResources().getDrawable(R.drawable.status_bar_background);
-        if(bg instanceof ColorDrawable) {
-            BackgroundAlphaColorDrawable bacd = new BackgroundAlphaColorDrawable(
-                    mStatusBarColor > 0 ? mStatusBarColor : ((ColorDrawable) bg).getColor());
-            setBackground(bacd);
-        }
     }
 
     public void setBar(PhoneStatusBar bar) {
@@ -283,34 +274,6 @@ public class PhoneStatusBarView extends PanelBar {
         mBar.updateCarrierAndWifiLabelVisibility(false);
     }
 
-    private boolean isKeyguardEnabled() {
-        KeyguardManager km = (KeyguardManager)mContext.getSystemService(Context.KEYGUARD_SERVICE);
-        if(km == null) return false;
-
-        return km.isKeyguardLocked();
-    }
-
-    /*
-     * ]0 < alpha < 1[
-     */
-    public void setBackgroundAlpha(float alpha) {
-        Drawable bg = getBackground();
-        if(bg == null) return;
-
-        if(bg instanceof BackgroundAlphaColorDrawable) {
-         // if there's a custom color while the lockscreen is on, clear it momentarily, otherwise it won't match.
-            if(mStatusBarColor > 0) {
-                if(isKeyguardEnabled()) {
-                    ((BackgroundAlphaColorDrawable) bg).setBgColor(-1);
-                } else {
-                    ((BackgroundAlphaColorDrawable) bg).setBgColor(mStatusBarColor);
-                }
-            }
-        }
-        int a = Math.round(alpha * 255);
-        bg.setAlpha(a);
-    }
-
     private void updateBackgroundAlpha(float ex) {
         if(mFadingPanel != null || ex > 0) {
             mBar.mTransparencyManager.setTempDisableStatusbarState(true);
@@ -318,29 +281,5 @@ public class PhoneStatusBarView extends PanelBar {
             mBar.mTransparencyManager.setTempDisableStatusbarState(false);
         }
         mBar.mTransparencyManager.update();
-    }
-
-    class SettingsObserver extends ContentObserver {
-        SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.STATUS_BAR_COLOR), false, this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            updateSettings();
-        }
-    }
-
-    protected void updateSettings() {
-        mStatusBarColor = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_COLOR, -1);
-
     }
 }

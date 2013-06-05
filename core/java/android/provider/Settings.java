@@ -2927,13 +2927,6 @@ public final class Settings {
         public static final String NAVIGATION_BAR_COLOR = "navigation_bar_color";
 
         /**
-         * Status bar color.
-         *
-         * @hide
-         */
-        public static final String STATUS_BAR_COLOR = "status_bar_color";
-
-        /**
          * Status icon color.
          *
          * @hide
