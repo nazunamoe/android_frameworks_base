@@ -68,8 +68,6 @@ public class PhoneStatusBarView extends PanelBar {
     private boolean mShouldFade;
     private int mToggleStyle;
 
-    int mStatusBarColor = -1;
-
     public PhoneStatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
