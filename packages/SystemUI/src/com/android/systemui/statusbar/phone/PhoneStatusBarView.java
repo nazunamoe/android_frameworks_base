@@ -31,6 +31,7 @@ import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.database.ContentObserver;
 import android.graphics.Color;
+import android.graphics.ColorFilterMaker;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.PorterDuff;
@@ -68,6 +69,8 @@ public class PhoneStatusBarView extends PanelBar {
     private boolean mShouldFade;
     private int mToggleStyle;
 
+    Handler mHandler;
+
     public PhoneStatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -99,6 +102,11 @@ public class PhoneStatusBarView extends PanelBar {
         for (PanelView pv : mPanels) {
             pv.setRubberbandingEnabled(!mFullWidthNotifications);
         }
+        mHandler = new Handler();
+        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
+        settingsObserver.observe();
+
+        updateSettings();
     }
 
     @Override
@@ -279,5 +287,43 @@ public class PhoneStatusBarView extends PanelBar {
             mBar.mTransparencyManager.setTempDisableStatusbarState(false);
         }
         mBar.mTransparencyManager.update();
+    }
+
+    class SettingsObserver extends ContentObserver {
+        SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_COLOR), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_STYLE), false, this);
+            updateSettings();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            updateSettings();
+        }
+    }
+
+    private void updateSettings() {
+        int defstyle = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.STATUS_BAR_STYLE, 2);
+        int mStatusBarBgColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.STATUS_BAR_COLOR, 0xFF000000);
+
+        if (defstyle == 0) {
+            setBackgroundColor(mStatusBarBgColor);
+        } else if (defstyle == 1) {
+            setBackgroundResource(R.drawable.status_bar_background);
+            getBackground().setColorFilter(ColorFilterMaker.
+                    changeColorAlpha(mStatusBarBgColor, .32f, 0f));
+        } else if (defstyle == 2) {
+            setBackground(mContext.getResources().getDrawable(R.drawable.status_bar_background));
+        }
     }
 }

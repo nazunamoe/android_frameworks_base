@@ -27,6 +27,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.ContentObserver;
+import android.graphics.ColorFilterMaker;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -360,12 +361,6 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                 navButtonLayout.addView(spacer, 0);
                 navButtonLayout.addView(spacer1);
             }
-        }
-        Drawable bg = mContext.getResources().getDrawable(R.drawable.nav_bar_bg);
-        if(bg instanceof ColorDrawable) {
-            BackgroundAlphaColorDrawable bacd = new BackgroundAlphaColorDrawable(
-                    mNavigationBarColor > 0 ? mNavigationBarColor : ((ColorDrawable) bg).getColor());
-            setBackground(bacd);
         }
         if(mTransparencyManager != null) {
             mTransparencyManager.update();
@@ -993,6 +988,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             ContentResolver resolver = mContext.getContentResolver();
 
             resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_STYLE), false, this);
+            resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_COLOR), false, this);
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.MENU_LOCATION), false, this);
@@ -1028,11 +1025,13 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                         this);
             }
             updateSettings();
+            updateStatusBackground();
         }
 
         @Override
         public void onChange(boolean selfChange) {
             updateSettings();
+            updateStatusBackground();
         }
     }
 
@@ -1057,13 +1056,33 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         bg.setAlpha(a);
     }
 
+    protected void updateStatusBackground() {
+        int defstyle = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.NAVIGATION_BAR_STYLE, 2);
+        mNavigationBarColor = Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_COLOR, -2);
+
+        if (defstyle == 0) {
+            Drawable bg = mContext.getResources().getDrawable(R.drawable.nav_bar_bg);
+            if(bg instanceof ColorDrawable) {
+                BackgroundAlphaColorDrawable bacd = new BackgroundAlphaColorDrawable(
+                        mNavigationBarColor > 0 ? mNavigationBarColor : ((ColorDrawable) bg).getColor());
+                setBackground(bacd);
+            }
+        } else if (defstyle == 1) {
+            setBackgroundResource(R.drawable.nav_bar_bg);
+            getBackground().setColorFilter(ColorFilterMaker.
+                    changeColorAlpha(mNavigationBarColor, .32f, 0f));
+        } else if (defstyle == 2) {
+            setBackground(mContext.getResources().getDrawable(R.drawable.nav_bar_bg));
+        }
+    }
+
     protected void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
         
         mMenuLocation = Settings.System.getInt(resolver,
                 Settings.System.MENU_LOCATION, SHOW_RIGHT_MENU);
-        mNavigationBarColor = Settings.System.getInt(resolver,
-                Settings.System.NAVIGATION_BAR_COLOR, -2);
         mColorAllIcons = Settings.System.getBoolean(resolver,
                 Settings.System.NAVIGATION_BAR_ALLCOLOR, false);
         mMenuVisbility = Settings.System.getInt(resolver,

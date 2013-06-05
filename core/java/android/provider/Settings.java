@@ -2927,6 +2927,27 @@ public final class Settings {
         public static final String NAVIGATION_BAR_COLOR = "navigation_bar_color";
 
         /**
+         * Navigation bar background style
+         *
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_STYLE = "navigation_bar_style";
+
+        /**
+         * Status bar color.
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_COLOR = "status_bar_color";
+
+        /**
+         * Status bar background style
+         *
+         * @hide
+         */
+        public static final String STATUS_BAR_STYLE = "status_bar_style";
+
+        /**
          * Status icon color.
          *
          * @hide
@@ -2934,7 +2955,9 @@ public final class Settings {
         public static final String STATUS_ICON_COLOR = "status_icon_color";
 
         /**
-         * Reset to default icon of System Icons in Statusbar.
+         * Icon Color Style of Status.
+         * 0 - Disabled
+         * 1 - Enabled - To customize any color you want of your status
          *
          * @hide
          */
