@@ -24,14 +24,14 @@ public class DarkToggle extends StatefulToggle {
     @Override
     protected void doEnable() {
         Settings.Secure.putInt(mContext.getContentResolver(),
-                Settings.Secure.UI_INVERTED_MODE, 1);
+                Settings.Secure.UI_INVERTED_MODE, 2);
         SysHelpers.restartSystemUI();
     }
 
     @Override
     protected void doDisable() {
         Settings.Secure.putInt(mContext.getContentResolver(),
-                Settings.Secure.UI_INVERTED_MODE, 0);
+                Settings.Secure.UI_INVERTED_MODE, 1);
         SysHelpers.restartSystemUI();
     }
 
