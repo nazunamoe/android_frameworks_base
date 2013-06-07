@@ -46,7 +46,7 @@ public class DarkToggle extends StatefulToggle {
     @Override
     protected void updateView() {
         boolean enabled = Settings.Secure.getInt(mContext.getContentResolver(),
-                Settings.Secure.UI_INVERTED_MODE, 0) == 1;
+                Settings.Secure.UI_INVERTED_MODE, 1) == 2;
         setEnabledState(enabled);
         setIcon(enabled ? R.drawable.ic_qs_dark_on : R.drawable.ic_qs_dark_off);
         setLabel(enabled ? R.string.quick_settings_dark_on_label
