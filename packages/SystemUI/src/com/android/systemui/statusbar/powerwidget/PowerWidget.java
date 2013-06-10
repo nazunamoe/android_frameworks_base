@@ -160,7 +160,7 @@ public class PowerWidget extends FrameLayout {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-//        updateVisibility();
+        updateVisibility();
     }
 
     static long[] getLongIntArray(Resources r, int resid) {
@@ -445,11 +445,15 @@ public class PowerWidget extends FrameLayout {
         BUTTON_LAYOUT_PARAMS.width = mContext.getResources().getDisplayMetrics().widthPixels / LAYOUT_SCROLL_BUTTON_THRESHOLD;
     }
 
-    public boolean powerWidgetEnabled() {
+    public void updateVisibility() {
         // now check if we need to display the widget still
         boolean displayPowerWidget = Settings.System.getInt(mContext.getContentResolver(),
                    Settings.System.EXPANDED_VIEW_WIDGET, 0) == 1;
-        return displayPowerWidget;
+        if(!displayPowerWidget) {
+            setVisibility(View.GONE);
+        } else {
+            setVisibility(View.VISIBLE);
+        }
     }
 
     private void updateScrollbar() {
@@ -578,12 +582,7 @@ public class PowerWidget extends FrameLayout {
                 setupWidget();
             // now check if we change visibility
             } else if(uri.equals(Settings.System.getUriFor(Settings.System.EXPANDED_VIEW_WIDGET))) {
-                if(!powerWidgetEnabled()) {
-                    setVisibility(View.GONE);
-                } else {
-                    setVisibility(View.VISIBLE);
-                    setScaleX(1f);
-                }
+                updateVisibility();
             // now check for scrollbar hiding
             } else if(uri.equals(Settings.System.getUriFor(Settings.System.EXPANDED_HIDE_SCROLLBAR))) {
                 // Needed to remove scrollview to gain the space of the scrollable area
