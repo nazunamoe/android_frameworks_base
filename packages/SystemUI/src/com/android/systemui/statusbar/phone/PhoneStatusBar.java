@@ -790,7 +790,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
         mPowerWidget.setupWidget();
         if (mPowerWidget.powerWidgetEnabled())
-             mPowerWidget.setVisibility(View.VISIBLE);
+             mPowerWidget.setVisibility();
 
         mTransparencyManager.setStatusbar(mStatusBarView);
         mIsAutoBrightNess = checkAutoBrightNess();
