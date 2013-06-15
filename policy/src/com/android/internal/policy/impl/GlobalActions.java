@@ -396,7 +396,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             mItems.add(
                 new ProfileChooseAction() {
                     public void onPress() {
-                        createProfileDialog();
+                        showProfileDialog();
                     }
 
                     public boolean onLongPress() {
