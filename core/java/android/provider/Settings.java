@@ -4150,6 +4150,12 @@ public final class Settings {
         public static final String HALO_HIDE = "halo_hide";
 
         /**
+         * HALO being minimal.
+         * @hide
+         */
+        public static final String HALO_STYLE = "halo_style";
+
+        /**
          * HALO pause activities?, defaults to 0 (no, do not pause) on devices which isLargeRAM() == true
          * otherwise it defaults to 1 (yes, do pause)
          * @hide
