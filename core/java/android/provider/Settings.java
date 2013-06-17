@@ -4094,6 +4094,12 @@ public final class Settings {
          */
         public static final String ENABLE_SPEN_ACTIONS = "enable_spen_actions";
 
+       /**
+         * HALO enabled, should default to 0 (HALO is disabled)
+         * @hide
+         */
+        public static final String HALO_ENABLED = "halo_enabled";
+
         /**
          * Used as a flag to determine if we are showing the NavBar *NOW* or is it hidden
          * @hide
