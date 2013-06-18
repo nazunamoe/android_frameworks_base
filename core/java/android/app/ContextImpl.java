@@ -553,7 +553,12 @@ class ContextImpl extends Context {
                 return new UserManager(ctx, service);
             }});
 
-<<<<<<< HEAD
+        registerService(PROFILE_SERVICE, new ServiceFetcher() {
+                public Object createService(ContextImpl ctx) {
+                    final Context outerContext = ctx.getOuterContext();
+                    return new ProfileManager (outerContext, ctx.mMainThread.getHandler());
+                }});
+
         registerService(WimaxManagerConstants.WIMAX_SERVICE, new ServiceFetcher() {
                 public Object createService(ContextImpl ctx) {
                     return WimaxHelper.createWimaxService(ctx, ctx.mMainThread.getHandler());
@@ -571,12 +576,6 @@ class ContextImpl extends Context {
                     IBinder b = ServiceManager.getService("fm_transmitter");
                     IFmTransmitter service = IFmTransmitter.Stub.asInterface(b);
                     return new FmTransmitterImpl(service);
-=======
-        registerService(PROFILE_SERVICE, new ServiceFetcher() {
-                public Object createService(ContextImpl ctx) {
-                    final Context outerContext = ctx.getOuterContext();
-                    return new ProfileManager (outerContext, ctx.mMainThread.getHandler());
->>>>>>> cdc2b9c... Framework: Port CM9 features to CM10
                 }});
     }
 

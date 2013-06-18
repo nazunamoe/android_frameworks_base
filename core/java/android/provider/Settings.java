@@ -4613,12 +4613,6 @@ public final class Settings {
          */
         public static final String POWER_UI_LOW_BATTERY_WARNING_POLICY = "power_ui_low_battery_warning_policy";
 
-        /**
-         * Show the pending notification counts as overlays on the status bar
-         * @hide
-         */
-        public static final String SYSTEM_PROFILES_ENABLED = "system_profiles_enabled";
-
         /**	
          * Allows to show the background activity back the lockscreen
          * @hide
@@ -6475,12 +6469,6 @@ public final class Settings {
          * @hide
          */
         public static final String SCREENSAVER_DEFAULT_COMPONENT = "screensaver_default_component";
-
-        /**
-         * Whether the Wimax should be on.  Only the WiMAX service should touch this.
-         * @hide
-         */	
-        public static final String WIMAX_ON = "wimax_on";
 
         /**
          * If screensavers are enabled, whether the screensaver should be automatically launched
