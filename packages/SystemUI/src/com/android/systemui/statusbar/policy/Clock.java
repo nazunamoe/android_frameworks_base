@@ -79,11 +79,11 @@ public class Clock extends TextView {
 
     protected int mClockDateStyle = CLOCK_DATE_STYLE_UPPERCASE;
 
-    public static final int STYLE_HIDE_CLOCK     = 0;
-    public static final int STYLE_CLOCK_RIGHT    = 1;
-    public static final int STYLE_CLOCK_CENTER   = 2;
+    public static final int STYLE_CLOCK_RIGHT    = 0;
+    public static final int STYLE_CLOCK_CENTER   = 1;
 
     protected int mClockStyle = STYLE_CLOCK_RIGHT;
+    public boolean mShowClock;
 
     protected int mClockColor = com.android.internal.R.color.holo_blue_light;
 
@@ -258,6 +258,9 @@ public class Clock extends TextView {
         void observe() {
             ContentResolver resolver = mContext.getContentResolver();
             resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.STATUS_BAR_CLOCK),
+                    false, this);
+            resolver.registerContentObserver(Settings.System
                     .getUriFor(Settings.System.STATUSBAR_CLOCK_AM_PM_STYLE),
                     false, this);
             resolver.registerContentObserver(Settings.System
@@ -289,6 +292,9 @@ public class Clock extends TextView {
         int defaultColor = getResources().getColor(
                 com.android.internal.R.color.holo_blue_light);
 
+        mShowClock = (Settings.System.getInt(resolver,
+                Settings.System.STATUS_BAR_CLOCK, 1) == 1);
+
         mAmPmStyle = Settings.System.getInt(resolver,
                 Settings.System.STATUSBAR_CLOCK_AM_PM_STYLE, AM_PM_STYLE_GONE);   
         mClockStyle = Settings.System.getInt(resolver,
@@ -304,7 +310,7 @@ public class Clock extends TextView {
     }
 
     protected void updateClockVisibility() {
-        if (mClockStyle == STYLE_CLOCK_RIGHT)
+        if (mClockStyle == STYLE_CLOCK_RIGHT && mShowClock)
             setVisibility(View.VISIBLE);
         else
             setVisibility(View.GONE);

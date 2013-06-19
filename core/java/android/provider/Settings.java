@@ -2204,6 +2204,14 @@ public final class Settings {
         public static final String PIE_LONG_PRESS_ENABLE_SECOND_LAYER = "pie_long_press_enable_second_layer";
 
         /**
+         * Enable Clock
+         * 0 - Hidden
+         * 1 - Enabled
+         * @hide
+         */
+         public static final String STATUS_BAR_CLOCK = "status_bar_clock";
+
+        /**
          * AM/PM Style for clock options
          * 0 - Normal AM/PM
          * 1 - Small AM/PM
