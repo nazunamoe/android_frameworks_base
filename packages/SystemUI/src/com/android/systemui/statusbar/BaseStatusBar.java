@@ -628,6 +628,16 @@ public abstract class BaseStatusBar extends SystemUI implements
                         if (item.getItemId() == R.id.notification_inspect_item) {
                             startApplicationDetailsActivity(packageNameF);
                             animateCollapsePanels(CommandQueue.FLAG_EXCLUDE_NONE);
+                        } else if (item.getItemId() == R.id.recent_launch_floating) {
+                            ViewHolder viewHolder = (ViewHolder) selectedView.getTag();
+                            if (viewHolder != null) {
+                                final TaskDescription ad = viewHolder.taskDescription;
+                                Intent intent = ad.intent;
+                                intent.addFlags(Intent.FLAG_FLOATING_WINDOW
+                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                dismissAndGoBack();
+                                getContext().startActivity(intent);
+                            }
                         } else {
                             return false;
                         }
