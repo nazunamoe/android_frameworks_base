@@ -1629,12 +1629,10 @@ public abstract class BaseStatusBar extends SystemUI implements
     }
 
     private boolean isPieEnabled() {
-        boolean expanded = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.EXPANDED_DESKTOP_STATE, 0) == 1;
         int pie = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PIE_CONTROLS, 0);
 
-        return (pie == 1 && expanded) || pie == 2;
+        return pie == 1;
     }
 
     private void attachPie() {
@@ -1758,86 +1756,47 @@ public abstract class BaseStatusBar extends SystemUI implements
             navbarEnable = (navbarEnable && isScreenPortrait() && navigationBarHeight)
                                 || (navbarEnable && !isScreenPortrait() && navigationBarHeightLandscape);
 
-            if ((!expanded && !navbarEnable && !autoHideStatusBar)
-                || (expandedMode == 1 && expanded && !autoHideStatusBar)) {
-                if (!mPieImeIsShowing) {
-                    if (currentUiMode == 0) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG);
-                        }
-                    } else if (currentUiMode == 2) {
+            if (!mPieImeIsShowing) {
+                if (currentUiMode == 0) {
+                    if (disableRightTriggerForNavbar) {
                         updatePieTriggerMask(Position.LEFT.FLAG
+                                         | Position.BOTTOM.FLAG
+                                        | Position.TOP.FLAG);
+                    } else {
+                         updatePieTriggerMask(Position.LEFT.FLAG
                                         | Position.BOTTOM.FLAG
-                                        | Position.RIGHT.FLAG);
-                    } else if (currentUiMode == 1) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.BOTTOM.FLAG
-                                        | Position.RIGHT.FLAG);
+                                        | Position.RIGHT.FLAG
+                                        | Position.TOP.FLAG);
                     }
-                } else {
-                    if (currentUiMode == 0) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.RIGHT.FLAG);
-                        }
-                    } else if (currentUiMode == 2) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG);
-                    } else if (currentUiMode == 1) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG);
-                    }
+                } else if (currentUiMode == 2) {
+                    updatePieTriggerMask(Position.LEFT.FLAG
+                                    | Position.BOTTOM.FLAG
+                                    | Position.RIGHT.FLAG
+                                    | Position.TOP.FLAG);
+                } else if (currentUiMode == 1) {
+                    updatePieTriggerMask(Position.LEFT.FLAG
+                                    | Position.BOTTOM.FLAG
+                                    | Position.RIGHT.FLAG
+                                    | Position.TOP.FLAG);
                 }
             } else {
-                if (!mPieImeIsShowing) {
-                    if (currentUiMode == 0) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.TOP.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.BOTTOM.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        }
-                    } else if (currentUiMode == 2) {
+                if (currentUiMode == 0) {
+                    if (disableRightTriggerForNavbar) {
                         updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.BOTTOM.FLAG
-                                        | Position.RIGHT.FLAG
                                         | Position.TOP.FLAG);
-                    } else if (currentUiMode == 1) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.BOTTOM.FLAG
-                                        | Position.RIGHT.FLAG
-                                        | Position.TOP.FLAG);
-                    }
-                } else {
-                    if (currentUiMode == 0) {
-                        if (disableRightTriggerForNavbar) {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.TOP.FLAG);
-                        } else {
-                            updatePieTriggerMask(Position.LEFT.FLAG
-                                            | Position.RIGHT.FLAG
-                                            | Position.TOP.FLAG);
-                        }
-                    } else if (currentUiMode == 2) {
-                        updatePieTriggerMask(Position.LEFT.FLAG
-                                        | Position.RIGHT.FLAG
-                                        | Position.TOP.FLAG);
-                    } else if (currentUiMode == 1) {
+                    } else {
                         updatePieTriggerMask(Position.LEFT.FLAG
                                         | Position.RIGHT.FLAG
                                         | Position.TOP.FLAG);
                     }
+                } else if (currentUiMode == 2) {
+                    updatePieTriggerMask(Position.LEFT.FLAG
+                                    | Position.RIGHT.FLAG
+                                    | Position.TOP.FLAG);
+                } else if (currentUiMode == 1) {
+                    updatePieTriggerMask(Position.LEFT.FLAG
+                                    | Position.RIGHT.FLAG
+                                    | Position.TOP.FLAG);
                 }
             }
     }
