@@ -18,14 +18,29 @@ public class CustomizeToggle extends BaseToggle {
 
     @Override
     public void onClick(View v) {
+        try {
+            Intent intent = new Intent("android.intent.action.MAIN");
+            intent.setComponent(ComponentName
+                    .unflattenFromString("com.xylon.settings/.XYSettingsActivity"));
+            intent.addFlags(Intent.FLAG_FLOATING_WINDOW);
+            startActivity(intent);
+        } catch(NullPointerException e) {
+            // No intent found for activity component
+        }
+        collapseStatusBar();
+    }
+
+    @Override
+    public void onLongClick(View v) {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.setComponent(ComponentName
                 .unflattenFromString("com.xylon.settings/.XYSettingsActivity"));
         intent.addCategory("android.intent.category.LAUNCHER");
 
-        collapseStatusBar();
-        dismissKeyguard();
         startActivity(intent);
+        dismissKeyguard();
+        collapseStatusBar();
+        return super.onLongClick(v);
     }
 
 }
