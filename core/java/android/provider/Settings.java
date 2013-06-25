@@ -4179,6 +4179,18 @@ public final class Settings {
         public static final String HALO_STYLE = "halo_style";
 
         /**
+         * HALO speech bubble color
+         * @hide
+         */
+        public static final String HALO_BUBBLE_COLOR = "halo_bubble_color";
+
+        /**
+         * HALO speech bubble text color
+         * @hide
+         */
+        public static final String HALO_BUBBLE_TEXT_COLOR = "halo_bubble_text_color";
+
+        /**
          * HALO pause activities?, defaults to 0 (no, do not pause) on devices which isLargeRAM() == true
          * otherwise it defaults to 1 (yes, do pause)
          * @hide
