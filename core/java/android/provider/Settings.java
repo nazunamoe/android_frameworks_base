@@ -4104,12 +4104,6 @@ public final class Settings {
          */
         public static final String ENABLE_SPEN_ACTIONS = "enable_spen_actions";
 
-       /**
-         * HALO enabled, should default to 0 (HALO is disabled)
-         * @hide
-         */
-        public static final String HALO_ENABLED = "halo_enabled";
-
         /**
          * Used as a flag to determine if we are showing the NavBar *NOW* or is it hidden
          * @hide
@@ -4154,6 +4148,12 @@ public final class Settings {
          */
         public static final String HIDE_STATUSBAR = "hide_statusbar";
 
+       /**
+         * HALO enabled, should default to 0 (HALO is disabled)
+         * @hide
+         */
+        public static final String HALO_ENABLED = "halo_enabled";
+
         /*
          * HALO, should default to 0 (no, do not show)
          * @hide
@@ -4171,6 +4171,12 @@ public final class Settings {
          * @hide
          */
         public static final String HALO_HIDE = "halo_hide";
+
+        /**
+         * HALO colors
+         * @hide
+         */
+        public static final String HALO_COLORS = "halo_colors";
 
         /**
          * HALO circle bg color
