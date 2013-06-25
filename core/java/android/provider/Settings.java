@@ -4173,10 +4173,10 @@ public final class Settings {
         public static final String HALO_HIDE = "halo_hide";
 
         /**
-         * HALO being minimal.
+         * HALO circle bg color
          * @hide
          */
-        public static final String HALO_STYLE = "halo_style";
+        public static final String HALO_CIRCLE_COLOR = "halo_circle_color";
 
         /**
          * HALO speech bubble color
