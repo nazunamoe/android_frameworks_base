@@ -19,6 +19,7 @@ package android.provider;
 
 import android.annotation.SdkConstant;
 import android.annotation.SdkConstant.SdkConstantType;
+import android.app.ActivityManagerNative;
 import android.app.SearchManager;
 import android.app.WallpaperManager;
 import android.content.ComponentName;
@@ -38,6 +39,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.DropBoxManager;
 import android.os.IBinder;
@@ -4128,12 +4130,6 @@ public final class Settings {
          */
         public static final String ENABLE_SPEN_ACTIONS = "enable_spen_actions";
 
-       /**
-         * HALO enabled, should default to 0 (HALO is disabled)
-         * @hide
-         */
-        public static final String HALO_ENABLED = "halo_enabled";
-
         /**
          * Used as a flag to determine if we are showing the NavBar *NOW* or is it hidden
          * @hide
@@ -4178,6 +4174,12 @@ public final class Settings {
          */
         public static final String HIDE_STATUSBAR = "hide_statusbar";
 
+       /**
+         * HALO enabled, should default to 0 (HALO is disabled)
+         * @hide
+         */
+        public static final String HALO_ENABLED = "halo_enabled";
+
         /*
          * HALO, should default to 0 (no, do not show)
          * @hide
@@ -4197,10 +4199,34 @@ public final class Settings {
         public static final String HALO_HIDE = "halo_hide";
 
         /**
-         * HALO being minimal.
+         * HALO colors
          * @hide
          */
-        public static final String HALO_STYLE = "halo_style";
+        public static final String HALO_COLORS = "halo_colors";
+
+        /**
+         * HALO effect color
+         * @hide
+         */
+        public static final String HALO_EFFECT_COLOR = "halo_effect_color";
+
+        /**
+         * HALO circle bg color
+         * @hide
+         */
+        public static final String HALO_CIRCLE_COLOR = "halo_circle_color";
+
+        /**
+         * HALO speech bubble color
+         * @hide
+         */
+        public static final String HALO_BUBBLE_COLOR = "halo_bubble_color";
+
+        /**
+         * HALO speech bubble text color
+         * @hide
+         */
+        public static final String HALO_BUBBLE_TEXT_COLOR = "halo_bubble_text_color";
 
         /**
          * HALO pause activities?, defaults to 0 (no, do not pause) on devices which isLargeRAM() == true
@@ -6513,6 +6539,12 @@ public final class Settings {
         public static final String ENABLE_PERMISSIONS_MANAGEMENT = "enable_permissions_management";
 
         /**
+         * Whether newly installed apps should run with privacy guard by default
+         * @hide
+         */
+        public static final String PRIVACY_GUARD_DEFAULT = "privacy_guard_default";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
@@ -6555,7 +6587,8 @@ public final class Settings {
             UI_NIGHT_MODE,
             UI_INVERTED_MODE,
             LOCK_SCREEN_OWNER_INFO,
-            LOCK_SCREEN_OWNER_INFO_ENABLED
+            LOCK_SCREEN_OWNER_INFO_ENABLED,
+            PRIVACY_GUARD_DEFAULT
         };
 
         /**
@@ -6577,6 +6610,13 @@ public final class Settings {
          * @hide
          */
         public static final boolean isLocationProviderEnabledForUser(ContentResolver cr, String provider, int userId) {
+            try {
+                if (ActivityManagerNative.getDefault().isPrivacyGuardEnabledForProcess(Binder.getCallingPid())) {
+                    return false;
+                }
+            } catch (RemoteException e) {
+                // ignore
+            }
             String allowedProviders = Settings.Secure.getStringForUser(cr,
                     LOCATION_PROVIDERS_ALLOWED, userId);
             return TextUtils.delimitedStringContains(allowedProviders, ',', provider);

@@ -31,7 +31,7 @@ public class CustomizeToggle extends BaseToggle {
     }
 
     @Override
-    public void onLongClick(View v) {
+    public boolean onLongClick(View v) {
         Intent intent = new Intent("android.intent.action.MAIN");
         intent.setComponent(ComponentName
                 .unflattenFromString("com.xylon.settings/.XYSettingsActivity"));
